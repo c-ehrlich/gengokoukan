@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { api } from "~/trpc/react";
-import { JishoDefinition, JishoDefinitions } from "./jisho-definition";
+import { JishoDefinitions } from "./jisho-definition";
 
 export const TextWithTooltip = ({ text }: { text: string }) => {
   const [selectedText, setSelectedText] = useState<string | undefined>(

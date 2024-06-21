@@ -11,7 +11,7 @@ export function JishoDefinitions({
   const [selectedResult, setSelectedResult] = useState(0);
   if (!jishoResults.length) return <p>No definition found for {word}</p>;
   return (
-    <div>
+    <div className="overflow-y-scroll">
       {jishoResults.map((result, i) => (
         <div key={`jisho-result-${i}`}>
           <p onClick={() => setSelectedResult(i)}>{result.slug}</p>
