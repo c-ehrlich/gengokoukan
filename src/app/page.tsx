@@ -1,13 +1,9 @@
-import Link from "next/link";
-
-import { CreatePost } from "~/app/_components/create-post";
 import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
-import LandingPage from "./_components/LandingPage";
-import { TextWithTooltip } from "./_components/TextWithTooltip";
+import LandingPage from "./_components/landing/landing-page";
+import { TextWithTooltip } from "./_components/text-with-tooltip";
+import { NavBar } from "./_components/navbar";
 
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
   const session = await getServerAuthSession();
 
   if (!session) {
@@ -16,47 +12,11 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <div className="flex flex-col items-center gap-2">
-          <p className="text-2xl text-white">
-            {hello ? hello.greeting : "Loading tRPC query..."}
-          </p>
+      <NavBar />
 
-          <div className="flex flex-col items-center justify-center gap-4">
-            <p className="text-center text-2xl text-white">
-              {session && <span>Logged in as {session.user?.name}</span>}
-            </p>
-            <Link
-              href={session ? "/api/auth/signout" : "/api/auth/signin"}
-              className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-            >
-              {session ? "Sign out" : "Sign in"}
-            </Link>
-          </div>
-        </div>
-
-        <CrudShowcase />
-        <TextWithTooltip text="This is a sample text. Select any part of this text to see the tooltip." />
+      <div className="flex h-full w-full flex-1 flex-col">
+        <TextWithTooltip text="わしの名前は健太や。あんた、ウィーンに住んでるんか！めっちゃええやん。それにしても、離婚して娘さんと会うのが少なくなるんは寂しいな。\n「会うきっかけが少なくなちゃった」やけど、「少なくなってしまった」の方が自然やで。\nウィーンでの生活はどないや？日本と違うところとか、特に面白いことがあったら教えてや。" />
       </div>
     </main>
-  );
-}
-
-async function CrudShowcase() {
-  const session = await getServerAuthSession();
-  if (!session?.user) return null;
-
-  const latestPost = await api.post.getLatest();
-
-  return (
-    <div className="w-full max-w-xs">
-      {latestPost ? (
-        <p className="truncate">Your most recent post: {latestPost.name}</p>
-      ) : (
-        <p>You have no posts yet.</p>
-      )}
-
-      <CreatePost />
-    </div>
   );
 }
