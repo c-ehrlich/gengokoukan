@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
+import { Button } from "~/components/_primitives/ui/button";
 import { ScrollArea } from "~/components/_primitives/ui/scroll-area";
 import { api } from "~/trpc/react";
 
@@ -62,16 +63,9 @@ export default function ChatPage() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
-        <button
-          className="bg-green-200 p-2 text-black"
-          onClick={() =>
-            chatMutation.mutate({
-              text: input,
-            })
-          }
-        >
-          Click meee
-        </button>
+        <Button onClick={() => chatMutation.mutate({ text: input })}>
+          Send
+        </Button>
       </div>
     </div>
   );
