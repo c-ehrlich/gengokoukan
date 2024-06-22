@@ -1,7 +1,7 @@
 import { postRouter } from "~/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { jishoRouter } from "./routers/jisho";
-import { chatRouter } from "./routers/chat";
+import { chatRouter } from "./routers/chat/chat.router";
 
 /**
  * This is the primary router for your server.
