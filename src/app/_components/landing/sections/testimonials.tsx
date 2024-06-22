@@ -43,8 +43,11 @@ export function Testimonials() {
 
 function TestimonialBox({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <div className="flex h-64 w-1/3 flex-col justify-between border border-white p-4">
-      <p>{testimonial.text}</p>
+    <div className="flex h-64 w-1/3 flex-col justify-between">
+      <div className="relative w-80 rounded-lg bg-white p-4 shadow-lg">
+        <p className="text-lg italic text-black">{testimonial.text}</p>
+        <div className="absolute left-8 top-full h-0 w-0 border-x-[10px] border-t-[10px] border-x-transparent border-t-white"></div>
+      </div>
       <div className="flex flex-col gap-2">
         <div className="h-24 w-24 overflow-clip rounded-full">
           {testimonial.avatar ? (
@@ -61,6 +64,18 @@ function TestimonialBox({ testimonial }: { testimonial: Testimonial }) {
           <p>{testimonial.title}</p>
         </div>
       </div>
+
+      <div></div>
+      {/* 
+  
+  <div className="flex items-center mt-4">
+    <img src="https://via.placeholder.com/40" alt="Profile picture" className="rounded-full w-10 h-10">
+    <div className="ml-3">
+      <p className="font-bold">Danielle Cuddie</p>
+      <p className="text-sm text-gray-500">Velocity Printing</p>
+    </div>
+  
+</div> */}
     </div>
   );
 }
