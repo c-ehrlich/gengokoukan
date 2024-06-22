@@ -1,4 +1,3 @@
-import { cn } from "~/app/_util/cn";
 import Image from "next/image";
 import landingImage2 from "../resources/landing-2-v1.png";
 import { LoginButton } from "../../login-button";
