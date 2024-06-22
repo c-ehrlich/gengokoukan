@@ -1,7 +1,7 @@
 import { getServerAuthSession } from "~/server/auth";
-import LandingPage from "./_components/landing/landing-page";
-import { TextWithTooltip } from "./_components/text-with-tooltip";
-import { NavBar } from "./_components/navbar";
+import LandingPage from "../components/landing/landing-page";
+import { TextWithTooltip } from "../components/text-with-tooltip";
+import { NavBar } from "../components/navbar";
 
 export default async function Home() {
   const session = await getServerAuthSession();
