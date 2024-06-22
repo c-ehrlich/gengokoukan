@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { cn } from "~/lib/utils";
 import { getServerAuthSession } from "~/server/auth";
+import { cn } from "./_utils/cn";
 
 type LoginButtonProps = {
   size: "regular" | "large" | "fuckin-huge";
