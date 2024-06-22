@@ -1,6 +1,6 @@
 export function Sidebar() {
   return (
-    <div className="flex h-full w-1/6 flex-col bg-gray-800">
+    <div className="flex w-1/6 flex-col bg-gray-800">
       <div className="flex flex-col items-center justify-center">
         <span>t3</span>
         <h1 className="text-2xl text-white">T3</h1>

@@ -23,13 +23,13 @@ export default function RootLayout({
       <html lang="en" className={`${GeistSans.variable}`}>
         <body
           className={cn(
-            "min-h-screen bg-background font-sans antialiased",
+            "bg-background font-sans antialiased",
             GeistSans.variable,
           )}
         >
-          <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+          <main className="flex h-screen flex-col items-center justify-center bg-black text-white">
             <NavBar />
-            <div className="flex h-full w-full flex-1 flex-row">
+            <div className="flex w-full flex-1 flex-row">
               <Sidebar />
               {children}
             </div>
