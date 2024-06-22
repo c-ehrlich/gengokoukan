@@ -7,7 +7,7 @@ import { Button } from "~/components/_primitives/ui/button";
 import { ScrollArea } from "~/components/_primitives/ui/scroll-area";
 import { api } from "~/trpc/react";
 
-export default function ChatPage() {
+function useChatPage() {
   const scrollToBottomRef = useRef<HTMLDivElement>(null);
   const { chatid } = useParams();
   const [input, setInput] = useState("");
@@ -39,6 +39,20 @@ export default function ChatPage() {
       setInput("");
     },
   });
+
+  return {
+    chatid,
+    input,
+    setInput,
+    messages,
+    chatMutation,
+    scrollToBottomRef,
+  };
+}
+
+export default function ChatPage() {
+  const { chatid, input, setInput, messages, chatMutation, scrollToBottomRef } =
+    useChatPage();
 
   return (
     <div>
