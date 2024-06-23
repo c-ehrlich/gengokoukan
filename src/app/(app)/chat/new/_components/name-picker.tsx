@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FormInput } from "~/components/_primitives/form/form-input";
-import { Button } from "~/components/_primitives/ui/button";
+import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { api } from "~/trpc/react";
 
 type NamePickerProps = {

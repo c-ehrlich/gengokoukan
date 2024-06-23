@@ -5,8 +5,11 @@ import {
   type ControllerProps,
 } from "react-hook-form";
 
-import { Input as BaseInput } from "~/components/_primitives/ui/input";
-import { FormField, FormControl } from "~/components/_primitives/ui/form";
+import { Input as BaseInput } from "~/components/_primitives/shadcn-raw/input";
+import {
+  FormField,
+  FormControl,
+} from "~/components/_primitives/shadcn-raw/form";
 
 import { FormItem } from "~/components/_primitives/form/form-item";
 

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Toast,
@@ -7,11 +7,11 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from "~/components/_primitives/ui/toast"
-import { useToast } from "~/components/_primitives/ui/use-toast"
+} from "~/components/_primitives/shadcn-raw/toast";
+import { useToast } from "~/components/_primitives/shadcn-raw/use-toast";
 
 export function Toaster() {
-  const { toasts } = useToast()
+  const { toasts } = useToast();
 
   return (
     <ToastProvider>
@@ -27,9 +27,9 @@ export function Toaster() {
             {action}
             <ToastClose />
           </Toast>
-        )
+        );
       })}
       <ToastViewport />
     </ToastProvider>
-  )
+  );
 }

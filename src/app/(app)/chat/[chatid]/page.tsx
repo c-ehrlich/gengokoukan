@@ -3,16 +3,16 @@
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import { Button } from "~/components/_primitives/ui/button";
-import { Input } from "~/components/_primitives/ui/input";
-import { ScrollArea } from "~/components/_primitives/ui/scroll-area";
+import { Button } from "~/components/_primitives/shadcn-raw/button";
+import { Input } from "~/components/_primitives/shadcn-raw/input";
+import { ScrollArea } from "~/components/_primitives/shadcn-raw/scroll-area";
 import { api } from "~/trpc/react";
 import { ArrowUpIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from "~/components/_primitives/ui/alert";
+} from "~/components/_primitives/shadcn-raw/alert";
 import { useTextSelectionPopup } from "~/components/feature/text-selection-popup/use-text-selection-popup";
 import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-popup/text-selection-popup-wrapper";
 import { TextSelectionPopupContent } from "./_components/text-selection-popup-content";

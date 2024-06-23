@@ -5,7 +5,7 @@ import {
   type UseFormReturn,
 } from "react-hook-form";
 
-import { Form } from "~/components/_primitives/ui/form";
+import { Form } from "~/components/_primitives/shadcn-raw/form";
 
 export type BasicFormProps<FormType extends FieldValues = FieldValues> = Omit<
   React.FormHTMLAttributes<HTMLFormElement>,

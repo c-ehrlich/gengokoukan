@@ -6,11 +6,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/_primitives/ui/form";
+} from "~/components/_primitives/shadcn-raw/form";
 import {
   Combobox,
   type ComboboxProps,
-} from "~/components/_primitives/ui/combobox";
+} from "~/components/_primitives/shadcn-raw/combobox";
 import {
   type ControllerProps,
   type FieldPath,

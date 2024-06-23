@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { getServerAuthSession } from "~/server/auth";
-import { Avatar, AvatarFallback, AvatarImage } from "./_primitives/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "./_primitives/shadcn-raw/avatar";
 
 export async function NavBar() {
   const session = await getServerAuthSession();
