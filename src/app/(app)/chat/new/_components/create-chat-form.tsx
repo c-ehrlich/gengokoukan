@@ -6,6 +6,7 @@ import { BasicForm } from "~/components/_primitives/form/basic-form";
 import { FormCombobox } from "~/components/_primitives/form/form-combobox";
 import { useZodForm } from "~/components/_primitives/form/use-zod-form";
 import { createChatPartnerSchemaClient } from "~/server/db/schema/chat-partners.zod";
+import { NamePicker } from "./name-picker";
 
 const originOptions = [
   { value: "earth", label: "Earth" },
@@ -35,6 +36,8 @@ export function CreateChatForm() {
   return (
     <div>
       <BasicForm form={form} onSubmit={onSubmit} buttons={<div />}>
+        <NamePicker />
+
         <FormCombobox
           control={form.control}
           name="origin"

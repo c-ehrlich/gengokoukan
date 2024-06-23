@@ -27,7 +27,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
-    }
+    },
   },
   "include": [
     ".eslintrc.cjs",
@@ -36,7 +36,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "./types/**/*.d.ts" // Our own type declarations
   ],
   "exclude": ["node_modules"]
 }
