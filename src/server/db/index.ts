@@ -7,14 +7,14 @@ import { accountsRelations, accountsTable } from "./schema/accounts";
 import {
   chatMessagesRelations,
   chatMessagesTable,
-} from "./schema/chatMessages";
+} from "./schema/chat-messages";
 import {
   chatPartnersRelations,
   chatPartnersTable,
-} from "./schema/chatPartners";
+} from "./schema/chat-partners";
 import { chatsRelations, chatsTable } from "./schema/chats";
 import { sessionsRelations, sessionsTable } from "./schema/sessions";
-import { verificationTokensTable } from "./schema/verificationTokens";
+import { verificationTokensTable } from "./schema/verification-tokens";
 
 const schema = {
   // accounts

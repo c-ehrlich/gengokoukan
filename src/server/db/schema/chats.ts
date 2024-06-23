@@ -1,9 +1,9 @@
 import { integer } from "drizzle-orm/sqlite-core";
 import { relations, sql } from "drizzle-orm";
 import { usersTable } from "./users";
-import { chatPartnersTable } from "./chatPartners";
-import { chatMessagesTable } from "./chatMessages";
-import { createTable } from "../createTable";
+import { chatPartnersTable } from "./chat-partners";
+import { chatMessagesTable } from "./chat-messages";
+import { createTable } from "../create-table";
 
 export const chatsTable = createTable("chat", {
   id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),

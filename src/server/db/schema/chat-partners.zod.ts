@@ -1,5 +1,5 @@
 import { createInsertSchema } from "drizzle-zod";
-import { chatPartnersTable } from "./chatPartners";
+import { chatPartnersTable } from "./chat-partners";
 
 export const createChatPartnerSchemaServer =
   createInsertSchema(chatPartnersTable);

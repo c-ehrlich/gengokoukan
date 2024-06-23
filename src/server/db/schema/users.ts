@@ -2,8 +2,8 @@ import { integer, text } from "drizzle-orm/sqlite-core";
 import { relations, sql } from "drizzle-orm";
 import { accountsTable } from "./accounts";
 import { chatsTable } from "./chats";
-import { chatMessagesTable } from "./chatMessages";
-import { createTable } from "../createTable";
+import { chatMessagesTable } from "./chat-messages";
+import { createTable } from "../create-table";
 
 export const usersTable = createTable("user", {
   id: text("id", { length: 255 })

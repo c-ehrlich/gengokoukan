@@ -1,7 +1,7 @@
 import { index, integer, text } from "drizzle-orm/sqlite-core";
 import { relations } from "drizzle-orm";
 import { usersTable } from "./users";
-import { createTable } from "../createTable";
+import { createTable } from "../create-table";
 
 export const sessionsTable = createTable(
   "session",

@@ -12,7 +12,7 @@ import { db } from "~/server/db";
 import { usersTable } from "./db/schema/users";
 import { accountsTable } from "./db/schema/accounts";
 import { sessionsTable } from "./db/schema/sessions";
-import { verificationTokensTable } from "./db/schema/verificationTokens";
+import { verificationTokensTable } from "./db/schema/verification-tokens";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
