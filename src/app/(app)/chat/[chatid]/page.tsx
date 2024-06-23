@@ -13,6 +13,8 @@ import {
   AlertDescription,
   AlertTitle,
 } from "~/components/_primitives/ui/alert";
+import { useTextSelectionPopup } from "~/components/feature/text-selection-popup/use-text-selection-popup";
+import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-popup/text-selection-popup-wrapper";
 
 type UserMessage = {
   author: "user";
@@ -84,11 +86,18 @@ export default function ChatPage() {
   const { chatid, input, setInput, messages, chatMutation, scrollToBottomRef } =
     useChatPage();
 
+  const { containerProps, wrapperProps, closeModal, selectedText } =
+    useTextSelectionPopup();
+
   return (
     <div className="flex h-full w-full flex-1 flex-col bg-muted">
       <h1>Chat {JSON.stringify(chatid)}</h1>
       <ScrollArea className="w-full flex-1 border">
-        <div className="flex min-h-full flex-col justify-end gap-2 px-2">
+        <div
+          className="flex min-h-full flex-col justify-end gap-2 px-2"
+          {...containerProps}
+        >
+          <p>天喜がいいから散歩をしましょう。</p>
           {messages?.length > 0 ? (
             messages.map((message) => {
               if (message.author === "user") {
@@ -153,6 +162,12 @@ export default function ChatPage() {
           </Button>
         </div>
       </div>
+      <TextSelectionPopupWrapper {...wrapperProps}>
+        <div>
+          <p>Selected Text: {selectedText}</p>
+          <Button onClick={closeModal}>Close</Button>
+        </div>
+      </TextSelectionPopupWrapper>
     </div>
   );
 }
