@@ -5,7 +5,7 @@ import { type z } from "zod";
 import { BasicForm } from "~/components/_primitives/form/basic-form";
 import { FormCombobox } from "~/components/_primitives/form/form-combobox";
 import { useZodForm } from "~/components/_primitives/form/use-zod-form";
-import { createChatPartnerSchemaClient } from "~/server/db/schema/chatPartners.zod";
+import { createChatPartnerSchemaClient } from "~/server/db/schema/chat-partners.zod";
 
 const originOptions = [
   { value: "earth", label: "Earth" },
