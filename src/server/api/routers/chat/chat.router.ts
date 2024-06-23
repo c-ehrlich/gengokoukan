@@ -4,7 +4,6 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { OpenAI } from "../../ai/openai";
 import { TRPCError } from "@trpc/server";
 import { chatPrompt } from "./chat.prompts";
-import { timestamp } from "drizzle-orm/pg-core";
 
 const message = (newUserMessage: string) =>
   chatPrompt({
@@ -41,7 +40,8 @@ export const chatRouter = createTRPCRouter({
             content: message(input.text),
           },
         ],
-        model: "gpt-3.5-turbo",
+        // TODO: maybe limit free plan to 10 4o messages per day
+        model: "gpt-4o-2024-05-13",
       });
 
       console.log(JSON.stringify(chatCompletion));

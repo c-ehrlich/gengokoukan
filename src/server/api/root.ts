@@ -1,4 +1,3 @@
-import { postRouter } from "~/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { jishoRouter } from "./routers/jisho";
 import { chatRouter } from "./routers/chat/chat.router";
@@ -10,7 +9,6 @@ import { chatRouter } from "./routers/chat/chat.router";
  */
 export const appRouter = createTRPCRouter({
   chat: chatRouter,
-  post: postRouter,
   jisho: jishoRouter,
 });
 

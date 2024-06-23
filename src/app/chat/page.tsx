@@ -14,7 +14,7 @@ export default function ChatPage() {
       setMessages((prev) => [
         ...prev,
         {
-          text: data.message,
+          text: data.reply,
           timestamp: data.timestamp,
         },
       ]);
