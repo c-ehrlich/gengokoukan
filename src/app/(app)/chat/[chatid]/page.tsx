@@ -98,7 +98,9 @@ export default function ChatPage() {
           className="flex min-h-full flex-col justify-end gap-2 px-2"
           {...containerProps}
         >
-          <p>天喜がいいから散歩をしましょう。</p>
+          <p>
+            天気がいいから散歩をしましょう。食べる。飲む。美しい。泣く。読む。早く。大きな。そして。は。が。に。です。ます。ああ。
+          </p>
           {messages?.length > 0 ? (
             messages.map((message) => {
               if (message.author === "user") {
