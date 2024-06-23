@@ -68,7 +68,7 @@ type FormItemContextValue = {
   id: string;
 };
 
-const FormItemContext = React.createContext<FormItemContextValue>(
+export const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue,
 );
 

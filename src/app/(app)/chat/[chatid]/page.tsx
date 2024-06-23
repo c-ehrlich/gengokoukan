@@ -15,6 +15,7 @@ import {
 } from "~/components/_primitives/ui/alert";
 import { useTextSelectionPopup } from "~/components/feature/text-selection-popup/use-text-selection-popup";
 import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-popup/text-selection-popup-wrapper";
+import { TextSelectionPopupContent } from "./_components/text-selection-popup-content";
 
 type UserMessage = {
   author: "user";
@@ -163,10 +164,7 @@ export default function ChatPage() {
         </div>
       </div>
       <TextSelectionPopupWrapper {...wrapperProps}>
-        <div>
-          <p>Selected Text: {selectedText}</p>
-          <Button onClick={closeModal}>Close</Button>
-        </div>
+        <TextSelectionPopupContent selectedText={selectedText} />
       </TextSelectionPopupWrapper>
     </div>
   );

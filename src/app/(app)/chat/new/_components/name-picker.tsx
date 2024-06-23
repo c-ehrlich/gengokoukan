@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { FormInput } from "~/components/_primitives/form/form-input";
 import { Button } from "~/components/_primitives/ui/button";
-import { Input } from "~/components/_primitives/ui/input";
 import { api } from "~/trpc/react";
 
-export function NamePicker() {
+type NamePickerProps = {
+  control: any; // TODO: fix
+};
+
+export function NamePicker({ control }: NamePickerProps) {
   const [name, setName] = useState("");
   const nameQuery = api.nameGenerator.getName.useQuery(
     { gender: "male" },
@@ -14,7 +18,7 @@ export function NamePicker() {
 
   return (
     <div className="flex flex-row gap-2">
-      <Input value={name} onChange={(e) => setName(e.target.value)} />
+      <FormInput control={control} name={name} />
       <Button
         variant="secondary"
         onClick={async () => {

@@ -36,7 +36,7 @@ export function CreateChatForm() {
   return (
     <div>
       <BasicForm form={form} onSubmit={onSubmit} buttons={<div />}>
-        <NamePicker />
+        <NamePicker control={form.control} name="" />
 
         <FormCombobox
           control={form.control}
