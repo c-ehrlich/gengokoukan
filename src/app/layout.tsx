@@ -1,10 +1,8 @@
 import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
-
 import { TRPCReactProvider } from "~/trpc/react";
-import { NavBar } from "../components/navbar";
-import { Sidebar } from "../components/sidebar";
+
 import { cn } from "~/components/_utils/cn";
 
 export const metadata = {
@@ -28,12 +26,7 @@ export default function RootLayout({
           )}
         >
           <main className="flex h-screen flex-row justify-center">
-            <Sidebar />
-            <div className="relative flex h-full w-full flex-col">
-              <NavBar />
-
-              {children}
-            </div>
+            {children}
           </main>
         </body>
       </html>
