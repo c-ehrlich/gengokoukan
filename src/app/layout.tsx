@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <TRPCReactProvider>
-      <html lang="en" className={`${GeistSans.variable}`}>
+      <html lang="en" className={GeistSans.className}>
         <body
           className={cn(
             "dark bg-background font-sans antialiased",
