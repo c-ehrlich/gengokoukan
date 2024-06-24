@@ -5,6 +5,13 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "./_primitives/shadcn-raw/avatar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  PopoverIconRow,
+} from "./_primitives/ui/basic-popover";
+import { ExitIcon, GearIcon, PersonIcon } from "@radix-ui/react-icons";
 
 export async function NavBar() {
   const session = await getServerAuthSession();
@@ -14,10 +21,26 @@ export async function NavBar() {
   return (
     <div className="flex w-full items-center justify-between bg-muted p-2">
       <p>foo</p>
-      <Avatar>
-        <AvatarImage src={session?.user.image ?? undefined} />
-        <AvatarFallback>{shortUserName}</AvatarFallback>
-      </Avatar>
+      <Popover>
+        <PopoverTrigger>
+          <Avatar>
+            <AvatarImage src={session?.user.image ?? undefined} />
+            <AvatarFallback>{shortUserName}</AvatarFallback>
+          </Avatar>
+          <PopoverContent>
+            <Link href="/profile">
+              <PopoverIconRow icon={<PersonIcon />} text="Profile" />
+            </Link>
+            <Link href="/settings">
+              <PopoverIconRow icon={<GearIcon />} text="Settings" />
+            </Link>
+            <hr />
+            <Link href="/api/auth/signout">
+              <PopoverIconRow icon={<ExitIcon />} text="Sign out" />
+            </Link>
+          </PopoverContent>
+        </PopoverTrigger>
+      </Popover>
     </div>
   );
 }
