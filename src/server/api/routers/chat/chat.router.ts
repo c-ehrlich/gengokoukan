@@ -4,6 +4,10 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { OpenAI } from "../../ai/openai";
 import { TRPCError } from "@trpc/server";
 import { chatPrompt } from "./chat.prompts";
+import { createChatPartnerSchemaClient } from "~/server/db/schema/chat-partners.zod";
+import { chatPartnersTable } from "~/server/db/schema/chat-partners";
+import { chatsTable } from "~/server/db/schema/chats";
+import { eq } from "drizzle-orm";
 
 const message = (newUserMessage: string) =>
   chatPrompt({
@@ -30,6 +34,40 @@ const message = (newUserMessage: string) =>
   });
 
 export const chatRouter = createTRPCRouter({
+  createChat: protectedProcedure
+    .input(createChatPartnerSchemaClient)
+    .mutation(async ({ input, ctx }) => {
+      const { chatId } = await ctx.db.transaction(async (trx) => {
+        const [chatPartner] = await trx
+          .insert(chatPartnersTable)
+          .values(input)
+          .returning({ id: chatPartnersTable.id });
+
+        if (!chatPartner) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Could not create chat partner",
+          });
+        }
+
+        const [chat] = await trx
+          .insert(chatsTable)
+          .values({ chatPartnerId: chatPartner.id })
+          .returning({ id: chatsTable.id });
+
+        if (!chat) {
+          throw new TRPCError({
+            code: "INTERNAL_SERVER_ERROR",
+            message: "Could not create chat",
+          });
+        }
+
+        return { chatId: chat.id };
+      });
+
+      return { chatId };
+    }),
+
   sendMessage: protectedProcedure
     .input(z.object({ text: z.string() }))
     .mutation(async ({ input }) => {

@@ -15,6 +15,7 @@ import {
 } from "~/components/_primitives/form/form-select";
 import { api } from "~/trpc/react";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
+import { useRouter } from "next/navigation";
 
 const originOptions = [
   { value: "earth", label: "Earth" },
@@ -28,6 +29,8 @@ type CreateChatFormSchema = z.infer<typeof createChatPartnerSchemaClient>;
 export type Form = UseFormReturn<CreateChatFormSchema>;
 
 export function CreateChatForm() {
+  const router = useRouter();
+
   const form = useZodForm({
     schema: createChatPartnerSchemaClient,
     defaultValues: {
@@ -44,7 +47,10 @@ export function CreateChatForm() {
 
   const onSubmit: SubmitHandler<CreateChatFormSchema> = async (values) => {
     const res = await createChatPartnerMutation.mutateAsync(values);
+
     console.log("tktk res", res);
+
+    router.push(`/chat/${res.chatId}`);
   };
 
   return (
@@ -84,7 +90,7 @@ export function CreateChatForm() {
           <FormCombobox
             control={form.control}
             options={originOptions}
-            rootClassName="w-full"
+            // rootClassName="w-full" // TODO: why does it not have this?
             placeholder="Select origin"
             searchPlaceholder="Search origin"
             {...form.register("origin")}

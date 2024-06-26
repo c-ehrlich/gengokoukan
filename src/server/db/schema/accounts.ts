@@ -7,6 +7,7 @@ import { createTable } from "../create-table";
 export const accountsTable = createTable(
   "account",
   {
+    // userId
     userId: text("userId", { length: 255 })
       .notNull()
       .references(() => usersTable.id),

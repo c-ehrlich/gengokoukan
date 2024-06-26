@@ -6,12 +6,11 @@ import { chatMessagesTable } from "./chat-messages";
 import { createTable } from "../create-table";
 
 export const chatsTable = createTable("chat", {
-  // START RELATIONS
+  // RELATIONS
   userId: text("user_id", { length: 255 }).references(() => usersTable.id),
-  // chatPartnerId: text("chat_partner_id", { length: 255 }).references(
-  //   () => chatPartnersTable.id,
-  // ),
-  // // END RELATIONS
+  chatPartnerId: text("chat_partner_id", { length: 255 }).references(
+    () => chatPartnersTable.id,
+  ),
 
   id: text("id", { length: 255 })
     .notNull()
@@ -28,6 +27,9 @@ export const chatsRelations = relations(chatsTable, ({ one, many }) => ({
     fields: [chatsTable.userId],
     references: [usersTable.id],
   }),
-  // chat_partner: one(chatPartnersTable),
+  chat_partner: one(chatPartnersTable, {
+    fields: [chatsTable.chatPartnerId],
+    references: [chatPartnersTable.id],
+  }),
   messages: many(chatMessagesTable),
 }));
