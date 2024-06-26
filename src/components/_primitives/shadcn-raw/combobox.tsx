@@ -16,14 +16,18 @@ import { Button } from "./button";
 import { cn } from "~/components/_utils/cn";
 
 export type ComboboxProps = {
+  className?: string;
   options: Array<{ value: string; label: string }>;
   placeholder: string;
+  emptyValue?: string;
   searchPlaceholder: string;
 };
 
 export function Combobox({
+  className,
   options,
   placeholder,
+  emptyValue,
   searchPlaceholder,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
@@ -36,7 +40,7 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={cn("w-[200px] justify-between", className)}
         >
           {value
             ? options.find((option) => option.value === value)?.label
@@ -46,9 +50,12 @@ export function Combobox({
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder={searchPlaceholder} className="h-9" />
+          <CommandInput
+            placeholder={searchPlaceholder}
+            className="h-9 w-full"
+          />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>{emptyValue ?? "No results found"}</CommandEmpty>
             <CommandGroup>
               {options.map((framework) => (
                 <CommandItem

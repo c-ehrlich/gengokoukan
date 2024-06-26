@@ -11,3 +11,6 @@
   - get last 100 things that happened
   - gpt-3.5 summarizes 11-100 into 1-2 paragraphs, and 1-10 into 1-2 paragraphs
 - write promots in all japanese
+- not just general conversation, but also practice specific situations (ordering in a resaurant etc)
+- "give me a hint" - ask ai to give you advice on what a good conversation pattern is for this situation
+- write this guy after i have something worth showing https://x.com/moinbukh/status/1729555655776759851 https://x.com/NayanKad/status/1805259624892768462

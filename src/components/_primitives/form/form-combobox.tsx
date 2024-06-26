@@ -43,6 +43,7 @@ export function FormCombobox<
         <FormItem className="flex flex-col">
           <FormLabel>Language</FormLabel>
           <Combobox
+            className="w-full"
             {...field}
             options={options}
             placeholder={placeholder}
