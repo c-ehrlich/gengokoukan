@@ -7,6 +7,7 @@ import { createTable } from "../create-table";
 export const chatMessagesTable = createTable("chat_message", {
   // RELATIONS
   chatId: text("chat_id", { length: 255 }).references(() => chatsTable.id),
+  userId: text("user_id", { length: 255 }).references(() => usersTable.id),
 
   id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
   createdAt: integer("created_at", { mode: "timestamp" })
@@ -27,10 +28,13 @@ export const chatMessagesTable = createTable("chat_message", {
 export const chatMessagesRelations = relations(
   chatMessagesTable,
   ({ one }) => ({
-    // user: one(usersTable),
     chat: one(chatsTable, {
       fields: [chatMessagesTable.chatId],
       references: [chatsTable.id],
+    }),
+    user: one(usersTable, {
+      fields: [chatMessagesTable.userId],
+      references: [usersTable.id],
     }),
   }),
 );
