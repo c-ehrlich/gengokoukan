@@ -7,19 +7,20 @@ import { createTable } from "../create-table";
 
 export const chatsTable = createTable("chat", {
   // RELATIONS
-  userId: text("user_id", { length: 255 }).references(() => usersTable.id),
-  chatPartnerId: text("chat_partner_id", { length: 255 }).references(
-    () => chatPartnersTable.id,
-  ),
+  userId: text("user_id", { length: 255 })
+    .references(() => usersTable.id)
+    .notNull(),
+  chatPartnerId: text("chat_partner_id", { length: 255 })
+    .references(() => chatPartnersTable.id)
+    .notNull(),
 
   id: text("id", { length: 255 })
-    .notNull()
     .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+    .$defaultFn(() => crypto.randomUUID())
+    .notNull(),
   createdAt: integer("created_at", { mode: "timestamp" })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }),
 });
 
 export const chatsRelations = relations(chatsTable, ({ one, many }) => ({

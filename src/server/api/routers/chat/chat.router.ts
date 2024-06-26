@@ -37,6 +37,8 @@ export const chatRouter = createTRPCRouter({
   createChat: protectedProcedure
     .input(createChatPartnerSchemaClient)
     .mutation(async ({ input, ctx }) => {
+      const userId = ctx.session.user.id;
+
       const { chatId } = await ctx.db.transaction(async (trx) => {
         const [chatPartner] = await trx
           .insert(chatPartnersTable)
@@ -52,7 +54,7 @@ export const chatRouter = createTRPCRouter({
 
         const [chat] = await trx
           .insert(chatsTable)
-          .values({ chatPartnerId: chatPartner.id })
+          .values({ chatPartnerId: chatPartner.id, userId: userId })
           .returning({ id: chatsTable.id });
 
         if (!chat) {

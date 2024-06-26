@@ -8,6 +8,5 @@ export const createChatPartnerSchemaClient = createChatPartnerSchemaServer.omit(
   {
     id: true,
     createdAt: true,
-    updatedAt: true,
   },
 );

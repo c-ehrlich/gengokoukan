@@ -11,7 +11,6 @@ export const chatPartnersTable = createTable("chat_partner", {
   createdAt: integer("created_at", { mode: "timestamp" })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }),
 
   name: text("name", { length: 255 }),
   gender: text("gender", { enum: ["male", "female", "nonbinary"] }),

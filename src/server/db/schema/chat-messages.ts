@@ -13,7 +13,6 @@ export const chatMessagesTable = createTable("chat_message", {
   createdAt: integer("created_at", { mode: "timestamp" })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }),
 
   author: text("author", { enum: ["user", "ai"] }),
   is_openai_error: integer("is_openai_error", { mode: "boolean" }),
