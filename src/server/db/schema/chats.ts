@@ -7,7 +7,7 @@ import { createTable } from "../create-table";
 
 export const chatsTable = createTable("chat", {
   // START RELATIONS
-  // userId: text("user_id", { length: 255 }).references(() => usersTable.id),
+  userId: text("user_id", { length: 255 }).references(() => usersTable.id),
   // chatPartnerId: text("chat_partner_id", { length: 255 }).references(
   //   () => chatPartnersTable.id,
   // ),
@@ -24,10 +24,10 @@ export const chatsTable = createTable("chat", {
 });
 
 export const chatsRelations = relations(chatsTable, ({ one, many }) => ({
-  // user: one(usersTable, {
-  //   fields: [chatsTable.userId],
-  //   references: [usersTable.id],
-  // }),
+  user: one(usersTable, {
+    fields: [chatsTable.userId],
+    references: [usersTable.id],
+  }),
   // chat_partner: one(chatPartnersTable),
   messages: many(chatMessagesTable),
 }));
