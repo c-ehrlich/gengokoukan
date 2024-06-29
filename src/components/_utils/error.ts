@@ -3,8 +3,8 @@ export function getErrorString(e: unknown): string {
     return e;
   }
 
-  if (e instanceof Error) {
-    return e.message ?? JSON.stringify(e);
+  if (typeof e === "object" && e && "message" in e) {
+    return String(e.message);
   }
 
   return JSON.stringify(e);
