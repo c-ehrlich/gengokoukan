@@ -40,6 +40,10 @@ export default async function RootAppPage() {
   };
 
   for (const chat of chats) {
+    console.log("chat", {
+      partner: chat.chat_partner,
+      created: chat.createdAt,
+    });
     if (chat.createdAt > new Date(Date.now() - 24 * 60 * 60 * 1000)) {
       chatsByRecency.today.push(chat);
     } else if (

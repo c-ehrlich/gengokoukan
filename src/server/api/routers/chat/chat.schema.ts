@@ -15,3 +15,7 @@ export const sendMessageOutputSchema = z.object({
 export const sendMessageAiResponseSchema = sendMessageOutputSchema.omit({
   timestamp: true,
 });
+
+export const deleteChatSchema = z.object({
+  chatId: z.string(),
+});
