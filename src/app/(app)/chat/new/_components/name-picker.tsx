@@ -30,7 +30,10 @@ export function NamePicker({ form }: NamePickerProps) {
         <Button
           variant="secondary"
           disabled={!gender}
-          onClick={async () => {
+          onClick={async (e) => {
+            // TODO: why does not putting these cause a redirect?
+            e.preventDefault();
+            e.stopPropagation();
             const name = await nameQuery.refetch();
             name.data && form.setValue("name", name.data.name);
           }}
