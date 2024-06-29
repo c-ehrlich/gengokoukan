@@ -1,5 +1,5 @@
 import { integer, text } from "drizzle-orm/sqlite-core";
-import { relations, sql } from "drizzle-orm";
+import { type InferSelectModel, relations, sql } from "drizzle-orm";
 import { usersTable } from "./users";
 import { chatsTable } from "./chats";
 import { createTable } from "../create-table";
@@ -37,3 +37,5 @@ export const chatMessagesRelations = relations(
     }),
   }),
 );
+
+export type ChatMessageTableRow = InferSelectModel<typeof chatMessagesTable>;

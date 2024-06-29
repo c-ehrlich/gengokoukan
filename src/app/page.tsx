@@ -1,19 +1,23 @@
+import LandingPage from "~/components/landing/landing-page";
 import { getServerAuthSession } from "~/server/auth";
-import LandingPage from "../components/landing/landing-page";
-import AppLayout from "./(app)/layout";
+import LandingLayout from "./landing/layout";
+import RootAppLayout from "./(app)/layout";
+import RootAppPage from "./(app)/page";
 
-export default async function Home() {
+export default async function RootPage() {
   const session = await getServerAuthSession();
 
   if (!session) {
-    return <LandingPage />;
+    return (
+      <LandingLayout>
+        <LandingPage />
+      </LandingLayout>
+    );
   }
 
   return (
-    <AppLayout>
-      <main className="flex h-full flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <div className="flex h-full w-full flex-1 flex-col"></div>
-      </main>
-    </AppLayout>
+    <RootAppLayout>
+      <RootAppPage />
+    </RootAppLayout>
   );
 }

@@ -2,6 +2,7 @@
 - add icons to each feature
 
 ## App
+- translation https://locize.com/blog/next-app-dir-i18n/
 - ai conversations
   - https://community.openai.com/t/how-can-i-maintain-conversation-continuity-with-chat-gpt-api/574819/3
 - design your partner

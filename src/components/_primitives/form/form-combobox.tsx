@@ -21,7 +21,9 @@ interface FormComboboxProps<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > extends ComboboxProps,
-    Omit<ControllerProps<TFieldValues, TName>, "render" | "defaultValue"> {}
+    Omit<ControllerProps<TFieldValues, TName>, "render" | "defaultValue"> {
+  label: string;
+}
 
 export function FormCombobox<
   TFieldValues extends FieldValues = FieldValues,
@@ -29,6 +31,7 @@ export function FormCombobox<
 >({
   control,
   disabled,
+  label,
   name,
   options,
   placeholder,
@@ -41,7 +44,7 @@ export function FormCombobox<
       name={name}
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel>Language</FormLabel>
+          <FormLabel>{label}</FormLabel>
           <Combobox
             className="w-full"
             {...field}

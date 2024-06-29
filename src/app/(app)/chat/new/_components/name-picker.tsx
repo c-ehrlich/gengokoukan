@@ -8,21 +8,21 @@ type NamePickerProps = {
 };
 
 export function NamePicker({ form }: NamePickerProps) {
+  const gender = form.watch("gender");
+
   const nameQuery = api.nameGenerator.getName.useQuery(
-    { gender: "male" },
+    { gender: gender },
     {
       enabled: false,
     },
   );
-
-  console.log("tktk data", nameQuery.data);
 
   return (
     <div className="flex w-full flex-row items-end gap-2">
       <FormInput
         control={form.control}
         name="name"
-        label="Name"
+        label="名前"
         rootClassName="w-full"
       />
       <Button
@@ -32,7 +32,7 @@ export function NamePicker({ form }: NamePickerProps) {
           name.data && form.setValue("name", name.data.name);
         }}
       >
-        Generate Name
+        名前を生成する
       </Button>
     </div>
   );

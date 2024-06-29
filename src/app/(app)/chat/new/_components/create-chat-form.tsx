@@ -24,6 +24,46 @@ const originOptions = [
   { value: "jupiter", label: "Jupiter" },
 ];
 
+/**
+北海道・札幌（Sapporo）
+北海道・旭川（Asahikawa）
+北海道・函館（Hakodate）
+Tōhoku Region
+東北地方・青森（Aomori）
+東北地方・仙台（Sendai）
+東北地方・秋田（Akita）
+Kantō Region
+関東・Tokyo (東京)
+関東・Yokohama (横浜)
+関東・Chiba (千葉)
+関東・Saitama (埼玉)
+Chūbu Region
+中部地方・Nagoya (名古屋)
+中部地方・Niigata (新潟)
+中部地方・Kanazawa (金沢)
+中部地方・Shizuoka (静i岡)
+Kansai Region
+関西・Osaka (大阪)
+関西・Kyoto (京都)
+関西・Kobe (神戸)
+関西・Nara (奈良)
+Chūgoku Region
+中国地方・Hiroshima (広島)
+中国地方・Okayama (岡山)
+中国地方・Matsue (松江)
+Shikoku Region
+四国・Matsuyama (松山)
+四国・Takamatsu (高松)
+四国・Kochi (高知)
+Kyūshū Region
+九州・Fukuoka (福岡)
+九州・Kumamoto (熊本)
+九州・Nagasaki (長崎)
+九州・Kagoshima (鹿児島)
+Okinawa Region
+沖縄・Naha (那覇)
+ */
+
 type CreateChatFormSchema = z.infer<typeof createChatPartnerSchemaClient>;
 
 export type Form = UseFormReturn<CreateChatFormSchema>;
@@ -60,7 +100,7 @@ export function CreateChatForm() {
         onSubmit={onSubmit}
         buttons={
           <div className="w-full">
-            <Button type="submit">Submit</Button>
+            <Button type="submit">送信</Button>
           </div>
         }
       >
@@ -70,7 +110,7 @@ export function CreateChatForm() {
           <FormInput
             control={form.control}
             rootClassName="w-full"
-            label="Age"
+            label="年齢"
             type="number"
             {...form.register("age")}
           />
@@ -78,16 +118,19 @@ export function CreateChatForm() {
           <FormSelect
             control={form.control}
             rootClassName="w-full"
-            label="Gender"
+            label="性別"
             {...form.register("gender")}
-            placeholder="Select gender..."
+            placeholder="性別を選択"
           >
-            <FormSelectOption value="female">Female</FormSelectOption>
-            <FormSelectOption value="male">Male</FormSelectOption>
-            <FormSelectOption value="nonbinary">Nonbinary</FormSelectOption>
+            <FormSelectOption value="female">男性</FormSelectOption>
+            <FormSelectOption value="male">女性</FormSelectOption>
+            <FormSelectOption value="nonbinary">
+              ノンバイナリー
+            </FormSelectOption>
           </FormSelect>
 
           <FormCombobox
+            label="出身"
             control={form.control}
             options={originOptions}
             // rootClassName="w-full" // TODO: why does it not have this?
