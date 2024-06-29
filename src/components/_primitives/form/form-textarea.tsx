@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import {
   type ControllerProps,
   type FieldPath,
@@ -22,38 +22,53 @@ interface FormTextAreaProps<
   rootClassName?: string;
 }
 
-export function FormTextArea<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->(props: FormTextAreaProps<TFieldValues, TName>) {
-  const {
-    control,
-    horizontal,
-    label,
-    name,
-    placeholder,
-    required,
-    rootClassName,
-    ...passthrough
-  } = props;
+export const FormTextArea = forwardRef(
+  <
+    TFieldValues extends FieldValues = FieldValues,
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  >(
+    props: FormTextAreaProps<TFieldValues, TName>,
+    ref: React.Ref<HTMLTextAreaElement>,
+  ) => {
+    const {
+      control,
+      horizontal,
+      label,
+      name,
+      placeholder,
+      required,
+      rootClassName,
+      ...passthrough
+    } = props;
 
-  return (
-    <FormField
-      control={control}
-      name={name}
-      key={name}
-      render={({ field }) => (
-        <FormItem
-          className={rootClassName}
-          horizontal={horizontal}
-          label={label}
-          required={required}
-        >
-          <FormControl>
-            <TextArea {...field} placeholder={placeholder} {...passthrough} />
-          </FormControl>
-        </FormItem>
-      )}
-    />
-  );
-}
+    console.log("tktk FormTextArea passthrough", passthrough);
+
+    return (
+      <FormField
+        control={control}
+        name={name}
+        key={name}
+        render={({ field }) => (
+          <FormItem
+            className={rootClassName}
+            horizontal={horizontal}
+            label={label}
+            required={required}
+          >
+            <FormControl>
+              <TextArea
+                {...field}
+                ref={ref}
+                placeholder={placeholder}
+                {...passthrough}
+              />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+    );
+  },
+);
+
+// @ts-expect-error forwardRef hack
+FormTextArea.displayName = "FormTextArea";

@@ -20,6 +20,8 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     );
   },
 );
+
+// @ts-expect-error forwardRef hack
 TextArea.displayName = "Textarea";
 
 export { TextArea };

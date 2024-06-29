@@ -98,4 +98,5 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   },
 );
 
+// @ts-expect-error forwardRef hack
 Input.displayName = "Input";

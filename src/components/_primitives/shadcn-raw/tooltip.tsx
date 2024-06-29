@@ -25,6 +25,8 @@ const TooltipContent = React.forwardRef<
     {...props}
   />
 ));
+
+// @ts-expect-error forwardRef hack
 TooltipContent.displayName = TooltipPrimitive.Content.displayName;
 
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };

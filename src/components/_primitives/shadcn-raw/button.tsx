@@ -52,6 +52,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
   },
 );
+
+// @ts-expect-error forwardRef hack
 Button.displayName = "Button";
 
 export { Button, buttonVariants };

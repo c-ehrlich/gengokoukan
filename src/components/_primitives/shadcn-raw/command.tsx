@@ -24,6 +24,8 @@ const Command = React.forwardRef<
     {...props}
   />
 ));
+
+// @ts-expect-error forwardRef hack
 Command.displayName = CommandPrimitive.displayName;
 
 type CommandDialogProps = DialogProps;
@@ -57,6 +59,7 @@ const CommandInput = React.forwardRef<
   </div>
 ));
 
+// @ts-expect-error forwardRef hack
 CommandInput.displayName = CommandPrimitive.Input.displayName;
 
 const CommandList = React.forwardRef<
@@ -70,6 +73,7 @@ const CommandList = React.forwardRef<
   />
 ));
 
+// @ts-expect-error forwardRef hack
 CommandList.displayName = CommandPrimitive.List.displayName;
 
 const CommandEmpty = React.forwardRef<
@@ -83,6 +87,7 @@ const CommandEmpty = React.forwardRef<
   />
 ));
 
+// @ts-expect-error forwardRef hack
 CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
 
 const CommandGroup = React.forwardRef<
@@ -99,6 +104,7 @@ const CommandGroup = React.forwardRef<
   />
 ));
 
+// @ts-expect-error forwardRef hack
 CommandGroup.displayName = CommandPrimitive.Group.displayName;
 
 const CommandSeparator = React.forwardRef<
@@ -111,6 +117,8 @@ const CommandSeparator = React.forwardRef<
     {...props}
   />
 ));
+
+// @ts-expect-error forwardRef hack
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
 
 const CommandItem = React.forwardRef<
@@ -127,6 +135,7 @@ const CommandItem = React.forwardRef<
   />
 ));
 
+// @ts-expect-error forwardRef hack
 CommandItem.displayName = CommandPrimitive.Item.displayName;
 
 const CommandShortcut = ({
@@ -143,6 +152,7 @@ const CommandShortcut = ({
     />
   );
 };
+
 CommandShortcut.displayName = "CommandShortcut";
 
 export {

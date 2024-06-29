@@ -88,6 +88,8 @@ const FormItem = React.forwardRef<
     </FormItemContext.Provider>
   );
 });
+
+// @ts-expect-error forwardRef hack
 FormItem.displayName = "FormItem";
 
 const FormLabel = React.forwardRef<
@@ -105,6 +107,8 @@ const FormLabel = React.forwardRef<
     />
   );
 });
+
+// @ts-expect-error forwardRef hack
 FormLabel.displayName = "FormLabel";
 
 const FormControl = React.forwardRef<
@@ -128,6 +132,8 @@ const FormControl = React.forwardRef<
     />
   );
 });
+
+// @ts-expect-error forwardRef hack
 FormControl.displayName = "FormControl";
 
 const FormDescription = React.forwardRef<
@@ -145,6 +151,8 @@ const FormDescription = React.forwardRef<
     />
   );
 });
+
+// @ts-expect-error forwardRef hack
 FormDescription.displayName = "FormDescription";
 
 const FormMessage = React.forwardRef<
@@ -169,6 +177,8 @@ const FormMessage = React.forwardRef<
     </p>
   );
 });
+
+// @ts-expect-error forwardRef hack
 FormMessage.displayName = "FormMessage";
 
 export {
