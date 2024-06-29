@@ -7,7 +7,11 @@ import { chatPrompt } from "./chat.prompts";
 import { createChatPartnerSchemaClient } from "~/server/db/schema/chat-partners.zod";
 import { chatPartnersTable } from "~/server/db/schema/chat-partners";
 import { chatsTable } from "~/server/db/schema/chats";
-import { eq } from "drizzle-orm";
+import {
+  sendMessageAiResponseSchema,
+  sendMessageInputSchema,
+  sendMessageOutputSchema,
+} from "./chat.schema";
 
 const message = (newUserMessage: string) =>
   chatPrompt({
@@ -71,8 +75,11 @@ export const chatRouter = createTRPCRouter({
     }),
 
   sendMessage: protectedProcedure
-    .input(z.object({ text: z.string() }))
-    .mutation(async ({ input }) => {
+    .input(sendMessageInputSchema)
+    .output(sendMessageOutputSchema)
+    .mutation(async ({ ctx, input }) => {
+      // TODO: get the chat id, make sure it belongs to the user
+
       const chatCompletion = await OpenAI.chat.completions.create({
         messages: [
           {
@@ -96,16 +103,11 @@ export const chatRouter = createTRPCRouter({
       try {
         console.log(chatCompletion.choices[0].message.content);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const parsed = JSON.parse(chatCompletion.choices[0].message.content!);
-        const res = {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-          feedback: parsed.feedback as string | undefined,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-          rewritten: parsed.rewritten as string | undefined,
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-          reply: parsed.reply as string,
-          timestamp: Date.now(),
-        };
+        const jsonParsed = JSON.parse(
+          chatCompletion.choices[0].message.content!,
+        );
+        const zodParsed = sendMessageAiResponseSchema.parse(jsonParsed);
+        const res = { ...zodParsed, timestamp: Date.now() };
         return res;
       } catch (e) {
         throw new TRPCError({
