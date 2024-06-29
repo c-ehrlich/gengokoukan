@@ -127,7 +127,11 @@ export function CreateChatForm() {
             rootClassName="w-full"
             label="年齢"
             type="number"
-            {...form.register("age")}
+            {...form.register("age", {
+              valueAsNumber: true,
+              min: 0,
+              max: 150,
+            })}
           />
 
           <NamePicker form={form} />

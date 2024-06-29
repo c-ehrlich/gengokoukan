@@ -64,6 +64,10 @@ export function FormInput<
               {...field}
               placeholder={placeholder}
               ref={inputRef}
+              {...(props.type === "number" && {
+                inputMode: "numeric",
+                onChange: (e) => field.onChange(e.target.value, 10),
+              })}
               {...passthrough}
             />
           </FormControl>
