@@ -3,15 +3,11 @@ import Link from "next/link";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { ensureSignedIn } from "~/components/_utils/ensure-signed-in";
 import { db } from "~/server/db";
-import { type ChatMessageTableRow } from "~/server/db/schema/chat-messages";
-import { type ChatPartnerTableRow } from "~/server/db/schema/chat-partners";
-import { type ChatTableRow, chatsTable } from "~/server/db/schema/chats";
+import {
+  type ChatWithPartnerAndMessages,
+  chatsTable,
+} from "~/server/db/schema/chats";
 import { LandingChatList } from "./_components/landing-chat-list";
-
-export type ChatWithPartner = ChatTableRow & {
-  chat_partner: ChatPartnerTableRow;
-  messages: ChatMessageTableRow[];
-};
 
 export default async function RootAppPage() {
   const session = await ensureSignedIn();
@@ -32,11 +28,11 @@ export default async function RootAppPage() {
   });
 
   const chatsByRecency = {
-    today: [] as ChatWithPartner[],
-    yesterday: [] as ChatWithPartner[],
-    pastWeek: [] as ChatWithPartner[],
-    pastMonth: [] as ChatWithPartner[],
-    older: [] as ChatWithPartner[],
+    today: [] as ChatWithPartnerAndMessages[],
+    yesterday: [] as ChatWithPartnerAndMessages[],
+    pastWeek: [] as ChatWithPartnerAndMessages[],
+    pastMonth: [] as ChatWithPartnerAndMessages[],
+    older: [] as ChatWithPartnerAndMessages[],
   };
 
   for (const chat of chats) {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { type ChatWithPartner } from "../page";
+import { type ChatWithPartnerAndMessages } from "../page";
 import { DeleteChatButton } from "./delete-chat-button";
 
 export function LandingChatList({
@@ -7,7 +7,7 @@ export function LandingChatList({
   chats,
 }: {
   header: string;
-  chats: ChatWithPartner[];
+  chats: ChatWithPartnerAndMessages[];
 }) {
   return (
     <>

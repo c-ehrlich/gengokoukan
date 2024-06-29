@@ -1,8 +1,8 @@
 import { integer, text } from "drizzle-orm/sqlite-core";
 import { type InferSelectModel, relations, sql } from "drizzle-orm";
 import { usersTable } from "./users";
-import { chatPartnersTable } from "./chat-partners";
-import { chatMessagesTable } from "./chat-messages";
+import { type ChatPartnerTableRow, chatPartnersTable } from "./chat-partners";
+import { type ChatMessageTableRow, chatMessagesTable } from "./chat-messages";
 import { createTable } from "../create-table";
 
 export const chatsTable = createTable("chat", {
@@ -36,3 +36,8 @@ export const chatsRelations = relations(chatsTable, ({ one, many }) => ({
 }));
 
 export type ChatTableRow = InferSelectModel<typeof chatsTable>;
+
+export type ChatWithPartnerAndMessages = ChatTableRow & {
+  chat_partner: ChatPartnerTableRow;
+  messages: ChatMessageTableRow[];
+};

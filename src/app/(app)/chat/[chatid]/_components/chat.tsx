@@ -16,6 +16,7 @@ import {
 import { useTextSelectionPopup } from "~/components/feature/text-selection-popup/use-text-selection-popup";
 import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-popup/text-selection-popup-wrapper";
 import { TextSelectionPopupContent } from "./text-selection-popup-content";
+import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
 
 type UserMessage = {
   author: "user";
@@ -30,7 +31,13 @@ type AIMessage = {
 };
 type Message = UserMessage | AIMessage;
 
-function useChat() {
+function useChat({
+  chatId,
+  chat,
+}: {
+  chatId: string;
+  chat: ChatWithPartnerAndMessages;
+}) {
   const scrollToBottomRef = useRef<HTMLDivElement>(null);
   const { chatid } = useParams();
   const [input, setInput] = useState("");
@@ -83,9 +90,14 @@ function useChat() {
   };
 }
 
-export function Chat() {
+type ChatProps = {
+  chatId: string;
+  chat: ChatWithPartnerAndMessages;
+};
+
+export function Chat({ chatId, chat }: ChatProps) {
   const { chatid, input, setInput, messages, chatMutation, scrollToBottomRef } =
-    useChat();
+    useChat({ chatId, chat });
 
   const {
     containerProps,
@@ -163,7 +175,7 @@ export function Chat() {
           <Button
             size="icon"
             className="rounded-full"
-            onClick={() => chatMutation.mutate({ text: input })}
+            onClick={() => chatMutation.mutate({ chatId: chatId, text: input })}
           >
             <ArrowUpIcon className="h-5 w-5" />
           </Button>
