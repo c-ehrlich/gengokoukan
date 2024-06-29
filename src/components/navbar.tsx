@@ -21,7 +21,9 @@ export async function NavBar() {
   return (
     <div className="flex w-full items-center justify-between bg-muted p-2">
       {/* TODO: update this depending on where we are */}
-      <p className="text-xl font-bold">言語交換</p>
+      <Link href="/">
+        <h1 className="text-xl font-bold">言語交換</h1>
+      </Link>
       <Popover>
         <PopoverTrigger>
           <Avatar>

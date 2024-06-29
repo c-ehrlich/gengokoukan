@@ -16,53 +16,55 @@ import {
 import { api } from "~/trpc/react";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { useRouter } from "next/navigation";
+import { type OptionWithHeading } from "~/components/_primitives/shadcn-raw/combobox";
+import { type FormalityOption } from "~/server/db/schema/chat-partners";
 
-const originOptions = [
-  { value: "earth", label: "Earth" },
-  { value: "mars", label: "Mars" },
-  { value: "moon", label: "Moon" },
-  { value: "jupiter", label: "Jupiter" },
+const originOptions: Array<OptionWithHeading> = [
+  { heading: "北海道 (Hokkaido)", value: "札幌", label: "札幌 (Sapporo)" },
+  { heading: "北海道 (Hokkaido)", value: "旭川", label: "旭川 (Asahikawa)" },
+  { heading: "北海道 (Hokkaido)", value: "函館", label: "函館 (Hakodate)" },
+  { heading: "東北地方 (Tohoku)", value: "青森", label: "青森 (Aomori)" },
+  { heading: "東北地方 (Tohoku)", value: "仙台", label: "仙台 (Sendai)" },
+  { heading: "東北地方 (Tohoku)", value: "秋田", label: "秋田 (Akita)" },
+  { heading: "関東 (Kanto)", value: "東京", label: "東京 (Tokyo)" },
+  { heading: "関東 (Kanto)", value: "横浜", label: "横浜 (Yokohama)" },
+  { heading: "関東 (Kanto)", value: "千葉", label: "千葉 (Chiba)" },
+  { heading: "関東 (Kanto)", value: "埼玉", label: "埼玉 (Saitama)" },
+  { heading: "中部地方 (Chubu)", value: "名古屋", label: "名古屋 (Nagoya)" },
+  { heading: "中部地方 (Chubu)", value: "新潟", label: "新潟 (Niigata)" },
+  { heading: "中部地方 (Chubu)", value: "金沢", label: "金沢 (Kanazawa)" },
+  { heading: "中部地方 (Chubu)", value: "静岡", label: "静岡 (Shizuoka)" },
+  { heading: "関西 (Kansai)", value: "大阪", label: "大阪 (Osaka)" },
+  { heading: "関西 (Kansai)", value: "京都", label: "京都 (Kyoto)" },
+  { heading: "関西 (Kansai)", value: "神戸", label: "神戸 (Kobe)" },
+  { heading: "関西 (Kansai)", value: "奈良", label: "奈良 (Nara)" },
+  { heading: "中国地方 (Chugoku)", value: "広島", label: "広島 (Hiroshima)" },
+  { heading: "中国地方 (Chugoku)", value: "岡山", label: "岡山 (Okayama)" },
+  { heading: "中国地方 (Chugoku)", value: "松江", label: "松江 (Matsue)" },
+  { heading: "四国 (Shikoku)", value: "松山", label: "松山 (Matsuyama)" },
+  { heading: "四国 (Shikoku)", value: "高松", label: "高松 (Takamatsu)" },
+  { heading: "四国 (Shikoku)", value: "高知", label: "高知 (Kochi)" },
+  { heading: "九州 (Kyushu)", value: "福岡", label: "福岡 (Fukuoka)" },
+  { heading: "九州 (Kyushu)", value: "熊本", label: "熊本 (Kumamoto)" },
+  { heading: "九州 (Kyushu)", value: "長崎", label: "長崎 (Nagasaki)" },
+  { heading: "九州 (Kyushu)", value: "鹿児島", label: "鹿児島 (Kagoshima)" },
+  { heading: "沖縄 (Okinawa)", value: "那覇", label: "那覇 (Naha)" },
+  { heading: "沖縄 (Okinawa)", value: "石垣", label: "石垣 (Ishigaki)" },
 ];
 
-/**
-北海道・札幌（Sapporo）
-北海道・旭川（Asahikawa）
-北海道・函館（Hakodate）
-Tōhoku Region
-東北地方・青森（Aomori）
-東北地方・仙台（Sendai）
-東北地方・秋田（Akita）
-Kantō Region
-関東・Tokyo (東京)
-関東・Yokohama (横浜)
-関東・Chiba (千葉)
-関東・Saitama (埼玉)
-Chūbu Region
-中部地方・Nagoya (名古屋)
-中部地方・Niigata (新潟)
-中部地方・Kanazawa (金沢)
-中部地方・Shizuoka (静i岡)
-Kansai Region
-関西・Osaka (大阪)
-関西・Kyoto (京都)
-関西・Kobe (神戸)
-関西・Nara (奈良)
-Chūgoku Region
-中国地方・Hiroshima (広島)
-中国地方・Okayama (岡山)
-中国地方・Matsue (松江)
-Shikoku Region
-四国・Matsuyama (松山)
-四国・Takamatsu (高松)
-四国・Kochi (高知)
-Kyūshū Region
-九州・Fukuoka (福岡)
-九州・Kumamoto (熊本)
-九州・Nagasaki (長崎)
-九州・Kagoshima (鹿児島)
-Okinawa Region
-沖縄・Naha (那覇)
- */
+const formalityOptions: Array<{ value: FormalityOption; label: string }> = [
+  {
+    value: "jidou",
+    label: "関係や状況に応じて、自動的に適切な敬語レベルを選択する",
+  },
+  { value: "yobisute", label: "呼び捨て (Yobisute)" },
+  { value: "tameguchi", label: "タメ口 (Tameguchi)" },
+  { value: "futsu", label: "普通 (Futsū)" },
+  { value: "teinei", label: "丁寧 (Teinei)" },
+  { value: "keigo", label: "敬語 (Keigo)" },
+  { value: "sonkeigo", label: "尊敬語 (Sonkeigo)" },
+  { value: "kenjougo", label: "謙譲語 (Kenjōgo)" },
+];
 
 type CreateChatFormSchema = z.infer<typeof createChatPartnerSchemaClient>;
 
@@ -77,7 +79,9 @@ export function CreateChatForm() {
       name: "",
       age: 25,
       gender: "",
-      interests: "",
+      relation: "",
+      situation: "",
+      formality: "jidou",
       origin: "",
       personality: "",
     },
@@ -88,33 +92,22 @@ export function CreateChatForm() {
   const onSubmit: SubmitHandler<CreateChatFormSchema> = async (values) => {
     const res = await createChatPartnerMutation.mutateAsync(values);
 
-    console.log("tktk res", res);
-
     router.push(`/chat/${res.chatId}`);
   };
 
   return (
-    <div className="w-full p-4">
+    <div className="w-full">
       <BasicForm
         form={form}
         onSubmit={onSubmit}
+        title="新しいチャットを作成する"
         buttons={
           <div className="w-full">
             <Button type="submit">送信</Button>
           </div>
         }
       >
-        <div className="flex w-full flex-col items-start gap-4">
-          <NamePicker form={form} />
-
-          <FormInput
-            control={form.control}
-            rootClassName="w-full"
-            label="年齢"
-            type="number"
-            {...form.register("age")}
-          />
-
+        <>
           <FormSelect
             control={form.control}
             rootClassName="w-full"
@@ -129,32 +122,63 @@ export function CreateChatForm() {
             </FormSelectOption>
           </FormSelect>
 
+          <FormInput
+            control={form.control}
+            rootClassName="w-full"
+            label="年齢"
+            type="number"
+            {...form.register("age")}
+          />
+
+          <NamePicker form={form} />
+
           <FormCombobox
             label="出身"
             control={form.control}
             options={originOptions}
             // rootClassName="w-full" // TODO: why does it not have this?
-            placeholder="Select origin"
-            searchPlaceholder="Search origin"
+            placeholder="出身を選択"
+            searchPlaceholder="出身を探す"
             {...form.register("origin")}
           />
 
           <FormTextArea
             control={form.control}
             rootClassName="w-full"
-            label="Personality"
-            placeholder="Personality placeholder"
+            label="人格"
+            placeholder="例: 楽観的でユーモアがある。相手の気持ちに寄り添い、リラックスした会話を提供する。"
             {...form.register("personality")}
           />
 
           <FormTextArea
             control={form.control}
             rootClassName="w-full"
-            label="Interests"
-            placeholder="Interests placeholder"
-            {...form.register("interests")}
+            label="関係"
+            placeholder="例: 義理の父"
+            {...form.register("relation")}
           />
-        </div>
+
+          <FormTextArea
+            control={form.control}
+            rootClassName="w-full"
+            label="状況"
+            placeholder="例: 家族の集まりで、最近の仕事の進捗について報告し、アドバイスを求める。"
+            {...form.register("situation")}
+          />
+
+          <FormSelect
+            control={form.control}
+            rootClassName="w-full"
+            label="話し方"
+            {...form.register("formality")}
+          >
+            {formalityOptions.map((option) => (
+              <FormSelectOption key={option.value} value={option.value}>
+                {option.label}
+              </FormSelectOption>
+            ))}
+          </FormSelect>
+        </>
       </BasicForm>
     </div>
   );

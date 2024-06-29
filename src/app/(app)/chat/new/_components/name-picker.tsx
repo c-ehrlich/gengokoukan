@@ -2,6 +2,7 @@ import { FormInput } from "~/components/_primitives/form/form-input";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { api } from "~/trpc/react";
 import { type Form } from "./create-chat-form";
+import { MaybeBasicTooltip } from "~/components/_primitives/ui/basic-tooltip";
 
 type NamePickerProps = {
   form: Form;
@@ -25,15 +26,18 @@ export function NamePicker({ form }: NamePickerProps) {
         label="名前"
         rootClassName="w-full"
       />
-      <Button
-        variant="secondary"
-        onClick={async () => {
-          const name = await nameQuery.refetch();
-          name.data && form.setValue("name", name.data.name);
-        }}
-      >
-        名前を生成する
-      </Button>
+      <MaybeBasicTooltip content="性別を選択してください" enabled={!gender}>
+        <Button
+          variant="secondary"
+          disabled={!gender}
+          onClick={async () => {
+            const name = await nameQuery.refetch();
+            name.data && form.setValue("name", name.data.name);
+          }}
+        >
+          名前を生成する
+        </Button>
+      </MaybeBasicTooltip>
     </div>
   );
 }

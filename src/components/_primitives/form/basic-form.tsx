@@ -18,6 +18,8 @@ export type BasicFormProps<FormType extends FieldValues = FieldValues> = Omit<
   contentClassName?: string;
   form: UseFormReturn<FormType>;
   onSubmit: SubmitHandler<FormType>;
+  title?: string;
+  titleClassName?: string;
 };
 
 /**
@@ -34,6 +36,8 @@ export function BasicForm<FormType extends FieldValues>(
     contentClassName,
     form,
     onSubmit,
+    title,
+    titleClassName,
     ...passthrough
   } = props;
 
@@ -49,20 +53,26 @@ export function BasicForm<FormType extends FieldValues>(
       >
         <div
           // TODO: add styles
-          className={cn(contentClassName)}
+          className={cn(
+            "flex w-full flex-col items-start gap-4",
+            contentClassName,
+          )}
         >
+          {title ? (
+            <h2 className={cn("text-2xl", titleClassName)}>{title}</h2>
+          ) : null}
           {children}
+          {buttons ? (
+            <div
+              className={cn(
+                // TODO: add styles
+                buttonsClassName,
+              )}
+            >
+              {buttons}
+            </div>
+          ) : null}
         </div>
-        {buttons ? (
-          <div
-            className={cn(
-              // TODO: add styles
-              buttonsClassName,
-            )}
-          >
-            {buttons}
-          </div>
-        ) : null}
       </form>
     </Form>
   );

@@ -12,7 +12,7 @@ type BasicTooltipProps = {
 };
 export function BasicTooltip({ children, content }: BasicTooltipProps) {
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger>{children}</TooltipTrigger>
         <TooltipContent className="w-96 max-w-[calc(100vw-64px)]">
@@ -21,4 +21,19 @@ export function BasicTooltip({ children, content }: BasicTooltipProps) {
       </Tooltip>
     </TooltipProvider>
   );
+}
+
+type MaybeBasicTooltipProps = BasicTooltipProps & {
+  enabled?: boolean;
+};
+export function MaybeBasicTooltip({
+  children,
+  content,
+  enabled,
+}: MaybeBasicTooltipProps) {
+  if (!enabled) {
+    return children;
+  }
+
+  return <BasicTooltip content={content}>{children}</BasicTooltip>;
 }
