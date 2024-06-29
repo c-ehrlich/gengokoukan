@@ -1,19 +1,27 @@
-import { z } from "zod";
-
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { OpenAI } from "../../ai/openai";
 import { TRPCError } from "@trpc/server";
 import { chatPrompt } from "./chat.prompts";
 import { createChatPartnerSchemaClient } from "~/server/db/schema/chat-partners.zod";
-import { chatPartnersTable } from "~/server/db/schema/chat-partners";
+import {
+  type ChatPartnerTableRow,
+  chatPartnersTable,
+} from "~/server/db/schema/chat-partners";
 import { chatsTable } from "~/server/db/schema/chats";
 import {
   sendMessageAiResponseSchema,
   sendMessageInputSchema,
   sendMessageOutputSchema,
 } from "./chat.schema";
+import { and, eq } from "drizzle-orm";
 
-const message = (newUserMessage: string) =>
+const message = ({
+  partner,
+  userMessage,
+}: {
+  partner: ChatPartnerTableRow;
+  userMessage: string;
+}) =>
   chatPrompt({
     user: {
       name: "クリス",
@@ -25,16 +33,9 @@ const message = (newUserMessage: string) =>
       interests: "I like to cook and play video games.",
       jlptLevel: "N1",
     },
-    partner: {
-      name: "健太",
-      age: 35,
-      gender: "female",
-      location: "Shiga, Kansai",
-      interests: "釣りと料理",
-      personality: "I'm shy at first, but I open up quickly.",
-    },
+    partner: partner,
     chats: [],
-    newUserMessage: newUserMessage,
+    newUserMessage: userMessage,
   });
 
 export const chatRouter = createTRPCRouter({
@@ -78,13 +79,42 @@ export const chatRouter = createTRPCRouter({
     .input(sendMessageInputSchema)
     .output(sendMessageOutputSchema)
     .mutation(async ({ ctx, input }) => {
-      // TODO: get the chat id, make sure it belongs to the user
+      // TODO: get
+      // - user info
+      // - chat
+      // - chat partner info
+      // - does the user own the chat?
+      // - chatHistory
+
+      const foo = await ctx.db.query.chatsTable.findFirst({
+        where: and(
+          eq(chatsTable.id, input.chatId),
+          eq(chatsTable.userId, ctx.session.user.id),
+        ),
+        with: {
+          chat_partner: true,
+          messages: {
+            limit: 100,
+            orderBy: (message, { desc }) => [desc(message.createdAt)],
+          },
+        },
+      });
+
+      if (!foo) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Chat not found",
+        });
+      }
 
       const chatCompletion = await OpenAI.chat.completions.create({
         messages: [
           {
             role: "user",
-            content: message(input.text),
+            content: message({
+              userMessage: input.text,
+              partner: foo?.chat_partner,
+            }),
           },
         ],
         // TODO: maybe limit free plan to 10 4o messages per day

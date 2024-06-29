@@ -1,3 +1,5 @@
+import { type ChatPartnerTableRow } from "~/server/db/schema/chat-partners";
+
 type JLPTLevel = "N1+" | "N1" | "N2" | "N3" | "N4" | "N5";
 type Gender = "male" | "female" | "nonbinary";
 type ChatMessage = {
@@ -18,19 +20,12 @@ type ChatPromptArgs = {
     interests: string;
     goals: string;
   };
-  partner: {
-    name: string;
-    gender: Gender;
-    age: number;
-    location: string;
-    personality: string;
-    interests: string;
-  };
+  partner: ChatPartnerTableRow;
   chats: Array<ChatMessage>;
   newUserMessage: string;
 };
 
-function genderString(gender: Gender) {
+function genderString(gender: ChatPartnerTableRow["gender"]) {
   switch (gender) {
     case "male":
       return "man";
@@ -100,7 +95,7 @@ My current Japanese skill level is: ${jlptLevelString(user.jlptLevel)}. Please u
 My language learning goal is to ${user.goals}.
 
 Some information about you:
-Your name is ${partner.name}. You are a ${partner.age} year old ${genderString(partner.gender)} from ${partner.location}.
+Your name is ${partner.name}. You are a ${partner.age} year old ${genderString(partner.gender)} from ${partner.origin}.
 Your personality is: ${partner.personality}.
 Your interests are: ${partner.interests}.
 
