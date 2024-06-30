@@ -19,3 +19,9 @@ export const sendMessageAiResponseSchema = sendMessageOutputSchema.omit({
 export const deleteChatSchema = z.object({
   chatId: z.string(),
 });
+
+export const messagesPaginatedSchema = z.object({
+  chatId: z.string(),
+  limit: z.number().min(1).max(100),
+  cursor: z.number().nullish(), // date as unix timestamp
+});

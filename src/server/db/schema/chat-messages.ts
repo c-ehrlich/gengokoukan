@@ -6,8 +6,12 @@ import { createTable } from "../create-table";
 
 export const chatMessagesTable = createTable("chat_message", {
   // RELATIONS
-  chatId: text("chat_id", { length: 255 }).references(() => chatsTable.id),
-  userId: text("user_id", { length: 255 }).references(() => usersTable.id),
+  chatId: text("chat_id", { length: 255 })
+    .references(() => chatsTable.id)
+    .notNull(),
+  userId: text("user_id", { length: 255 })
+    .references(() => usersTable.id)
+    .notNull(),
 
   id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
   createdAt: integer("created_at", { mode: "timestamp" })
@@ -17,7 +21,10 @@ export const chatMessagesTable = createTable("chat_message", {
   author: text("author", { enum: ["user", "ai"] }),
   is_openai_error: integer("is_openai_error", { mode: "boolean" }),
 
-  text: text("text"),
+  text: text("text", { length: 1023 }).notNull(),
+  feedback: text("feedback", { length: 1023 }),
+  corrected: text("corrected", { length: 1023 }),
+
   model: text("model", { length: 63 }),
   prompt_tokens: integer("prompt_tokens", { mode: "number" }),
   completion_tokens: integer("completion_tokens", { mode: "number" }),

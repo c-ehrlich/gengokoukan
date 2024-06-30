@@ -10,11 +10,14 @@ import {
 import { chatsTable } from "~/server/db/schema/chats";
 import {
   deleteChatSchema,
+  messagesPaginatedSchema,
   sendMessageAiResponseSchema,
   sendMessageInputSchema,
-  sendMessageOutputSchema,
 } from "./chat.schema";
-import { and, eq } from "drizzle-orm";
+import { and, desc, eq, lt } from "drizzle-orm";
+import { chatMessagesTable } from "~/server/db/schema/chat-messages";
+
+const CREATE_RESPONSE_MODEL = "gpt-4o-2024-05-13";
 
 const message = ({
   partner,
@@ -99,18 +102,33 @@ export const chatRouter = createTRPCRouter({
       return { chatId: deletedChat.id };
     }),
 
+  messages: protectedProcedure
+    .input(messagesPaginatedSchema)
+    .query(async ({ ctx, input }) => {
+      const messages = await ctx.db
+        .select()
+        .from(chatMessagesTable)
+        .where(
+          and(
+            eq(chatMessagesTable.chatId, input.chatId),
+            eq(chatMessagesTable.userId, ctx.session.user.id),
+            input.cursor
+              ? lt(chatMessagesTable.createdAt, new Date(input.cursor))
+              : undefined,
+          ),
+        )
+        .orderBy(desc(chatMessagesTable.createdAt));
+
+      return messages;
+    }),
+
   sendMessage: protectedProcedure
     .input(sendMessageInputSchema)
-    .output(sendMessageOutputSchema)
+    // TODO: output schema
     .mutation(async ({ ctx, input }) => {
-      // TODO: get
-      // - user info
-      // - chat
-      // - chat partner info
-      // - does the user own the chat?
-      // - chatHistory
+      const userMessageTimetamp = Date.now();
 
-      const foo = await ctx.db.query.chatsTable.findFirst({
+      const chat = await ctx.db.query.chatsTable.findFirst({
         where: and(
           eq(chatsTable.id, input.chatId),
           eq(chatsTable.userId, ctx.session.user.id),
@@ -124,7 +142,7 @@ export const chatRouter = createTRPCRouter({
         },
       });
 
-      if (!foo) {
+      if (!chat) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Chat not found",
@@ -137,15 +155,13 @@ export const chatRouter = createTRPCRouter({
             role: "user",
             content: message({
               userMessage: input.text,
-              partner: foo?.chat_partner,
+              partner: chat?.chat_partner,
             }),
           },
         ],
         // TODO: maybe limit free plan to 10 4o messages per day
         model: "gpt-4o-2024-05-13",
       });
-
-      console.log(JSON.stringify(chatCompletion));
 
       if (!chatCompletion.choices[0]) {
         throw new TRPCError({
@@ -154,20 +170,63 @@ export const chatRouter = createTRPCRouter({
         });
       }
 
+      console.log("chatCompletion", chatCompletion.choices[0].message.content);
+
+      let jsonParsed: unknown;
       try {
-        console.log(chatCompletion.choices[0].message.content);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const jsonParsed = JSON.parse(
-          chatCompletion.choices[0].message.content!,
+        jsonParsed = JSON.parse(
+          chatCompletion.choices[0].message.content ?? "null",
         );
-        const zodParsed = sendMessageAiResponseSchema.parse(jsonParsed);
-        const res = { ...zodParsed, timestamp: Date.now() };
-        return res;
       } catch (e) {
+        console.error("error parsing model response:", e);
+
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "AI did not return a valid message",
         });
       }
+
+      const contentParsed = sendMessageAiResponseSchema.safeParse(jsonParsed);
+
+      if (!contentParsed.success) {
+        console.error("error parsing model response:", contentParsed.error);
+
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "AI did not return a valid message",
+        });
+      }
+
+      const res = await ctx.db
+        .insert(chatMessagesTable)
+        .values([
+          {
+            chatId: chat.id,
+            userId: ctx.session.user.id,
+            createdAt: new Date(userMessageTimetamp),
+            author: "user",
+            text: input.text,
+          },
+          {
+            chatId: chat.id,
+            userId: ctx.session.user.id,
+            createdAt: new Date(),
+            author: "ai",
+            model: CREATE_RESPONSE_MODEL,
+            text: contentParsed.data.reply,
+            feedback: contentParsed.data.feedback,
+            corrected: contentParsed.data.rewritten,
+          },
+        ])
+        .returning();
+
+      const aiResponse = res[1]!; // TODO: dont assert
+
+      return {
+        reply: aiResponse.text,
+        feedback: aiResponse.feedback,
+        rewritten: aiResponse.corrected,
+        timestamp: aiResponse.createdAt.getTime(),
+      };
     }),
 });
