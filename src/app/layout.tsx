@@ -6,8 +6,8 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { cn } from "~/components/_utils/cn";
 
 export const metadata = {
-  title: "言語交換",
-  description: "気軽に言語交換をしよう！",
+  title: "会話 - Kaiwa",
+  description: "気軽に会話を楽しもう！",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 

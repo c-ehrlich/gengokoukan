@@ -22,7 +22,7 @@ export async function NavBar() {
     <div className="flex w-full items-center justify-between bg-muted p-2">
       {/* TODO: update this depending on where we are */}
       <Link href="/">
-        <h1 className="text-xl font-bold">言語交換</h1>
+        <h1 className="text-xl font-bold">Kaiwa</h1>
       </Link>
       <Popover>
         <PopoverTrigger>

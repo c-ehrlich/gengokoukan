@@ -11,7 +11,7 @@ const featureItems: FeatureItem[] = [
   {
     header: "Immerse without stress",
     description:
-      "Finding long term tandem partners is hard. Gengokoukan solves this by letting you create as many virtual conversation partners as you want.",
+      "Finding long term tandem partners is hard. Kaiwa solves this by letting you create as many virtual conversation partners as you want.",
   },
   {
     header: "Enjoy your conversations",
@@ -21,7 +21,7 @@ const featureItems: FeatureItem[] = [
   {
     header: "Get feedback",
     description:
-      "Gengokoukan will tell you which aspect of your communication sucks the most, so you can focus on improving it",
+      "Kaiwa will tell you which aspect of your communication sucks the most, so you can focus on improving it",
   },
   {
     header: "SRS without the pain",

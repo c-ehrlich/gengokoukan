@@ -6,4 +6,8 @@ import { sqliteTableCreator } from "drizzle-orm/sqlite-core";
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = sqliteTableCreator((name) => `gengokoukan_${name}`);
+export const sqlTablePrefix = "kaiwa";
+
+export const createTable = sqliteTableCreator(
+  (name) => `${sqlTablePrefix}_${name}`,
+);

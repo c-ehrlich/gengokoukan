@@ -1,4 +1,5 @@
 import { type Config } from "drizzle-kit";
+import { sqlTablePrefix } from "~/server/db/create-table";
 
 import { env } from "~/env";
 
@@ -8,5 +9,5 @@ export default {
   dbCredentials: {
     url: env.DATABASE_URL,
   },
-  tablesFilter: ["gengokoukan_*"],
+  tablesFilter: [`${sqlTablePrefix}_*`],
 } satisfies Config;
