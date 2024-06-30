@@ -94,10 +94,11 @@ My interests are: ${user.interests}.
 My current Japanese skill level is: ${jlptLevelString(user.jlptLevel)}. Please use language that is appropriate for my level.
 My language learning goal is to ${user.goals}.
 
-Some information about you:
+Some information about you and the conversation we'll be having:
 Your name is ${partner.name}. You are a ${partner.age} year old ${genderString(partner.gender)} from ${partner.origin}.
-Your personality is: ${partner.personality}.
-Your interests are: ${partner.interests}.
+${partner.personality ? `Your personality is: ${partner.personality}` : ""}
+${partner.relation ? `Our relationship is: ${partner.relation}` : ""}
+${partner.situation ? `The situation we will be practicing is: ${partner.situation}` : ""}
 
 Feel free to make up your own personality beyond what I have given you. Make up whatever else is needed to answer my questions and keep the conversation going.
 
@@ -112,8 +113,12 @@ Please reply in the following format, which should be JSON compatible:
   "rewritten": "<your rewritten version of my message, in Japanese>",
   "reply": "<your reply to my message, in Japanese>"
 }
-  
-Below are the most recent messages from our conversation. Please use these to continue the conversation:
+
+${
+  chats.length === 0
+    ? "Please get the conversation started by sending the first message."
+    : `Below are the most recent messages from our conversation. Please use these to continue the conversation:
 ${chatHistory(chats)}
-Me: ${newUserMessage}`;
+Me: ${newUserMessage}`
+}`;
 }
