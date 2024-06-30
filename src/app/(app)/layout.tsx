@@ -22,7 +22,7 @@ export default async function RootAppLayout({
       <div className="flex min-h-full w-full flex-col">
         <NavBar />
 
-        <div className="h-full p-4">{children}</div>
+        <div className="h-full">{children}</div>
       </div>
     </>
   );

@@ -3,7 +3,7 @@ import { type InferSelectModel, relations, sql } from "drizzle-orm";
 import { createTable } from "../create-table";
 import { chatsTable } from "./chats";
 
-const formalityOptions = [
+export const formalities = [
   "jidou",
   "yobisute",
   "tameguchi",
@@ -13,7 +13,28 @@ const formalityOptions = [
   "sonkeigo",
   "kenjougo",
 ] as const;
-export type FormalityOption = (typeof formalityOptions)[number];
+export type FormalityOption = (typeof formalities)[number];
+
+export function formalityStringFromOption(option: FormalityOption) {
+  switch (option) {
+    case "jidou":
+      return "関係や状況に応じて、自動的に適切な敬語レベルを選択する";
+    case "yobisute":
+      return "呼び捨て (Yobisute)";
+    case "tameguchi":
+      return "タメ口 (Tameguchi)";
+    case "futsu":
+      return "普通 (Futsū)";
+    case "teinei":
+      return "丁寧 (Teinei)";
+    case "keigo":
+      return "敬語 (Keigo)";
+    case "sonkeigo":
+      return "尊敬語 (Sonkeigo)";
+    case "kenjougo":
+      return "謙譲語 (Kenjōgo)";
+  }
+}
 
 export const chatPartnersTable = createTable("chat_partner", {
   id: text("id", { length: 255 })
@@ -34,7 +55,7 @@ export const chatPartnersTable = createTable("chat_partner", {
   situation: text("situation", { length: 1023 }),
 
   formality: text("formality", {
-    enum: formalityOptions,
+    enum: formalities,
   }),
 });
 export const chatPartnersRelations = relations(

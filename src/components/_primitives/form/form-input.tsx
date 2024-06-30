@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import {
   type FieldValues,
   type FieldPath,
@@ -37,45 +37,54 @@ export interface FormInputProps<
  * which then calls a more reusable / library agnostic `Input` component.
  */
 
-export function FormInput<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->(props: FormInputProps<TFieldValues, TName>) {
-  const {
-    rootClassName,
-    control,
-    inputRef,
-    label,
-    name,
-    placeholder,
-    required,
-    ...passthrough
-  } = props;
+export const FormInput = forwardRef(
+  <
+    TFieldValues extends FieldValues = FieldValues,
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  >(
+    props: FormInputProps<TFieldValues, TName>,
+    ref: React.Ref<HTMLInputElement>,
+  ) => {
+    const {
+      rootClassName,
+      control,
+      inputRef,
+      label,
+      name,
+      placeholder,
+      required,
+      ...passthrough
+    } = props;
 
-  return (
-    <FormField
-      control={control}
-      name={name}
-      key={name}
-      render={({ field }) => (
-        <FormItem className={rootClassName} label={label} required={required}>
-          <FormControl>
-            <Input
-              {...field}
-              placeholder={placeholder}
-              ref={inputRef}
-              {...(props.type === "number" && {
-                inputMode: "numeric",
-                onChange: (e) => field.onChange(e.target.value, 10),
-              })}
-              {...passthrough}
-            />
-          </FormControl>
-        </FormItem>
-      )}
-    />
-  );
-}
+    return (
+      <FormField
+        control={control}
+        name={name}
+        key={name}
+        render={({ field }) => (
+          <FormItem className={rootClassName} label={label} required={required}>
+            <FormControl>
+              <Input
+                {...field}
+                placeholder={placeholder}
+                // ref={inputRef}
+                ref={ref}
+                {...(props.type === "number" && {
+                  inputMode: "numeric",
+                  onChange: (e) => field.onChange(e.target.value, 10),
+                })}
+                {...passthrough}
+              />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+    );
+  },
+);
+
+// @ts-expect-error forwardRef hack
+FormInput.displayName = "FormInput";
 
 interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> {

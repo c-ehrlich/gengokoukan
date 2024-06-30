@@ -32,9 +32,5 @@ export default async function ChatPage({
     redirect("/404");
   }
 
-  return (
-    <div>
-      <Chat chatId={chatid} chat={chat} />
-    </div>
-  );
+  return <Chat chatId={chatid} chat={chat} />;
 }

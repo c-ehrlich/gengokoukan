@@ -7,7 +7,11 @@ import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { Input } from "~/components/_primitives/shadcn-raw/input";
 import { ScrollArea } from "~/components/_primitives/shadcn-raw/scroll-area";
 import { api } from "~/trpc/react";
-import { ArrowUpIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import {
+  ArrowUpIcon,
+  ExclamationTriangleIcon,
+  InfoCircledIcon,
+} from "@radix-ui/react-icons";
 import {
   Alert,
   AlertDescription,
@@ -17,6 +21,8 @@ import { useTextSelectionPopup } from "~/components/feature/text-selection-popup
 import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-popup/text-selection-popup-wrapper";
 import { TextSelectionPopupContent } from "./text-selection-popup-content";
 import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
+import { BasicTooltip } from "~/components/_primitives/ui/basic-tooltip";
+import { ChatInfoTooltip } from "./chat-info-tooltip";
 
 type UserMessage = {
   author: "user";
@@ -107,18 +113,18 @@ export function Chat({ chatId, chat }: ChatProps) {
   } = useTextSelectionPopup();
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col bg-muted">
-      <h1>Chat {JSON.stringify(chatid)}</h1>
-      <ScrollArea className="w-full flex-1 border">
-        <div
-          className="flex min-h-full flex-col justify-end gap-2 px-2"
-          {...containerProps}
-        >
-          <p>
-            天気がいいから散歩をしましょう。食べる。飲む。美しい。泣く。読む。早く。大きな。そして。は。が。に。です。ます。ああ。
-          </p>
-          {messages?.length > 0 ? (
-            messages.map((message) => {
+    <div className="flex h-full w-full flex-1 flex-col bg-card">
+      <div className="flex items-center justify-between p-2">
+        <h1>{chat.chat_partner.name}との会話</h1>
+        <ChatInfoTooltip chat={chat} />
+      </div>
+      {messages?.length > 0 ? (
+        <ScrollArea className="w-full flex-1 border">
+          <div
+            className="flex min-h-full flex-col justify-end gap-2 px-2"
+            {...containerProps}
+          >
+            {messages.map((message) => {
               if (message.author === "user") {
                 return (
                   <div
@@ -151,18 +157,19 @@ export function Chat({ chatId, chat }: ChatProps) {
                   </div>
                 </>
               );
-            })
-          ) : (
-            <div className="flex h-full w-full items-center justify-center">
-              Send a message to start...
-            </div>
-          )}
-          <div
-            style={{ float: "left", clear: "both" }}
-            ref={scrollToBottomRef}
-          ></div>
+            })}
+            <div
+              style={{ float: "left", clear: "both" }}
+              ref={scrollToBottomRef}
+            ></div>
+          </div>
+        </ScrollArea>
+      ) : (
+        <div className="flex h-full w-full items-center justify-center text-xl">
+          メッセージを送って会話を始めよう...
         </div>
-      </ScrollArea>
+      )}
+
       <div className="w-full p-2">
         {chatMutation.isPending && <p>Sending...</p>}
         <div className="flex w-full max-w-4xl flex-row gap-2 rounded-full bg-card p-2">

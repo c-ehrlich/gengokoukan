@@ -17,7 +17,11 @@ import { api } from "~/trpc/react";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { useRouter } from "next/navigation";
 import { type OptionWithHeading } from "~/components/_primitives/shadcn-raw/combobox";
-import { type FormalityOption } from "~/server/db/schema/chat-partners";
+import {
+  formalities,
+  formalityStringFromOption,
+  type FormalityOption,
+} from "~/server/db/schema/chat-partners";
 
 const originOptions: Array<OptionWithHeading> = [
   { heading: "北海道 (Hokkaido)", value: "札幌", label: "札幌 (Sapporo)" },
@@ -52,19 +56,11 @@ const originOptions: Array<OptionWithHeading> = [
   { heading: "沖縄 (Okinawa)", value: "石垣", label: "石垣 (Ishigaki)" },
 ];
 
-const formalityOptions: Array<{ value: FormalityOption; label: string }> = [
-  {
-    value: "jidou",
-    label: "関係や状況に応じて、自動的に適切な敬語レベルを選択する",
-  },
-  { value: "yobisute", label: "呼び捨て (Yobisute)" },
-  { value: "tameguchi", label: "タメ口 (Tameguchi)" },
-  { value: "futsu", label: "普通 (Futsū)" },
-  { value: "teinei", label: "丁寧 (Teinei)" },
-  { value: "keigo", label: "敬語 (Keigo)" },
-  { value: "sonkeigo", label: "尊敬語 (Sonkeigo)" },
-  { value: "kenjougo", label: "謙譲語 (Kenjōgo)" },
-];
+const formalityOptions: Array<{ value: FormalityOption; label: string }> =
+  formalities.map((formality) => ({
+    value: formality,
+    label: formalityStringFromOption(formality),
+  }));
 
 type CreateChatFormSchema = z.infer<typeof createChatPartnerSchemaClient>;
 
@@ -95,6 +91,8 @@ export function CreateChatForm() {
     router.push(`/chat/${res.chatId}`);
   };
 
+  const data = form.watch();
+
   return (
     <div className="w-full">
       <BasicForm
@@ -115,8 +113,8 @@ export function CreateChatForm() {
             {...form.register("gender")}
             placeholder="性別を選択"
           >
-            <FormSelectOption value="female">男性</FormSelectOption>
-            <FormSelectOption value="male">女性</FormSelectOption>
+            <FormSelectOption value="female">女性</FormSelectOption>
+            <FormSelectOption value="male">男性</FormSelectOption>
             <FormSelectOption value="nonbinary">
               ノンバイナリー
             </FormSelectOption>
