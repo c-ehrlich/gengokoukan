@@ -19,10 +19,10 @@ export default async function RootAppLayout({
     <>
       {/* TODO: put this in other places maybe? */}
       {/* <Sidebar /> */}
-      <div className="flex min-h-full w-full flex-col">
+      <div className="flex h-screen w-full flex-col">
         <NavBar />
 
-        <div className="h-full">{children}</div>
+        {children}
       </div>
     </>
   );

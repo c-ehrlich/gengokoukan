@@ -65,6 +65,12 @@ const config = {
             primary: "#4b2e20",
           },
         },
+        chat: {
+          DEFAULT: "hsl(33 36% 72%)",
+        },
+        chatbubble: {
+          DEFAULT: "hsl(42 52% 87%)",
+        },
       },
       backgroundImage: () => ({
         "pill-gradient-primary":

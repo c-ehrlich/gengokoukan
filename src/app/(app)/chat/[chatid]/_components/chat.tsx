@@ -6,17 +6,14 @@ import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { Input } from "~/components/_primitives/shadcn-raw/input";
 import { ScrollArea } from "~/components/_primitives/shadcn-raw/scroll-area";
 import { api } from "~/trpc/react";
-import { ArrowUpIcon, ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "~/components/_primitives/shadcn-raw/alert";
+import { ArrowUpIcon } from "@radix-ui/react-icons";
 import { useTextSelectionPopup } from "~/components/feature/text-selection-popup/use-text-selection-popup";
 import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-popup/text-selection-popup-wrapper";
 import { TextSelectionPopupContent } from "./text-selection-popup-content";
 import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
 import { ChatInfoTooltip } from "./chat-info-tooltip";
+import { CozyAlert } from "~/components/_primitives/ui/cozy-alert";
+import { ChatMessage } from "./chat-message";
 
 type UserMessage = {
   author: "user";
@@ -198,70 +195,40 @@ export function Chat({ chatId, chat }: ChatProps) {
   } = useTextSelectionPopup();
 
   return (
-    <div className="flex h-full w-full flex-1 flex-col bg-card">
-      <div className="flex items-center justify-between p-2">
+    <div className="bg-chat flex h-[calc(100%-56px)] w-full flex-1 flex-shrink flex-col items-center">
+      {/* <div className="flex max-w-4xl items-center justify-between gap-2 p-2">
         <h1>{chat.chat_partner.name}との会話</h1>
         <ChatInfoTooltip chat={chat} />
-      </div>
+      </div> */}
       {messagesQuery.data?.pages[0]?.length ?? 0 > 0 ? (
-        <ScrollArea className="w-full flex-1 border">
-          <div
-            className="flex min-h-full flex-col justify-end gap-2 px-2"
-            {...containerProps}
-          >
-            {[...(messagesQuery.data?.pages ?? [])].reverse().map((page) => {
-              return (
-                <>
-                  {[...page].reverse().map((message) => {
-                    if (message.author === "user") {
-                      return (
-                        <div
-                          className="flex w-full justify-end"
-                          key={message.id}
-                        >
-                          <div className="flex w-4/5 items-end gap-2">
-                            <div
-                              className="w-full rounded-lg bg-accent p-2"
-                              key={message.id}
-                            >
-                              <p>{message.text}</p>
-                            </div>
-                            <div className="flex-0 h-8 w-8 rounded-full bg-accent" />
-                          </div>
+        <div
+          className="flex w-full flex-col items-center overflow-auto px-2 pt-2"
+          {...containerProps}
+        >
+          <div className="flex max-w-4xl flex-col gap-4 pb-2">
+            {[...(messagesQuery.data?.pages ?? [])].reverse().map((page) => (
+              <>
+                {[...page].reverse().map((message) => (
+                  <>
+                    {message.feedback && (
+                      <div className="flex w-full justify-center">
+                        <div className="w-3/4">
+                          <CozyAlert
+                            title="フィードバック"
+                            message={message.feedback}
+                          />
                         </div>
-                      );
-                    }
-
-                    return (
-                      <>
-                        {message.feedback && (
-                          <Alert variant="destructive" className="bg-red-200">
-                            <ExclamationTriangleIcon className="h-4 w-4" />
-                            <AlertTitle className="font-bold">
-                              フィードバック
-                            </AlertTitle>
-                            <AlertDescription>
-                              {message.feedback}
-                            </AlertDescription>
-                          </Alert>
-                        )}
-                        <div className="flex w-full items-start">
-                          <div className="flex w-4/5 items-end gap-2">
-                            <div className="flex-0 h-8 w-8 rounded-full bg-accent" />
-                            <div
-                              className="w-full rounded-lg bg-accent p-2"
-                              key={message.id}
-                            >
-                              <p>{message.text}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    );
-                  })}
-                </>
-              );
-            })}
+                      </div>
+                    )}
+                    <ChatMessage
+                      key={message.id}
+                      author={message.author ?? "ai"}
+                      text={message.text}
+                    />
+                  </>
+                ))}
+              </>
+            ))}
             {messagesMutation.isPending && (
               <p
                 className="flex w-full justify-center"
@@ -275,14 +242,14 @@ export function Chat({ chatId, chat }: ChatProps) {
               ref={scrollToBottomRef}
             ></div>
           </div>
-        </ScrollArea>
+        </div>
       ) : (
         <div className="flex h-full w-full items-center justify-center text-xl">
           メッセージを送って会話を始めよう...
         </div>
       )}
 
-      <div className="w-full p-2">
+      <div className="flex w-full max-w-4xl justify-center px-2 pb-2">
         <div className="flex w-full max-w-4xl flex-row gap-2 rounded-full bg-card p-2">
           <Input
             className="rounded-full border border-gray-500"
