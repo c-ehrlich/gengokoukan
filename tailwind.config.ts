@@ -56,6 +56,25 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // TODO: use css vars
+        button: {
+          bg: {
+            primary: "radial-gradient(circle, #e4b891 50%, #c28a60 100%)",
+          },
+          text: {
+            primary: "#4b2e20",
+          },
+        },
+      },
+      backgroundImage: () => ({
+        "pill-gradient-primary":
+          "radial-gradient(circle, #e4b891 50%, #c28a60 100%)",
+        "pill-gradient-primary-hover":
+          "radial-gradient(circle, #d6a078 50%, #af7042 100%)",
+      }),
+      boxShadow: {
+        "pill-button":
+          "-3px 6px 15px rgba(0, 0, 0, 0.4), inset 0 0 5px rgba(0, 0, 0, 0.3)",
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -131,7 +131,7 @@ export function Combobox({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="combobox"
           role="combobox"
           aria-expanded={open}
           className={cn("w-[200px] justify-between", className)}

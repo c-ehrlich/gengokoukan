@@ -2,6 +2,11 @@
 - add icons to each feature
 
 ## App
+// TODO: next - use trpc to show and update the actual chat!
+// then fix type errors in prompt generation
+// then get chat fully working
+// then see if we can dedupe api calls / db requests a bit
+
 - translation https://locize.com/blog/next-app-dir-i18n/
 - ai conversations
   - https://community.openai.com/t/how-can-i-maintain-conversation-continuity-with-chat-gpt-api/574819/3

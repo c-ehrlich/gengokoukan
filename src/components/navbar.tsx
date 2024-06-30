@@ -19,7 +19,7 @@ export async function NavBar() {
   const shortUserName = session?.user.name?.charAt(0).toUpperCase() ?? "?";
 
   return (
-    <div className="flex w-full items-center justify-between bg-muted p-2">
+    <div className="flex w-full items-center justify-between bg-accent p-2">
       {/* TODO: update this depending on where we are */}
       <Link href="/">
         <h1 className="text-xl font-bold">Kaiwa</h1>
