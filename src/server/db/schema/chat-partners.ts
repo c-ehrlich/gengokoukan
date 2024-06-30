@@ -36,6 +36,12 @@ export function formalityStringFromOption(option: FormalityOption) {
   }
 }
 
+export const genderStrings = {
+  male: "男性",
+  female: "女性",
+  nonbinary: "ノンバイナリー",
+} as const;
+
 export const chatPartnersTable = createTable("chat_partner", {
   id: text("id", { length: 255 })
     .notNull()

@@ -1,6 +1,9 @@
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { BasicTooltip } from "~/components/_primitives/ui/basic-tooltip";
-import { formalityStringFromOption } from "~/server/db/schema/chat-partners";
+import {
+  formalityStringFromOption,
+  genderStrings,
+} from "~/server/db/schema/chat-partners";
 import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
 
 export function ChatInfoTooltip({
@@ -19,7 +22,7 @@ export function ChatInfoTooltip({
           />
           <ChatInfoTooltipSection
             header="性別"
-            content={chat.chat_partner.gender}
+            content={genderStrings[chat.chat_partner.gender]}
           />
           <ChatInfoTooltipSection
             header="出身"
