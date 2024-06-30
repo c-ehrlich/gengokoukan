@@ -4,17 +4,18 @@ import { useParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { Input } from "~/components/_primitives/shadcn-raw/input";
-import { ScrollArea } from "~/components/_primitives/shadcn-raw/scroll-area";
 import { api } from "~/trpc/react";
-import { ArrowUpIcon } from "@radix-ui/react-icons";
 import { useTextSelectionPopup } from "~/components/feature/text-selection-popup/use-text-selection-popup";
 import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-popup/text-selection-popup-wrapper";
-import { TextSelectionPopupContent } from "./text-selection-popup-content";
 import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
-import { ChatInfoTooltip } from "./chat-info-tooltip";
 import { CozyAlert } from "~/components/_primitives/ui/cozy-alert";
 import { ChatMessage } from "./chat-message";
 import { Send } from "lucide-react";
+import { z } from "zod";
+import { useZodForm } from "~/components/_primitives/form/use-zod-form";
+import { BasicForm } from "~/components/_primitives/form/basic-form";
+import { type SubmitHandler } from "react-hook-form";
+import { TextSelectionPopupContent } from "./text-selection-popup-content";
 
 type UserMessage = {
   author: "user";
@@ -28,6 +29,11 @@ type AIMessage = {
   feedback?: string;
 };
 type Message = UserMessage | AIMessage;
+
+const chatMessageSchema = z.object({
+  message: z.string().min(1),
+});
+type chatMessageSchema = z.infer<typeof chatMessageSchema>;
 
 function useChat({
   chatId,
@@ -112,7 +118,7 @@ function useChat({
       );
 
       scrollToBottom();
-      setInput("");
+      form.reset();
     },
     onSuccess: (res) => {
       // reply, feedback, rewritten, timestamp
@@ -161,7 +167,20 @@ function useChat({
     },
   });
 
+  const form = useZodForm({
+    schema: chatMessageSchema,
+    defaultValues: {
+      message: "",
+    },
+  });
+
+  const onSubmit: SubmitHandler<chatMessageSchema> = async (data) => {
+    messagesMutation.mutate({ chatId: chatId, text: data.message });
+  };
+
   return {
+    form,
+    onSubmit,
     chatid,
     input,
     setInput,
@@ -177,12 +196,10 @@ type ChatProps = {
 };
 
 export function Chat({ chatId, chat }: ChatProps) {
-  // TODO: switch to a form instead
-
   const {
+    form,
+    onSubmit,
     chatid,
-    input,
-    setInput,
     messagesQuery,
     messagesMutation,
     scrollToBottomRef,
@@ -253,21 +270,32 @@ export function Chat({ chatId, chat }: ChatProps) {
 
       <div className="flex w-full max-w-4xl justify-center px-2 pb-2">
         <div className="flex w-full max-w-4xl flex-row gap-2 rounded-full bg-card p-2">
-          <Input
-            className="rounded-full border border-gray-500"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="メッセージを入力..."
-          />
-          <Button
-            size="icon"
-            className="rounded-full bg-accent shadow-md"
-            onClick={() =>
-              messagesMutation.mutate({ chatId: chatId, text: input })
-            }
+          <BasicForm
+            form={form}
+            onSubmit={onSubmit}
+            className="w-full"
+            contentClassName="flex-row w-full gap-4"
           >
-            <Send className="h-5 w-5 pr-0.5 pt-0.5" />
-          </Button>
+            <Input
+              className="flex-1 rounded-full border border-gray-500"
+              placeholder="メッセージを入力..."
+              {...form.register("message")}
+            />
+            <Button
+              size="icon"
+              type="submit"
+              className="rounded-full bg-accent shadow-md"
+              disabled={messagesMutation.isPending || !form.formState.isValid}
+              onClick={() =>
+                messagesMutation.mutate({
+                  chatId: chatId,
+                  text: form.getValues("message"),
+                })
+              }
+            >
+              <Send className="h-5 w-5 pr-0.5 pt-0.5" />
+            </Button>
+          </BasicForm>
         </div>
       </div>
       <TextSelectionPopupWrapper {...wrapperProps}>
