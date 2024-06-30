@@ -91,8 +91,6 @@ export function CreateChatForm() {
     router.push(`/chat/${res.chatId}`);
   };
 
-  const data = form.watch();
-
   return (
     <div className="w-full">
       <BasicForm
