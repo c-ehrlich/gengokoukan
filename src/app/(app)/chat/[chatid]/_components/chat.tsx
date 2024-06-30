@@ -14,6 +14,7 @@ import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
 import { ChatInfoTooltip } from "./chat-info-tooltip";
 import { CozyAlert } from "~/components/_primitives/ui/cozy-alert";
 import { ChatMessage } from "./chat-message";
+import { Send } from "lucide-react";
 
 type UserMessage = {
   author: "user";
@@ -116,7 +117,7 @@ function useChat({
     onSuccess: (res) => {
       // reply, feedback, rewritten, timestamp
       const newMessage = {
-        author: "user",
+        author: "ai",
         text: res.reply,
         timestamp: res.timestamp,
         chatId: chatId,
@@ -203,7 +204,7 @@ export function Chat({ chatId, chat }: ChatProps) {
       </div> */}
       {messagesQuery.data?.pages[0]?.length ?? 0 > 0 ? (
         <div
-          className="flex w-full flex-col items-center overflow-auto px-2 pt-2"
+          className="flex w-full flex-1 flex-col items-center overflow-auto px-2 pt-2"
           {...containerProps}
         >
           <div className="flex max-w-4xl flex-col gap-4 pb-2">
@@ -260,12 +261,12 @@ export function Chat({ chatId, chat }: ChatProps) {
           />
           <Button
             size="icon"
-            className="rounded-full"
+            className="rounded-full bg-accent shadow-md"
             onClick={() =>
               messagesMutation.mutate({ chatId: chatId, text: input })
             }
           >
-            <ArrowUpIcon className="h-5 w-5" />
+            <Send className="h-5 w-5 pr-0.5 pt-0.5" />
           </Button>
         </div>
       </div>

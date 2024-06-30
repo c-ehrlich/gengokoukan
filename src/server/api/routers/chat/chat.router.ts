@@ -15,16 +15,21 @@ import {
   sendMessageInputSchema,
 } from "./chat.schema";
 import { and, desc, eq, lt } from "drizzle-orm";
-import { chatMessagesTable } from "~/server/db/schema/chat-messages";
+import {
+  type ChatMessageTableRow,
+  chatMessagesTable,
+} from "~/server/db/schema/chat-messages";
 
 const CREATE_RESPONSE_MODEL = "gpt-4o-2024-05-13";
 
 const message = ({
   partner,
   userMessage,
+  messages,
 }: {
   partner: ChatPartnerTableRow;
   userMessage: string;
+  messages: ChatMessageTableRow[];
 }) =>
   chatPrompt({
     user: {
@@ -38,7 +43,7 @@ const message = ({
       jlptLevel: "N1",
     },
     partner: partner,
-    chats: [],
+    chats: messages.reverse(),
     newUserMessage: userMessage,
   });
 
@@ -156,6 +161,7 @@ export const chatRouter = createTRPCRouter({
             content: message({
               userMessage: input.text,
               partner: chat?.chat_partner,
+              messages: chat.messages,
             }),
           },
         ],

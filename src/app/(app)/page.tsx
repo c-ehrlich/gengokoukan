@@ -67,7 +67,7 @@ export default async function RootAppPage() {
     chatsByRecency.pastMonth.length > 0;
 
   return (
-    <>
+    <div className="p-2">
       {hasChats ? (
         <>
           <div className="mb-4 flex items-center justify-between">
@@ -125,6 +125,6 @@ export default async function RootAppPage() {
           </Link>
         </div>
       )}
-    </>
+    </div>
   );
 }

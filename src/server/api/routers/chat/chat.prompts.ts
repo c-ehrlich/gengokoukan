@@ -1,14 +1,8 @@
+import { type ChatMessageTableRow } from "~/server/db/schema/chat-messages";
 import { type ChatPartnerTableRow } from "~/server/db/schema/chat-partners";
 
 type JLPTLevel = "N1+" | "N1" | "N2" | "N3" | "N4" | "N5";
 type Gender = "male" | "female" | "nonbinary";
-type ChatMessage = {
-  time: string;
-  author: "user" | "ai";
-  name: string;
-  id: string;
-  text: string;
-};
 
 type ChatPromptArgs = {
   user: {
@@ -21,7 +15,7 @@ type ChatPromptArgs = {
     goals: string;
   };
   partner: ChatPartnerTableRow;
-  chats: Array<ChatMessage>;
+  chats: Array<ChatMessageTableRow>;
   newUserMessage: string;
 };
 
@@ -70,7 +64,7 @@ function feedbackLanguage(jlptLevel: JLPTLevel) {
   }
 }
 
-function chatHistory(chats: Array<ChatMessage>) {
+function chatHistory(chats: Array<ChatMessageTableRow>) {
   return chats
     .slice(-10)
     .map((chat) => {
@@ -95,7 +89,7 @@ My current Japanese skill level is: ${jlptLevelString(user.jlptLevel)}. Please u
 My language learning goal is to ${user.goals}.
 
 Some information about you and the conversation we'll be having:
-Your name is ${partner.name}. You are a ${partner.age} year old ${genderString(partner.gender)} from ${partner.origin}.
+Your name is ${partner.name}. You are a ${partner.age} year old ${genderString(partner.gender)} from ${partner.origin}. We are speaking in the dialect of your region.
 ${partner.personality ? `Your personality is: ${partner.personality}` : ""}
 ${partner.relation ? `Our relationship is: ${partner.relation}` : ""}
 ${partner.situation ? `The situation we will be practicing is: ${partner.situation}` : ""}
@@ -109,9 +103,9 @@ For each message I send:
 
 Please reply in the following format, which should be JSON compatible:
 {
-  "feedback": "<your feedback about my message, in ${feedbackLanguage(user.jlptLevel)}>",
-  "rewritten": "<your rewritten version of my message, in Japanese>",
-  "reply": "<your reply to my message, in Japanese>"
+  "feedback": "<your feedback about the grammar / style / situational appropriateness of my message, written as my tutor, in ${feedbackLanguage(user.jlptLevel)}>",
+  "rewritten": "<your rewritten version of my message, written as my tutor, in Japanese>",
+  "reply": "<your reply to my message, written as my tutor, in Japanese>"
 }
 
 ${
