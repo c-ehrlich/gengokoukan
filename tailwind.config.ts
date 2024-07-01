@@ -72,6 +72,9 @@ const config = {
           DEFAULT: "hsl(42 52% 87%)",
         },
       },
+      aspectRatio: {
+        "3/2": "3 / 2",
+      },
       backgroundImage: () => ({
         "pill-gradient-primary":
           "radial-gradient(circle, #e4b891 50%, #c28a60 100%)",

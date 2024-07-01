@@ -43,16 +43,16 @@ const tabs: Tab[] = [
 export function CreateChat() {
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-semibold">新しい会話を作成</h1>
+      {/* <h1 className="text-2xl font-semibold">新しい会話を作成</h1> */}
       <Tabs
         defaultValue="situation"
-        className="flex w-full flex-col items-center justify-center"
+        className="flex w-full flex-col items-center justify-center gap-4"
       >
         <TabsList className="shadow-lg">
           {tabs.map((tab) => (
             <TabsTrigger
               key={`tab-trigger-${tab.value}`}
-              className="flex min-w-48 flex-row items-center justify-center gap-2"
+              className="flex min-w-48 flex-row items-center justify-center gap-2 shadow-inner"
               value={tab.value}
             >
               {tab.icon}

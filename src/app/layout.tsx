@@ -6,7 +6,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { cn } from "~/components/_utils/cn";
 
 export const metadata = {
-  title: "会話クラブ - Kaiwa Club",
+  title: "会話クラブ - kaiwa.club",
   description: "気軽に会話を楽しもう！",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
