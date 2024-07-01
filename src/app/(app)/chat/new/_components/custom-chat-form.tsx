@@ -96,7 +96,7 @@ export function CreateChatForm() {
       <BasicForm
         form={form}
         onSubmit={onSubmit}
-        title="新しいチャットを作成する"
+        // title="新しいチャットを作成する"
         buttons={
           <div className="w-full">
             <Button type="submit">送信</Button>

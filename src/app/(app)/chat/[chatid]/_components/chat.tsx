@@ -10,7 +10,7 @@ import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-p
 import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
 import { CozyAlert } from "~/components/_primitives/ui/cozy-alert";
 import { ChatMessage } from "./chat-message";
-import { Mic, Send } from "lucide-react";
+import { MicIcon, SendIcon } from "lucide-react";
 import { z } from "zod";
 import { useZodForm } from "~/components/_primitives/form/use-zod-form";
 import { BasicForm } from "~/components/_primitives/form/basic-form";
@@ -295,7 +295,7 @@ export function Chat({ chatId, chat }: ChatProps) {
                 variant="secondary"
                 className="shadow-md, animate-pulse rounded-full bg-green-500"
               >
-                <Mic className="h-5 w-5" />
+                <MicIcon className="h-5 w-5" />
               </Button>
             ) : (
               <Button
@@ -303,7 +303,7 @@ export function Chat({ chatId, chat }: ChatProps) {
                 variant="secondary"
                 className="rounded-full shadow-md"
               >
-                <Mic className="h-5 w-5" />
+                <MicIcon className="h-5 w-5" />
               </Button>
             )}
             <MaybeBasicTooltip
@@ -324,7 +324,7 @@ export function Chat({ chatId, chat }: ChatProps) {
                   })
                 }
               >
-                <Send className="h-5 w-5 pr-0.5 pt-0.5" />
+                <SendIcon className="h-5 w-5 pr-0.5 pt-0.5" />
               </Button>
             </MaybeBasicTooltip>
           </BasicForm>
