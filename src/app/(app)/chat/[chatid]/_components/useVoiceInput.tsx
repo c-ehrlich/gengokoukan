@@ -4,13 +4,23 @@ import "regenerator-runtime/runtime";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import { type UseFormReturn } from "react-hook-form";
+import {
+  type FieldPath,
+  type FieldValues,
+  type UseFormReturn,
+} from "react-hook-form";
 import { useCallback, useEffect } from "react";
 
 export function useVoiceInput<
-  TFormFieldName extends string,
-  TForm extends UseFormReturn<{ TFormFieldName: string }>,
->({ form, formField }: { form: TForm; formField: TFormFieldName }) {
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({
+  form,
+  formField,
+}: {
+  form: UseFormReturn<TFieldValues>;
+  formField: TName;
+}) {
   const {
     transcript,
     listening,
@@ -29,11 +39,15 @@ export function useVoiceInput<
   const stopListening = useCallback(() => {
     void SpeechRecognition.stopListening();
 
-    const currentFormValue = form.getValues(formField);
-    const endsWithPunctuation = currentFormValue
-      .trim()
-      .match(/[\.\,\:\;\?\!\。\、\？\！\…]$/);
-    const newFormValue = `${currentFormValue}${endsWithPunctuation ? "。" : ""} ${transcript}`;
+    // TODO: figure out how to ensure it's a string field
+    const currentFormValue = form.getValues(formField) as string;
+    const endsWithPunctuation = Boolean(
+      currentFormValue.trim().match(/[\.\,\:\;\?\!\。\、\？\！\…]$/),
+    );
+    const currentlyEmpty = currentFormValue.trim() === "";
+    const shouldAddPeriod = !currentlyEmpty && !endsWithPunctuation;
+    const newFormValue = `${currentFormValue}${shouldAddPeriod ? "。" : ""}${transcript}${transcript.trim() === "" ? "" : "。"}`;
+    // @ts-expect-error TODO: figure out how to ensure it's a string field
     form.setValue(formField, newFormValue);
   }, [form, formField, transcript]);
 
@@ -58,4 +72,13 @@ export function useVoiceInput<
       window.removeEventListener("keyup", handleKeyUp);
     };
   });
+
+  return {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+    shartListening,
+    stopListening,
+  };
 }

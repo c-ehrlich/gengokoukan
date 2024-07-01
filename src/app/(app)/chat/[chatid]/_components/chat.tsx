@@ -10,12 +10,15 @@ import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-p
 import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
 import { CozyAlert } from "~/components/_primitives/ui/cozy-alert";
 import { ChatMessage } from "./chat-message";
-import { Send } from "lucide-react";
+import { Mic, Send } from "lucide-react";
 import { z } from "zod";
 import { useZodForm } from "~/components/_primitives/form/use-zod-form";
 import { BasicForm } from "~/components/_primitives/form/basic-form";
 import { type SubmitHandler } from "react-hook-form";
 import { TextSelectionPopupContent } from "./text-selection-popup-content";
+import { useVoiceInput } from "./useVoiceInput";
+import { MaybeBasicTooltip } from "~/components/_primitives/ui/basic-tooltip";
+import { cn } from "~/components/_utils/cn";
 
 type UserMessage = {
   author: "user";
@@ -212,9 +215,14 @@ export function Chat({ chatId, chat }: ChatProps) {
     selectedText,
   } = useTextSelectionPopup();
 
+  const { listening } = useVoiceInput({
+    form: form,
+    formField: "message",
+  });
+
   return (
     // TODO: dont do this calc!
-    <div className="bg-chat flex h-[calc(100%-56px)] w-full flex-1 flex-shrink flex-col items-center">
+    <div className="flex h-[calc(100%-56px)] w-full flex-1 flex-shrink flex-col items-center bg-chat">
       {/* <div className="flex max-w-4xl items-center justify-between gap-2 p-2">
         <h1>{chat.chat_partner.name}との会話</h1>
         <ChatInfoTooltip chat={chat} />
@@ -274,27 +282,51 @@ export function Chat({ chatId, chat }: ChatProps) {
             form={form}
             onSubmit={onSubmit}
             className="w-full"
-            contentClassName="flex-row w-full gap-4"
+            contentClassName="flex-row w-full gap-3"
           >
             <Input
               className="flex-1 rounded-full border border-gray-500"
               placeholder="メッセージを入力..."
               {...form.register("message")}
             />
-            <Button
-              size="icon"
-              type="submit"
-              className="rounded-full bg-accent shadow-md"
-              disabled={messagesMutation.isPending || !form.formState.isValid}
-              onClick={() =>
-                messagesMutation.mutate({
-                  chatId: chatId,
-                  text: form.getValues("message"),
-                })
-              }
+            {listening ? (
+              <Button
+                size="icon"
+                variant="secondary"
+                className="shadow-md, animate-pulse rounded-full bg-green-500"
+              >
+                <Mic className="h-5 w-5" />
+              </Button>
+            ) : (
+              <Button
+                size="icon"
+                variant="secondary"
+                className="rounded-full shadow-md"
+              >
+                <Mic className="h-5 w-5" />
+              </Button>
+            )}
+            <MaybeBasicTooltip
+              enabled={!form.formState.isValid}
+              content="Please input before submitting"
             >
-              <Send className="h-5 w-5 pr-0.5 pt-0.5" />
-            </Button>
+              <Button
+                size="icon"
+                type="submit"
+                className={cn("rounded-full bg-accent shadow-md", {
+                  "cursor-not-allowed": !form.formState.isValid,
+                })}
+                disabled={messagesMutation.isPending || !form.formState.isValid}
+                onClick={() =>
+                  messagesMutation.mutate({
+                    chatId: chatId,
+                    text: form.getValues("message"),
+                  })
+                }
+              >
+                <Send className="h-5 w-5 pr-0.5 pt-0.5" />
+              </Button>
+            </MaybeBasicTooltip>
           </BasicForm>
         </div>
       </div>

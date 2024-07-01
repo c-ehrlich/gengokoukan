@@ -2,10 +2,21 @@
 - add icons to each feature
 
 ## App
-// TODO: next - use trpc to show and update the actual chat!
-// then fix type errors in prompt generation
-// then get chat fully working
-// then see if we can dedupe api calls / db requests a bit
+CALL IT KAIWA.CLUB
+- google login
+- deploy
+- get hailey and rosa testing it
+- deploy to sst?
+- start tracking token usage (to axiom)
+- add to anki button on hover dictionary
+- labnguag toggle (ui and tutor)
+- check if responses (corrections) are in the right language (more jp or en?), translate with gpt-3.5 if wrong, log
+- start a meme page of funny conversations
+- make us and japan flag icons in app theme
+
+- use user avatar for user messages, and make the partner the cat avatar
+- get summaries working (gpt3.5)
+- see if we can dedupe api calls / db requests a bit
 
 - translation https://locize.com/blog/next-app-dir-i18n/
 - ai conversations
@@ -20,3 +31,6 @@
 - not just general conversation, but also practice specific situations (ordering in a resaurant etc)
 - "give me a hint" - ask ai to give you advice on what a good conversation pattern is for this situation
 - write this guy after i have something worth showing https://x.com/moinbukh/status/1729555655776759851 https://x.com/NayanKad/status/1805259624892768462
+also this guy https://discord.com/channels/901618801324478485/925314442131021824/1243197465562189994 / https://www.youtube.com/watch?v=UjX4Peh4xqM / https://www.linkedin.com/in/william-westerlund-aa2997b9/details/experience/
+- speech recognition?
+- !!! preconfigured situations (make the full settings a separate tab)

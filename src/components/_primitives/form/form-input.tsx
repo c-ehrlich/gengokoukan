@@ -21,7 +21,6 @@ export interface FormInputProps<
       InputProps,
       "name" | "required" | "value" | "hasError" | "onChange" | "onBlur"
     > {
-  inputRef?: React.Ref<HTMLInputElement>;
   label?: string;
   placeholder?: string;
   rootClassName?: string;
@@ -48,7 +47,6 @@ export const FormInput = forwardRef(
     const {
       rootClassName,
       control,
-      inputRef,
       label,
       name,
       placeholder,
