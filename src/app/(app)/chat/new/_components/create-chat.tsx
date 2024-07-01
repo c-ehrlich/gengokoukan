@@ -48,7 +48,7 @@ export function CreateChat() {
         defaultValue="situation"
         className="flex w-full flex-col items-center justify-center gap-4"
       >
-        <TabsList className="shadow-lg">
+        <TabsList className="flex gap-1 shadow-lg">
           {tabs.map((tab) => (
             <TabsTrigger
               key={`tab-trigger-${tab.value}`}
