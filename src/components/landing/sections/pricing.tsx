@@ -94,7 +94,7 @@ export function Pricing() {
     <div className="relative flex w-full flex-col items-center gap-2 bg-orange-100 py-32">
       <Image
         src={bgTest}
-        alt="bg"
+        alt="landscape-background"
         className="absolute bottom-0 left-0 w-full opacity-50"
       />
       <div className="flex w-full flex-col items-center gap-4 px-16 py-2">
