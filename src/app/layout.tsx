@@ -21,11 +21,12 @@ export default function RootLayout({
       <html lang="en" className={GeistSans.className}>
         <body
           className={cn(
-            "bg-background font-sans antialiased",
+            "relative bg-background font-sans antialiased",
             GeistSans.variable,
           )}
         >
-          <main className="flex min-h-screen flex-row justify-center">
+          <div className="noise"></div>
+          <main className="relative z-10 flex min-h-screen flex-row justify-center">
             {children}
           </main>
         </body>
