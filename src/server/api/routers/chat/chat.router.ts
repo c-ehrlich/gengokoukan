@@ -176,13 +176,16 @@ export const chatRouter = createTRPCRouter({
         });
       }
 
-      console.log("chatCompletion", chatCompletion.choices[0].message.content);
+      const rawMessage = chatCompletion.choices[0].message.content;
+      const extractedJson = (rawMessage?.match(/\{[\s\S]*\}/) ?? [])[0];
+      console.log("ai response", {
+        raw: rawMessage,
+        jsonString: extractedJson,
+      });
 
       let jsonParsed: unknown;
       try {
-        jsonParsed = JSON.parse(
-          chatCompletion.choices[0].message.content ?? "null",
-        );
+        jsonParsed = JSON.parse(extractedJson ?? "null");
       } catch (e) {
         console.error("error parsing model response:", e);
 

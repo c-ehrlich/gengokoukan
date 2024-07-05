@@ -7,6 +7,8 @@ import party from "../_assets/party.jpg";
 import planningTrip from "../_assets/planning-trip.jpg";
 import restaurant from "../_assets/restaurant.jpg";
 import shopping from "../_assets/shopping.jpg";
+import { api } from "~/trpc/react";
+import { useRouter } from "next/navigation";
 
 type SituationChat = {
   title: string;
@@ -14,6 +16,10 @@ type SituationChat = {
   image: StaticImageData;
   value: string;
 };
+
+function generateRestaurantChat() {
+  //
+}
 
 const SituationChats: SituationChat[] = [
   {
@@ -85,8 +91,33 @@ function SituationChatCard({
   image,
   value,
 }: SituationChat) {
+  const router = useRouter();
+  const createChatMutation = api.chat.createChat.useMutation();
+
   return (
-    <div className="flex w-96 flex-col gap-3 rounded-lg bg-chatbubble p-2 pb-3 shadow-lg">
+    <div
+      onClick={() =>
+        createChatMutation.mutate(
+          {
+            name: "foo",
+            age: 35,
+            gender: "female",
+            origin: "東京",
+            formality: "sonkeigo",
+            personality: "kind and service oriented",
+            relation: "you are my waitress in a 和食 restaurant",
+            situation:
+              "i am a patron in a washoku restaurant. you just brought me the menu and will inform me about the dishes and today's specials. then you will take my order. take the conversation forward from there as it makes sense for this interaction.",
+          },
+          {
+            onSuccess: (data) => {
+              router.push(`/chat/${data.chatId}`);
+            },
+          },
+        )
+      }
+      className="flex w-96 cursor-pointer flex-col gap-3 rounded-lg bg-chatbubble p-2 pb-3 shadow-lg"
+    >
       <div className="relative aspect-3/2 overflow-clip rounded-md shadow-sm">
         <Image src={image} alt={title} width={600} height={400} />
         <div className="absolute left-2 top-2 rounded-full bg-green-950 px-5 py-2 shadow-lg">
@@ -95,6 +126,7 @@ function SituationChatCard({
       </div>
       <div className="flex w-full flex-col gap-1">
         <p>{description}</p>
+        {createChatMutation.isPending && <div>pending...</div>}
       </div>
     </div>
   );
