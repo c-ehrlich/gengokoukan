@@ -19,15 +19,15 @@ export async function NavBar() {
   const shortUserName = session?.user.name?.charAt(0).toUpperCase() ?? "?";
 
   return (
-    <div className="flex w-full items-center justify-between p-2 shadow-inner">
+    <div className="flex w-full items-center justify-between bg-chatbubble px-4 py-1 shadow-inner">
       {/* TODO: update this depending on where we are */}
       <Link href="/">
         <h1 className="text-xl font-bold">会話クラブ</h1>
       </Link>
       <Popover>
         <PopoverTrigger>
-          <div className="cursor-pointer rounded-full border border-accent bg-chatbubble p-0.5 shadow-md">
-            <Avatar>
+          <div className="cursor-pointer rounded-full border border-accent bg-chatbubble p-0.5 shadow-md hover:bg-chat">
+            <Avatar className="h-8 w-8">
               <AvatarImage src={session?.user.image ?? undefined} />
               <AvatarFallback>{shortUserName}</AvatarFallback>
             </Avatar>

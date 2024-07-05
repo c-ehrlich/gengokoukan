@@ -27,7 +27,7 @@ const tabs: Tab[] = [
     content: <SituationChatForm />,
   },
   {
-    text: "雑談",
+    text: "フリートーク",
     icon: <MessagesSquareIcon className={ICON_CLASS_NAME} />,
     value: "smalltalk",
     content: <SmalltalkChatForm />,
