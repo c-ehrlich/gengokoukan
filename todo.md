@@ -2,6 +2,8 @@
 - add icons to each feature
 
 ## App
+- rename interests to bio
+- gender enum
 CALL IT KAIWA.CLUB
 
 - google login

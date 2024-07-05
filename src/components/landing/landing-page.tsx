@@ -8,16 +8,14 @@ import { LandingNavBar } from "./navbar/landing-navbar";
 
 export default async function LandingPage() {
   return (
-    <div className="flex min-h-screen w-screen flex-col">
+    <div className="flex min-h-screen w-screen flex-col items-center">
       <LandingNavBar />
-      <main className="items-centera flex flex-1 flex-col bg-[#CECDB4] py-16 text-white">
-        <Hero />
-        <Features />
-        <TeamBeliefs />
-        <Pricing />
-        <Testimonials />
-        <FinalCta />
-      </main>
+      <Hero />
+      <Features />
+      <TeamBeliefs />
+      <Pricing />
+      <Testimonials />
+      <FinalCta />
     </div>
   );
 }

@@ -37,7 +37,7 @@ const featureItems: FeatureItem[] = [
 
 export function Features() {
   return (
-    <div className="flex flex-row items-start gap-8 bg-red-200 p-4">
+    <div className="flex flex-row items-center gap-8 p-4">
       <div>
         <Image src={landingImage2} alt="A person talking to a computer" />
       </div>
@@ -50,8 +50,8 @@ export function Features() {
                 key={`feature-item-${i}`}
                 className="text-bold flex items-start gap-2 text-xl"
               >
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-green-200">
-                  <p>{i + 1}</p>
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border-2 border-black bg-chatbubble">
+                  <p className="font-semibold text-black">{i + 1}</p>
                 </div>
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold">{item.header}</h3>
