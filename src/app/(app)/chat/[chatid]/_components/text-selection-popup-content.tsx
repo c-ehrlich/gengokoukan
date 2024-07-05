@@ -1,3 +1,5 @@
+"use client";
+
 import { api } from "~/trpc/react";
 import { JishoDefinitions } from "./jisho-definition";
 
@@ -6,12 +8,6 @@ export function TextSelectionPopupContent({
 }: {
   selectedText?: string;
 }) {
-  const handleButtonClick = () => {
-    if (selectedText) {
-      console.log(selectedText);
-    }
-  };
-
   const definition = api.jisho.definition.useQuery(
     {
       word: selectedText ?? "",
@@ -34,11 +30,6 @@ export function TextSelectionPopupContent({
               // TODO: fix assertion
               jishoResults={definition.data!}
             />
-          )}
-          {selectedText && (
-            <button className="bg-red-500 p-2" onClick={handleButtonClick}>
-              Log Text
-            </button>
           )}
         </>
       )}

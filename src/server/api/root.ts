@@ -2,6 +2,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { jishoRouter } from "./routers/jisho";
 import { chatRouter } from "./routers/chat/chat.router";
 import { nameGeneratorRouter } from "./routers/name-generator/name-generator.router";
+import { vocabRouter } from "./routers/vocab/vocab.router";
 
 /**
  * This is the primary router for your server.
@@ -12,6 +13,7 @@ export const appRouter = createTRPCRouter({
   chat: chatRouter,
   jisho: jishoRouter,
   nameGenerator: nameGeneratorRouter,
+  vocab: vocabRouter,
 });
 
 // export type definition of API

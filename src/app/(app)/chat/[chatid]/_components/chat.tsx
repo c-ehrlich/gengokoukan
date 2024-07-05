@@ -19,6 +19,7 @@ import { TextSelectionPopupContent } from "./text-selection-popup-content";
 import { useVoiceInput } from "./useVoiceInput";
 import { MaybeBasicTooltip } from "~/components/_primitives/ui/basic-tooltip";
 import { cn } from "~/components/_utils/cn";
+import { Toaster } from "~/components/_primitives/shadcn-raw/toaster";
 
 type UserMessage = {
   author: "user";
@@ -333,6 +334,7 @@ export function Chat({ chatId, chat }: ChatProps) {
       <TextSelectionPopupWrapper {...wrapperProps}>
         <TextSelectionPopupContent selectedText={selectedText} />
       </TextSelectionPopupWrapper>
+      <Toaster />
     </div>
   );
 }

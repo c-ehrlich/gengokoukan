@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { type JishoResult } from "unofficial-jisho-api";
 import { BasicTooltip } from "~/components/_primitives/ui/basic-tooltip";
+import { useToast } from "~/components/_primitives/shadcn-raw/use-toast";
+import { api } from "~/trpc/react";
+import { formatDistance } from "date-fns";
+import { Button } from "~/components/_primitives/shadcn-raw/button";
+import { LoaderCircleIcon } from "lucide-react";
 
 type JishoDefinitionsProps = {
   word: string;
@@ -11,7 +16,6 @@ export function JishoDefinitions({
   word,
   jishoResults,
 }: JishoDefinitionsProps) {
-  const [selectedResult, setSelectedResult] = useState(0);
   if (!jishoResults.length) return <p>No definition found for {word}</p>;
   return (
     <div className="overflow-y-scroll">
@@ -25,9 +29,46 @@ export function JishoDefinitions({
 type JishoDefinitionProps = { jishoResult: JishoResult };
 
 function JishoDefinition({ jishoResult }: JishoDefinitionProps) {
+  const { toast } = useToast();
+
+  const addToSrsMutation = api.vocab.bumpSRS.useMutation({
+    onSuccess: (data) => {
+      if (data.type === "new") {
+        toast({
+          title: `${data.word} added to SRS`,
+          description: `Next due ${formatDistance(data.nextDue, new Date(), { addSuffix: true })}`,
+        });
+      } else {
+        toast({
+          title: "Already in SRS",
+          description: `Next due ${formatDistance(data.nextDue, new Date(), { addSuffix: true })}`,
+        });
+      }
+    },
+  });
+
+  const handleButtonClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    await addToSrsMutation.mutateAsync({ word: jishoResult.slug });
+  };
+
   return (
     <div>
-      <p>{jishoResult.slug}</p>
+      <div className="flex w-full items-center justify-between">
+        <p>{jishoResult.slug}</p>
+        <Button
+          variant="outline"
+          disabled={addToSrsMutation.isPending}
+          onClick={handleButtonClick}
+        >
+          {addToSrsMutation.isPending ? (
+            <LoaderCircleIcon className="animate-spin" />
+          ) : (
+            "難しい"
+          )}
+        </Button>
+      </div>
       <div className="flex flex-col">
         {jishoResult.senses.map((sense, i) => {
           if (sense.parts_of_speech.join("") === "Wikipedia definition")

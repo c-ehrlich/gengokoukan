@@ -11,6 +11,9 @@ export const jishoRouter = createTRPCRouter({
       const jisho = new JishoAPI();
       const result = await jisho.searchForPhrase(input.word);
       console.log(result);
-      return result.data;
+      const withoutWeirdDefinitions = result.data.filter(
+        (def) => !def.slug.match(/^\d/),
+      );
+      return withoutWeirdDefinitions;
     }),
 });

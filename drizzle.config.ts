@@ -9,5 +9,6 @@ export default {
   dbCredentials: {
     url: env.DATABASE_URL,
   },
+  out: "./src/server/db/_migrations",
   tablesFilter: [`${sqlTablePrefix}_*`],
 } satisfies Config;

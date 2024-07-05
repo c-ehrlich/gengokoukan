@@ -15,6 +15,7 @@ import {
 import { chatsRelations, chatsTable } from "./schema/chats";
 import { sessionsRelations, sessionsTable } from "./schema/sessions";
 import { verificationTokensTable } from "./schema/verification-tokens";
+import { vocabWordsRelations, vocabWordsTable } from "./schema/vocab-words";
 
 const schema = {
   // accounts
@@ -37,6 +38,9 @@ const schema = {
   usersRelations,
   // verification
   verificationTokensTable, // doesn't have relations
+  // vocabWords
+  vocabWordsTable,
+  vocabWordsRelations,
 };
 
 /**

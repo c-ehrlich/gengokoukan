@@ -4,6 +4,7 @@ import { accountsTable } from "./accounts";
 import { chatsTable } from "./chats";
 import { chatMessagesTable } from "./chat-messages";
 import { createTable } from "../create-table";
+import { vocabWordsTable } from "./vocab-words";
 
 export const usersTable = createTable("user", {
   id: text("id", { length: 255 })
@@ -22,4 +23,5 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
   accounts: many(accountsTable),
   chats: many(chatsTable),
   chatMesssages: many(chatMessagesTable),
+  vocabWords: many(vocabWordsTable),
 }));
