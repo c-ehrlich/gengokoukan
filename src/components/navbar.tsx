@@ -19,7 +19,7 @@ export async function NavBar() {
   const shortUserName = session?.user.name?.charAt(0).toUpperCase() ?? "?";
 
   return (
-    <div className="flex w-full items-center justify-between bg-chat p-2 shadow-inner">
+    <div className="flex w-full items-center justify-between p-2 shadow-inner">
       {/* TODO: update this depending on where we are */}
       <Link href="/">
         <h1 className="text-xl font-bold">会話クラブ</h1>
