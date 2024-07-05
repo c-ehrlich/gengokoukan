@@ -43,7 +43,7 @@ export function Features() {
           <Image src={landingImage2} alt="A person talking to a computer" />
         </div>
         <div className="flex flex-col gap-8">
-          <h3 className="text-4xl font-bold">Get fluent now!</h3>
+          <h3 className="text-4xl font-bold">The Easy Way to Learn Speaking</h3>
           <div className="flex min-h-96 flex-col justify-center gap-4 text-black">
             {featureItems.map((item, i) => {
               return (
