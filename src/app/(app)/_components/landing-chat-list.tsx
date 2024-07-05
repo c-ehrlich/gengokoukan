@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { type ChatWithPartnerAndMessages } from "../page";
 import { DeleteChatButton } from "./delete-chat-button";
+import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
 
 export function LandingChatList({
   header,
