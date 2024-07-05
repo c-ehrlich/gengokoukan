@@ -71,7 +71,7 @@ const SituationChats: SituationChat[] = [
 ];
 export function SituationChatForm() {
   return (
-    <div className="grid w-full grid-cols-3 gap-4">
+    <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
       {SituationChats.map((situationChat) => (
         <SituationChatCard key={situationChat.value} {...situationChat} />
       ))}
@@ -87,7 +87,7 @@ function SituationChatCard({
 }: SituationChat) {
   return (
     <div className="flex w-96 flex-col gap-3 rounded-lg bg-chatbubble p-2 pb-3 shadow-lg">
-      <div className="aspect-3/2 relative overflow-clip rounded-md shadow-sm">
+      <div className="relative aspect-3/2 overflow-clip rounded-md shadow-sm">
         <Image src={image} alt={title} width={600} height={400} />
         <div className="absolute left-2 top-2 rounded-full bg-green-950 px-5 py-2 shadow-lg">
           <h2 className="text-xl font-semibold text-chatbubble">{title}</h2>
