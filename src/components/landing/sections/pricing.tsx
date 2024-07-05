@@ -4,6 +4,7 @@ import pricingRight from "../resources/pricing-right.jpeg";
 import Image, { type StaticImageData } from "next/image";
 import { cn } from "~/components/_utils/cn";
 import { LoginButton } from "~/components/login-button";
+import bgTest from "../resources/bg-test-1.png";
 
 type PricingCardProps = {
   image: StaticImageData;
@@ -24,7 +25,7 @@ function PricingCard({
   return (
     <div
       className={cn(
-        "flex h-full w-60 flex-col overflow-clip rounded-b-3xl rounded-t-[100px] text-black shadow-2xl",
+        "flex h-full w-72 scale-110 flex-col overflow-clip rounded-b-3xl rounded-t-[100px] text-black shadow-2xl",
       )}
     >
       <div className="-mb-4 flex aspect-3/2 max-h-48 w-full items-center justify-center overflow-clip">
@@ -90,12 +91,17 @@ const pricingCards: Array<PricingCardProps> = [
 
 export function Pricing() {
   return (
-    <div className="flex w-full flex-col items-center gap-2 bg-orange-100 py-4">
+    <div className="relative flex w-full flex-col items-center gap-2 bg-orange-100 py-32">
+      <Image
+        src={bgTest}
+        alt="bg"
+        className="absolute bottom-0 left-0 w-full opacity-50"
+      />
       <div className="flex w-full flex-col items-center gap-4 px-16 py-2">
         <div className="flex h-full items-center">
-          <div className="flex h-full flex-col items-center gap-4">
-            <h2 className="text-4xl">Pricing</h2>
-            <div className=" flex h-full w-full flex-row gap-12">
+          <div className="flex h-full flex-col items-center gap-32">
+            <h2 className="text-5xl font-semibold">Pricing</h2>
+            <div className=" flex h-full w-full flex-row gap-16">
               {pricingCards.map((card) => (
                 <PricingCard key={card.title} {...card} />
               ))}

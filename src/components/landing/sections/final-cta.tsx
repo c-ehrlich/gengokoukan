@@ -4,7 +4,7 @@ import { LoginButton } from "../../login-button";
 
 export function FinalCta() {
   return (
-    <div className="relative flex min-h-96 flex-col items-center justify-center gap-12 bg-purple-400 px-8 pt-16">
+    <div className="relative flex min-h-screen flex-col items-center justify-center gap-12 bg-orange-100 px-8 pt-16">
       <div className="flex flex-row items-center">
         <div className="flex w-1/3 items-center justify-center pt-16">
           <Image src={landingImage4} alt="Two people talking" />

@@ -13,8 +13,8 @@ export default async function LandingPage() {
       <Hero />
       <Features />
       <TeamBeliefs />
-      <Pricing />
       <Testimonials />
+      <Pricing />
       <FinalCta />
     </div>
   );

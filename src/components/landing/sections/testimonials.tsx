@@ -26,16 +26,19 @@ const testimonials: Testimonial[] = [
 ];
 export function Testimonials() {
   return (
-    <div className="flex w-full flex-col items-center gap-8 bg-green-800 p-8">
-      <p>TESTIMONIALS</p>
-      <h3>What our users say</h3>
-      <div className="flex w-full flex-row gap-12">
-        {testimonials.map((testimonial, idx) => (
-          <TestimonialBox
-            key={`testimonial-${idx}`}
-            testimonial={testimonial}
-          />
-        ))}
+    <div className="flex w-full items-center justify-center bg-orange-100 py-8">
+      <div className="flex w-full max-w-5xl flex-col items-center gap-8 p-8">
+        <h1 className="w-full text-center text-4xl font-semibold">
+          What our users say
+        </h1>
+        <div className="grid w-full grid-cols-1 items-end gap-12 md:grid-cols-2 xl:grid-cols-3">
+          {testimonials.map((testimonial, idx) => (
+            <TestimonialBox
+              key={`testimonial-${idx}`}
+              testimonial={testimonial}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -43,8 +46,8 @@ export function Testimonials() {
 
 function TestimonialBox({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <div className="flex h-64 w-1/3 flex-col justify-between">
-      <div className="relative w-80 rounded-lg bg-white p-4 shadow-lg">
+    <div className="flex w-full flex-col justify-between gap-6">
+      <div className="relative items-end rounded-lg bg-white p-4 shadow-lg">
         <p className="text-lg italic text-black">{testimonial.text}</p>
         <div className="absolute left-8 top-full h-0 w-0 border-x-[10px] border-t-[10px] border-x-transparent border-t-white"></div>
       </div>
