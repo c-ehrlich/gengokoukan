@@ -39,7 +39,7 @@ export function Features() {
   return (
     <div className="flex w-full flex-col items-center bg-orange-100">
       <div className="flex max-w-5xl flex-row items-start gap-8 py-8">
-        <div className="mt-20 overflow-clip rounded-3xl">
+        <div className="mt-20 overflow-clip rounded-3xl shadow-xl">
           <Image src={landingImage2} alt="A person talking to a computer" />
         </div>
         <div className="flex flex-col gap-8">

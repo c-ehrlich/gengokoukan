@@ -3,7 +3,7 @@ import buildingRobotImg from "../resources/landing_v2_4.jpeg";
 
 export function TeamBeliefs() {
   return (
-    <div className="flex w-full flex-col items-center bg-orange-100 px-8 py-16">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-orange-100 px-8 py-16">
       <div className="flex max-w-5xl flex-col items-center gap-8">
         <h3 className="w-full text-center text-4xl font-semibold">
           Built by Experienced Language Learners
@@ -35,7 +35,7 @@ export function TeamBeliefs() {
             </p>
           </div>
 
-          <div className="overflow-clip rounded-2xl">
+          <div className="overflow-clip rounded-2xl shadow-xl">
             <Image src={buildingRobotImg} alt="Building robot" />
           </div>
         </div>
