@@ -67,7 +67,7 @@ export default async function RootAppPage() {
     chatsByRecency.pastMonth.length > 0;
 
   return (
-    <div className="p-2">
+    <div className="h-full p-2">
       {hasChats ? (
         <>
           <div className="mb-4 flex items-center justify-between">
@@ -115,8 +115,8 @@ export default async function RootAppPage() {
         </>
       ) : (
         <div className="flex h-full flex-1 flex-col items-center justify-center">
-          <p className="text-2xl text-muted-foreground dark:text-muted-foreground">
-            まだチャットは開始されていない
+          <p className="text-lg text-muted-foreground dark:text-muted-foreground">
+            (まだチャットは開始されていない)
           </p>
           <Link href="/chat/new">
             <Button variant="default" className="mt-4 py-6 text-xl" size="lg">
