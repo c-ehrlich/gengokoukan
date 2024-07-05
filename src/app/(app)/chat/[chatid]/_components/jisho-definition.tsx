@@ -17,6 +17,8 @@ export function JishoDefinitions({
   jishoResults,
 }: JishoDefinitionsProps) {
   if (!jishoResults.length) return <p>No definition found for {word}</p>;
+
+  console.log("tktk jishoResults", jishoResults);
   return (
     <div className="overflow-y-scroll">
       {jishoResults.map((result, i) => (
@@ -57,6 +59,12 @@ function JishoDefinition({ jishoResult }: JishoDefinitionProps) {
     <div>
       <div className="flex w-full items-center justify-between">
         <p>{jishoResult.slug}</p>
+        <a
+          href={`https://jisho.org/search/${jishoResult.slug}`}
+          target="_blank"
+        >
+          辞
+        </a>
         <Button
           variant="outline"
           disabled={addToSrsMutation.isPending}
@@ -65,7 +73,7 @@ function JishoDefinition({ jishoResult }: JishoDefinitionProps) {
           {addToSrsMutation.isPending ? (
             <LoaderCircleIcon className="animate-spin" />
           ) : (
-            "難しい"
+            "難"
           )}
         </Button>
       </div>

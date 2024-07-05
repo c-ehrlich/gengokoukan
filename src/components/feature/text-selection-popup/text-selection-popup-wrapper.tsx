@@ -1,35 +1,30 @@
-import { StopPropagation } from "~/components/_utils/stop-propagation";
-import { type Position } from "./position";
+import {
+  Dialog,
+  DialogContent,
+} from "~/components/_primitives/shadcn-raw/dialog";
+
+// TODO: this doesnt need to be a separate component!!
 
 export function TextSelectionPopupWrapper({
   children,
-  wrapperClassName,
-  modalPosition,
   isVisible,
 }: {
   children: React.ReactNode;
-  wrapperClassName?: string;
-  modalPosition: Position;
   isVisible: boolean;
+  selectedText: string;
 }) {
   if (!isVisible) return null;
 
   return (
-    <StopPropagation>
-      <div
-        className={wrapperClassName}
-        style={{
-          position: "absolute",
-          top: modalPosition.top,
-          left: modalPosition.left,
-          backgroundColor: "white",
-          color: "black",
-          border: "1px solid black",
-          padding: "10px",
-        }}
-      >
-        {children}
-      </div>
-    </StopPropagation>
+    <Dialog
+      open={isVisible}
+      onOpenChange={(open) => {
+        if (!open) {
+          window.getSelection()?.removeAllRanges();
+        }
+      }}
+    >
+      <DialogContent>{children}</DialogContent>
+    </Dialog>
   );
 }

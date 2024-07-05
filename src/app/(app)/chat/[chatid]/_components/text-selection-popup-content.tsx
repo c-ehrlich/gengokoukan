@@ -16,10 +16,9 @@ export function TextSelectionPopupContent({
   );
 
   return (
-    <div className="flex min-h-full w-64 flex-col justify-between gap-4">
+    <div className="flex min-h-full w-full flex-col justify-between gap-4">
       {selectedText && (
         <>
-          <p>{selectedText}</p>
           {selectedText && definition.isPending ? (
             <p>Loading definition...</p>
           ) : definition.isError ? (

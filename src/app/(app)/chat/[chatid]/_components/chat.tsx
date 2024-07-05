@@ -331,7 +331,7 @@ export function Chat({ chatId, chat }: ChatProps) {
           </BasicForm>
         </div>
       </div>
-      <TextSelectionPopupWrapper {...wrapperProps}>
+      <TextSelectionPopupWrapper {...wrapperProps} selectedText={selectedText}>
         <TextSelectionPopupContent selectedText={selectedText} />
       </TextSelectionPopupWrapper>
       <Toaster />
