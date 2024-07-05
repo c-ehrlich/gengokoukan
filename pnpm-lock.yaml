@@ -127,6 +127,9 @@ dependencies:
     version: 3.23.8
 
 devDependencies:
+  '@c-ehrlich/eslint-plugin-use-server':
+    specifier: ^0.0.1
+    version: 0.0.1
   '@types/eslint':
     specifier: ^8.56.2
     version: 8.56.10
@@ -515,6 +518,10 @@ packages:
       '@babel/helper-string-parser': 7.24.7
       '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
+
+  /@c-ehrlich/eslint-plugin-use-server@0.0.1:
+    resolution: {integrity: sha512-K0R2k0ukxqlMFy6Tu0OKO5Bi5vQq+h00GTd5kXmsT+iQmfnsW7E/2xdI+BnA1TvXedAPvtbkRzB5wiFbDzDGWA==}
+    dev: true
 
   /@esbuild-kit/core-utils@3.3.2:
     resolution: {integrity: sha512-sPRAnw9CdSsRmEtnsl2WXWdyquogVpB3yZ3dgwJfe8zrOzTsV7cJvmwrKVa+0ma5BoiGJ+BoqkMvawbayKUsqQ==}

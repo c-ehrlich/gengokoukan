@@ -4,7 +4,11 @@ const config = {
   parserOptions: {
     project: true,
   },
-  plugins: ["@typescript-eslint", "drizzle"],
+  plugins: [
+    "@typescript-eslint",
+    "drizzle",
+    "@c-ehrlich/eslint-plugin-use-server",
+  ],
   extends: [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended-type-checked",
@@ -50,6 +54,7 @@ const config = {
     ],
     // override t3 defaults
     "@typescript-eslint/no-explicit-any": "off",
+    "@c-ehrlich/use-server/no-top-level-use-server": "error",
   },
 };
 module.exports = config;
