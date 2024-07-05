@@ -58,7 +58,7 @@ function JishoDefinition({ jishoResult }: JishoDefinitionProps) {
   return (
     <div>
       <div className="flex w-full items-center justify-between">
-        <p>{jishoResult.slug}</p>
+        <p className="font-bold">{jishoResult.slug}</p>
         <a
           href={`https://jisho.org/search/${jishoResult.slug}`}
           target="_blank"
@@ -172,6 +172,10 @@ function getShortPartOfSpeech(partOfSpeech: string): React.ReactNode {
       return "四段動詞";
     case "Adverb taking the 'to' particle":
       return "擬態語・擬音語";
+    case "Pronoun":
+      return "代名詞";
+    case "Noun which may take the genitive case particle 'no'":
+      return "形式名詞";
     // new until here
     case "Wikipedia definition":
       return "wiki";
@@ -200,30 +204,3 @@ function getPartOfSpeechExplanation(partOfSpeech: string): React.ReactNode {
       return `TODO EXPLAIN "${partOfSpeech}"`;
   }
 }
-
-/**
- * 名詞 (meishi) - nouns
-ex: 猫 (neko) - cat
-動詞 (doushi) - verbs
-ex: 食べる (taberu) - to eat
-自動詞 (jidoushi) - intransitive verbs
-ex: 泣く (naku) - to cry
-他動詞 (tadoushi) - transitive verbs
-ex: 読む (yomu) - to read
-形容詞 (keiyoushi) - adjectives
-ex: 美しい (utsukushii) - beautiful
-形容動詞 (keiyoudoushi) - na-adjectives (adjectival nouns)
-ex: 静か (shizuka) - quiet
-副詞 (fukushi) - adverbs
-ex: 早く (hayaku) - quickly
-連体詞 (rentaishi) - prenominal adjectives
-ex: 大きな (ookina) - big
-接続詞 (setsuzokushi) - conjunctions
-ex: そして (soshite) - and then
-助詞 (joshi) - particles
-ex: は (wa), が (ga) - subject markers
-助動詞 (jodoushi) - auxiliary verbs
-ex: です (desu), ます (masu) - polite forms
-感動詞 (kandoushi) - interjections
-ex: ああ (aa) - ah
- */
