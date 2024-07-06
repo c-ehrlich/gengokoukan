@@ -288,6 +288,7 @@ export function Chat({ chatId, chat }: ChatProps) {
             <Input
               className="flex-1 rounded-full border border-gray-500"
               placeholder="メッセージを入力..."
+              autoComplete="off"
               {...form.register("message")}
             />
             {listening ? (
