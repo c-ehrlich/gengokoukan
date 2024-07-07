@@ -22,7 +22,7 @@ export async function NavBar() {
     <div className="flex w-full items-center justify-between bg-chatbubble px-4 py-1 shadow-inner">
       {/* TODO: update this depending on where we are */}
       <Link href="/">
-        <h1 className="text-xl font-bold">会話クラブ</h1>
+        <h1 className="text-xl font-bold">kaiwa.club</h1>
       </Link>
       <Popover>
         <PopoverTrigger>
