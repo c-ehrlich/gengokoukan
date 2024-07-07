@@ -13,7 +13,7 @@ export function LandingNavBar() {
           onLandingPage={true}
           loginText="Sign in"
           logoutText="You should not be seeing this"
-          size="regular"
+          size="small"
         />
       </div>
     </div>
