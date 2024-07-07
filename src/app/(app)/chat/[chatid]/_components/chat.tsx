@@ -222,12 +222,7 @@ export function Chat({ chatId, chat }: ChatProps) {
   });
 
   return (
-    // TODO: dont do this calc!
-    <div className="flex h-full w-full flex-1 flex-shrink flex-col items-center">
-      {/* <div className="flex max-w-4xl items-center justify-between gap-2 p-2">
-        <h1>{chat.chat_partner.name}との会話</h1>
-        <ChatInfoTooltip chat={chat} />
-      </div> */}
+    <div className="flex h-full min-w-full flex-1 flex-shrink flex-col items-center">
       {messagesQuery.data?.pages[0]?.length ?? 0 > 0 ? (
         <div
           className="flex w-full flex-1 flex-col items-center overflow-auto px-2 pt-2"
