@@ -96,10 +96,12 @@ function JishoDefinition({ jishoResult }: JishoDefinitionProps) {
           return null;
 
         return (
-          <div key={i} className="flex flex-col items-start gap-1">
-            <div className="flex flex-row items-start gap-2">
-              <p className="tabular-nums">{i + 1}.</p>
-              <div className="flex flex-row items-center gap-2">
+          <div key={i}>
+            <span>
+              <span className="tabular-nums">
+                {i + 1}.{" "}
+              </span>
+              <span>
                 {sense.parts_of_speech.length > 0 && (
                   <span>
                     (
@@ -118,11 +120,10 @@ function JishoDefinition({ jishoResult }: JishoDefinitionProps) {
                     )
                   </span>
                 )}
-              </div>
-              <div className="flex flex-col items-start gap-2">
-                <p>{sense.english_definitions.join(", ")}</p>
-              </div>
-            </div>
+              </span>
+              <span> </span>
+              <span>{sense.english_definitions.join(", ")}</span>
+            </span>
           </div>
         );
       })}
