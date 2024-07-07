@@ -71,7 +71,6 @@ function JishoDefinition({ jishoResult }: JishoDefinitionProps) {
         </div>
         <div className="flex items-center gap-2">
           {jishoResult.is_common ? <ChipKinda>日常</ChipKinda> : null}
-          <JLPT jlpt={jishoResult.jlpt} />
           <a
             href={`https://jisho.org/search/${jishoResult.slug}`}
             target="_blank"
@@ -87,7 +86,7 @@ function JishoDefinition({ jishoResult }: JishoDefinitionProps) {
             {addToSrsMutation.isPending ? (
               <LoaderCircleIcon className="animate-spin" />
             ) : (
-              "難"
+              "SRS"
             )}
           </Button>
         </div>
@@ -131,39 +130,6 @@ function JishoDefinition({ jishoResult }: JishoDefinitionProps) {
   );
 }
 
-function jlptString(jlptArray: string[]) {
-  if (jlptArray.includes("jlpt-n5")) {
-    return "N5";
-  }
-
-  if (jlptArray.includes("jlpt-n4")) {
-    return "N4";
-  }
-
-  if (jlptArray.includes("jlpt-n3")) {
-    return "N3";
-  }
-
-  if (jlptArray.includes("jlpt-n2")) {
-    return "N2";
-  }
-
-  if (jlptArray.includes("jlpt-n1")) {
-    return "N1";
-  }
-
-  return null;
-}
-function JLPT({ jlpt }: { jlpt: string[] }) {
-  const str = jlptString(jlpt);
-
-  if (!str) {
-    return null;
-  }
-
-  return <ChipKinda>{str}</ChipKinda>;
-}
-
 function ChipKinda({
   canHover,
   children,
@@ -196,13 +162,13 @@ function Readings({ readings }: { readings: JishoJapaneseWord[] }) {
 
   return (
     <p>
-      <span>({first}</span>
+      <span className="opacity-70">({first}</span>
       {others.map((reading) => (
         <span key={reading} className="opacity-50">
           , {reading}
         </span>
       ))}
-      <span>)</span>
+      <span className="opacity-70">)</span>
     </p>
   );
 }
