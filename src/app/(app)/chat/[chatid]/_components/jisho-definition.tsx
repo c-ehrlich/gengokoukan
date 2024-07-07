@@ -1,11 +1,14 @@
-import { useState } from "react";
-import { type JishoResult } from "unofficial-jisho-api";
+import { type JishoJapaneseWord, type JishoResult } from "unofficial-jisho-api";
 import { BasicTooltip } from "~/components/_primitives/ui/basic-tooltip";
 import { useToast } from "~/components/_primitives/shadcn-raw/use-toast";
 import { api } from "~/trpc/react";
 import { formatDistance } from "date-fns";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { LoaderCircleIcon } from "lucide-react";
+import { Header } from "~/components/_primitives/ui/header";
+import { Chip } from "~/components/_primitives/ui/chip";
+import { cn } from "~/components/_utils/cn";
+import { StopPropagation } from "~/components/_utils/stop-propagation";
 
 type JishoDefinitionsProps = {
   word: string;
@@ -18,13 +21,15 @@ export function JishoDefinitions({
 }: JishoDefinitionsProps) {
   if (!jishoResults.length) return <p>No definition found for {word}</p>;
 
-  console.log("tktk jishoResults", jishoResults);
   return (
-    <div className="overflow-y-scroll">
-      {jishoResults.map((result, i) => (
-        <JishoDefinition key={`jisho-definition-${i}`} jishoResult={result} />
-      ))}
-    </div>
+    <StopPropagation>
+      <div className="flex flex-col gap-4 overflow-y-scroll">
+        <Header variant="h4">辞書の定義</Header>
+        {jishoResults.map((result, i) => (
+          <JishoDefinition key={`jisho-definition-${i}`} jishoResult={result} />
+        ))}
+      </div>
+    </StopPropagation>
   );
 }
 
@@ -55,55 +60,150 @@ function JishoDefinition({ jishoResult }: JishoDefinitionProps) {
     await addToSrsMutation.mutateAsync({ word: jishoResult.slug });
   };
 
+  console.log("tktk jishoResult", jishoResult);
+
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       <div className="flex w-full items-center justify-between">
-        <p className="font-bold">{jishoResult.slug}</p>
-        <a
-          href={`https://jisho.org/search/${jishoResult.slug}`}
-          target="_blank"
-        >
-          辞
-        </a>
-        <Button
-          variant="outline"
-          disabled={addToSrsMutation.isPending}
-          onClick={handleButtonClick}
-        >
-          {addToSrsMutation.isPending ? (
-            <LoaderCircleIcon className="animate-spin" />
-          ) : (
-            "難"
-          )}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Header variant="h5">{jishoResult.slug}</Header>
+          <Readings readings={jishoResult.japanese} />
+        </div>
+        <div className="flex items-center gap-2">
+          {jishoResult.is_common ? <ChipKinda>日常</ChipKinda> : null}
+          <JLPT jlpt={jishoResult.jlpt} />
+          <a
+            href={`https://jisho.org/search/${jishoResult.slug}`}
+            target="_blank"
+          >
+            <ChipKinda canHover>辞</ChipKinda>
+          </a>
+          <Button
+            variant="chip"
+            size="chip"
+            disabled={addToSrsMutation.isPending}
+            onClick={handleButtonClick}
+          >
+            {addToSrsMutation.isPending ? (
+              <LoaderCircleIcon className="animate-spin" />
+            ) : (
+              "難"
+            )}
+          </Button>
+        </div>
       </div>
-      <div className="flex flex-col">
-        {jishoResult.senses.map((sense, i) => {
-          if (sense.parts_of_speech.join("") === "Wikipedia definition")
-            return null;
+      {jishoResult.senses.map((sense, i) => {
+        if (sense.parts_of_speech.join("") === "Wikipedia definition")
+          return null;
 
-          return (
-            <div key={i}>
-              <p>{sense.english_definitions.join(", ")}</p>
-              <p>
-                {sense.parts_of_speech.map((part, i) => {
-                  const isLast = i === sense.parts_of_speech.length - 1;
-
-                  return (
-                    <span key={i}>
-                      <BasicTooltip content={getPartOfSpeechExplanation(part)}>
-                        <span>{getShortPartOfSpeech(part)}</span>
-                      </BasicTooltip>
-                      {isLast ? "" : <span>, </span>}
-                    </span>
-                  );
-                })}
-              </p>
+        return (
+          <div key={i} className="flex flex-col items-start gap-1">
+            <div className="flex flex-row items-start gap-2">
+              <p className="tabular-nums">{i + 1}.</p>
+              <div className="flex flex-row items-center gap-2">
+                {sense.parts_of_speech.length > 0 && (
+                  <span>
+                    (
+                    {sense.parts_of_speech.map((part, i) => {
+                      return (
+                        <span key={i}>
+                          <BasicTooltip
+                            content={getPartOfSpeechExplanation(part)}
+                          >
+                            {getShortPartOfSpeech(part)}
+                          </BasicTooltip>
+                          {i < sense.parts_of_speech.length - 1 ? ", " : ""}
+                        </span>
+                      );
+                    })}
+                    )
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col items-start gap-2">
+                <p>{sense.english_definitions.join(", ")}</p>
+              </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </div>
+  );
+}
+
+function jlptString(jlptArray: string[]) {
+  if (jlptArray.includes("jlpt-n5")) {
+    return "N5";
+  }
+
+  if (jlptArray.includes("jlpt-n4")) {
+    return "N4";
+  }
+
+  if (jlptArray.includes("jlpt-n3")) {
+    return "N3";
+  }
+
+  if (jlptArray.includes("jlpt-n2")) {
+    return "N2";
+  }
+
+  if (jlptArray.includes("jlpt-n1")) {
+    return "N1";
+  }
+
+  return null;
+}
+function JLPT({ jlpt }: { jlpt: string[] }) {
+  const str = jlptString(jlpt);
+
+  if (!str) {
+    return null;
+  }
+
+  return <ChipKinda>{str}</ChipKinda>;
+}
+
+function ChipKinda({
+  canHover,
+  children,
+}: {
+  canHover?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={cn(
+        "min-h-6 min-w-6 rounded-lg bg-chatbubble px-1 py-0.5 text-center text-sm",
+        {
+          "hover:bg-chatbubble/50": canHover,
+        },
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+function Readings({ readings }: { readings: JishoJapaneseWord[] }) {
+  const justReadings = readings.map((r) => r.reading);
+  const uniqueReadings = [...new Set(justReadings)];
+  const [first, ...others] = uniqueReadings;
+
+  if (!first) {
+    return <p className="opacity-50">(reading unknown)</p>;
+  }
+
+  return (
+    <p>
+      <span>({first}</span>
+      {others.map((reading) => (
+        <span key={reading} className="opacity-50">
+          , {reading}
+        </span>
+      ))}
+      <span>)</span>
+    </p>
   );
 }
 

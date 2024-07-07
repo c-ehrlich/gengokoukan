@@ -12,7 +12,7 @@ export function TextSelectionPopupContent({
     {
       word: selectedText ?? "",
     },
-    { enabled: !!selectedText },
+    { enabled: !!selectedText, staleTime: Infinity },
   );
 
   return (

@@ -1,5 +1,9 @@
 import { cn } from "~/components/_utils/cn";
-import { BirdIcon, CatIcon } from "lucide-react";
+import { CatIcon, UserIcon } from "lucide-react";
+import {
+  Avatar,
+  AvatarImage,
+} from "~/components/_primitives/shadcn-raw/avatar";
 
 type ChatMessageProps = {
   author: "user" | "ai";
@@ -30,7 +34,13 @@ export function ChatMessage({ author, text, avatar }: ChatMessageProps) {
       >
         <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-accent shadow-md">
           <div>
-            {avatar ?? userRow ? <CatIcon className="pt-0.5" /> : <BirdIcon />}
+            {avatar ?? userRow ? (
+              <Avatar className="flex h-8 w-8 items-center justify-center">
+                {false ? <AvatarImage src={undefined} /> : <UserIcon />}
+              </Avatar>
+            ) : (
+              <CatIcon className="pt-0.5" />
+            )}
           </div>
         </div>
         <div className="w-full rounded-lg bg-chatbubble px-3 py-2 shadow-md">

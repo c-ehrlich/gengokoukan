@@ -20,12 +20,14 @@ const buttonVariants = cva(
         combobox: "bg-card rounded-md",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        chip: "bg-chatbubble rounded-lg hover:bg-chatbubble/50",
       },
       size: {
         default: "h-9 px-4 py-2",
         sm: "h-8 rounded-full px-3 text-xs",
         lg: "h-10 rounded-full px-8",
         icon: "h-9 w-9",
+        chip: "h-auto px-0.5 py-0.5 min-h-6 min-w-6",
       },
     },
     defaultVariants: {
