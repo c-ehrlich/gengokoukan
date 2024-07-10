@@ -14,9 +14,9 @@ const featureItems: FeatureItem[] = [
       "Finding long term tandem partners is hard. Kaiwa solves this by letting you create as many virtual conversation partners as you want.",
   },
   {
-    header: "Enjoy your conversations",
+    header: "Design your conversations",
     description:
-      "Can't find a person from Hokkaido who is into Klaus Nomi and bobsled racing? Choose their age, gender, regionional dialect, personality, hobbies, and much more.",
+      "Choose from a variety of common situations, or create your own. Kaiwa lets you create custom conversation partners and situations.",
   },
   {
     header: "Get feedback",
@@ -43,7 +43,7 @@ export function Features() {
           <Image src={landingImage2} alt="A person talking to a computer" />
         </div>
         <div className="flex flex-col gap-8">
-          <h3 className="text-4xl font-bold">The Easy Way to Learn Speaking</h3>
+          <h3 className="text-6xl font-bold">The Easy Way to Learn Speaking</h3>
           <div className="flex min-h-96 flex-col justify-center gap-4 text-black">
             {featureItems.map((item, i) => {
               return (

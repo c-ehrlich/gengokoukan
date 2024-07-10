@@ -69,6 +69,7 @@ const pricingCards: Array<PricingCardProps> = [
     features: [
       "20 messages per day",
       "3 active conversations",
+      "3 hints per day",
       "7-day chat history",
       "SRS for 30 days",
     ],
@@ -82,6 +83,7 @@ const pricingCards: Array<PricingCardProps> = [
     features: [
       "Unlimited messages",
       "Unlimited conversations",
+      "Unlimited hints",
       "Unlimited conversation history",
       "Unlimited SRS",
     ],
@@ -99,8 +101,8 @@ export function Pricing() {
       />
       <div className="flex w-full flex-col items-center gap-4 px-16 py-2">
         <div className="flex h-full items-center">
-          <div className="flex h-full flex-col items-center gap-32">
-            <h2 className="text-5xl font-semibold">Pricing</h2>
+          <div className="flex h-full flex-col items-center gap-24">
+            <h2 className="text-6xl font-semibold">A tutor you can afford</h2>
             <div className=" flex h-full w-full flex-row gap-16">
               {pricingCards.map((card) => (
                 <PricingCard key={card.title} {...card} />

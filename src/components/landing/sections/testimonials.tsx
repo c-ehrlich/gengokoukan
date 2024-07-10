@@ -27,8 +27,8 @@ const testimonials: Testimonial[] = [
 export function Testimonials() {
   return (
     <div className="flex w-full items-center justify-center bg-orange-100 py-8">
-      <div className="flex w-full max-w-5xl flex-col items-center gap-32 p-8">
-        <h1 className="w-full text-center text-5xl font-semibold">
+      <div className="flex w-full max-w-5xl flex-col items-center gap-24 p-8">
+        <h1 className="w-full text-center text-6xl font-semibold">
           What our users say
         </h1>
         <div className="grid w-full grid-cols-1 items-end gap-12 md:grid-cols-2 xl:grid-cols-3">

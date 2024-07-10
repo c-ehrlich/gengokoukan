@@ -5,10 +5,12 @@ export function TeamBeliefs() {
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-orange-100 px-8 py-16">
       <div className="flex max-w-5xl flex-col items-center gap-8">
-        <h3 className="w-full text-center text-4xl font-semibold">
-          Built by Experienced Language Learners
+        <h3 className="w-full text-center text-6xl font-semibold">
+          Built by Experienced
+          <br />
+          Language Learners
         </h3>
-        <div className="flex flex-row gap-8">
+        <div className="flex flex-row items-center gap-8">
           <div className="flex max-w-xl flex-col gap-2 text-black">
             <p>
               Everyone on our team has achieved JLPT N1 or an equivalent in
@@ -21,7 +23,7 @@ export function TeamBeliefs() {
             </p>
             <p>
               Between us, we have spent thousands of hours in Anki, and probably
-              just as many dollars on courses.
+              just as many dollars on courses and tutoring.
             </p>
             <p>
               And yet, we never felt like we were making progress as fast as we
