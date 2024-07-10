@@ -28,7 +28,7 @@ export const chatsRelations = relations(chatsTable, ({ one, many }) => ({
     fields: [chatsTable.userId],
     references: [usersTable.id],
   }),
-  chat_partner: one(chatPartnersTable, {
+  chatPartner: one(chatPartnersTable, {
     fields: [chatsTable.chatPartnerId],
     references: [chatPartnersTable.id],
   }),

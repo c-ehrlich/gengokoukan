@@ -18,17 +18,20 @@ export const chatMessagesTable = createTable("chat_message", {
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 
-  author: text("author", { enum: ["user", "ai"] }),
-  is_openai_error: integer("is_openai_error", { mode: "boolean" }),
+  author: text("author", { enum: ["user", "ai", "hint"] }),
+  isOpenAIError: integer("is_openai_error", { mode: "boolean" }),
 
   text: text("text", { length: 1023 }).notNull(),
   feedback: text("feedback", { length: 1023 }),
   corrected: text("corrected", { length: 1023 }),
 
+  hint: text("hint", { length: 1023 }),
+  suggestedMessage: text("suggested_message", { length: 1023 }),
+
   model: text("model", { length: 63 }),
-  prompt_tokens: integer("prompt_tokens", { mode: "number" }),
-  completion_tokens: integer("completion_tokens", { mode: "number" }),
-  prompt_version: integer("prompt_version", { mode: "number" }),
+  promptTokens: integer("prompt_tokens", { mode: "number" }),
+  completionTokens: integer("completion_tokens", { mode: "number" }),
+  promptVersion: integer("prompt_version", { mode: "number" }),
 });
 
 export const chatMessagesRelations = relations(
