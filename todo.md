@@ -46,3 +46,5 @@
 - [ ] Write people who are working on similar ideas
     - [ ] https://x.com/moinbukh/status/1729555655776759851 https://x.com/NayanKad/status/1805259624892768462
     - [ ] https://discord.com/channels/901618801324478485/925314442131021824/1243197465562189994 / https://www.youtube.com/watch?v=UjX4Peh4xqM / https://www.linkedin.com/in/william-westerlund-aa2997b9/details/experience/
+
+## **DONE**
