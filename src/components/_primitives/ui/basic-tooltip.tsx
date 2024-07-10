@@ -15,7 +15,7 @@ export function BasicTooltip({ children, content }: BasicTooltipProps) {
     <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger>{children}</TooltipTrigger>
-        <TooltipContent className="w-96 max-w-[calc(100vw-64px)]">
+        <TooltipContent className="max-w-[max(400px, calc(100vw-64px))] w-auto shadow-xl">
           {content}
         </TooltipContent>
       </Tooltip>
