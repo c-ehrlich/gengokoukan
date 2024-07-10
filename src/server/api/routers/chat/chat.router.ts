@@ -1,7 +1,7 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { OpenAI } from "../../ai/openai";
 import { TRPCError } from "@trpc/server";
-import { chatPrompt } from "./chat.prompts";
+import { chatHintPrompt, chatPrompt } from "./chat.prompts";
 import { createChatPartnerSchemaClient } from "~/server/db/schema/chat-partners.zod";
 import {
   type ChatPartnerTableRow,
@@ -9,6 +9,8 @@ import {
 } from "~/server/db/schema/chat-partners";
 import { chatsTable } from "~/server/db/schema/chats";
 import {
+  chatHintAiResponseSchema,
+  chatHintSchema,
   deleteChatSchema,
   messagesPaginatedSchema,
   sendMessageAiResponseSchema,
@@ -19,6 +21,7 @@ import {
   type ChatMessageTableRow,
   chatMessagesTable,
 } from "~/server/db/schema/chat-messages";
+import { getChatWithPartner, getPaginatedMessages } from "./chat.queries";
 
 const CREATE_RESPONSE_MODEL = "gpt-4o-2024-05-13";
 
@@ -107,22 +110,93 @@ export const chatRouter = createTRPCRouter({
       return { chatId: deletedChat.id };
     }),
 
+  hint: protectedProcedure
+    .input(chatHintSchema)
+    .query(async ({ ctx, input }) => {
+      const messages = await getPaginatedMessages({
+        db: ctx.db,
+        chatId: input.chatId,
+        userId: ctx.session.user.id,
+        limit: 10,
+      });
+
+      const chat = await getChatWithPartner({
+        db: ctx.db,
+        chatId: input.chatId,
+        userId: ctx.session.user.id,
+      });
+
+      // TODO: extract generic version of this (start)
+      const chatCompletion = await OpenAI.chat.completions.create({
+        model: "gpt-4o-2024-05-13",
+        messages: [
+          {
+            role: "user",
+            content: chatHintPrompt({
+              chats: chat.messages,
+              partner: chat.chat_partner,
+            }),
+          },
+        ],
+      });
+
+      if (!chatCompletion.choices[0]) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "AI did not return a message",
+        });
+      }
+
+      const rawMessage = chatCompletion.choices[0].message.content;
+      const extractedJson = (rawMessage?.match(/\{[\s\S]*\}/) ?? [])[0];
+      console.log("ai response", {
+        raw: rawMessage,
+        jsonString: extractedJson,
+      });
+
+      let jsonParsed: unknown;
+      try {
+        jsonParsed = JSON.parse(extractedJson ?? "null");
+      } catch (e) {
+        console.error("error parsing model response:", e);
+
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "AI did not return a valid message",
+        });
+      }
+
+      const contentParsed = chatHintAiResponseSchema.safeParse(jsonParsed);
+
+      if (!contentParsed.success) {
+        console.error("error parsing model response:", contentParsed.error);
+
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "AI did not return a valid message",
+        });
+      }
+
+      const hintResponse = contentParsed.data;
+      // TODO: extract generic version of this (end)
+
+      const { hint, suggestedMessage } = hintResponse;
+
+      return {
+        hint: hint,
+        suggestedMessage: suggestedMessage,
+        lastMessageId: input.lastMessageId,
+      };
+    }),
+
   messages: protectedProcedure
     .input(messagesPaginatedSchema)
     .query(async ({ ctx, input }) => {
-      const messages = await ctx.db
-        .select()
-        .from(chatMessagesTable)
-        .where(
-          and(
-            eq(chatMessagesTable.chatId, input.chatId),
-            eq(chatMessagesTable.userId, ctx.session.user.id),
-            input.cursor
-              ? lt(chatMessagesTable.createdAt, new Date(input.cursor))
-              : undefined,
-          ),
-        )
-        .orderBy(desc(chatMessagesTable.createdAt));
+      const messages = await getPaginatedMessages({
+        db: ctx.db,
+        userId: ctx.session.user.id,
+        ...input,
+      });
 
       return messages;
     }),

@@ -25,3 +25,13 @@ export const messagesPaginatedSchema = z.object({
   limit: z.number().min(1).max(100),
   cursor: z.number().nullish(), // date as unix timestamp
 });
+
+export const chatHintSchema = z.object({
+  chatId: z.string(),
+  lastMessageId: z.number().optional(),
+});
+
+export const chatHintAiResponseSchema = z.object({
+  hint: z.string(),
+  suggestedMessage: z.string(),
+});

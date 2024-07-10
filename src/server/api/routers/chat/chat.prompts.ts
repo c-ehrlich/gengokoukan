@@ -64,11 +64,17 @@ function feedbackLanguage(jlptLevel: JLPTLevel) {
   }
 }
 
-function chatHistory(chats: Array<ChatMessageTableRow>) {
+function chatHistory({
+  chats,
+  names = { user: "Me", partner: "You" },
+}: {
+  chats: Array<ChatMessageTableRow>;
+  names?: { user: string; partner: string };
+}) {
   return chats
     .slice(-10)
     .map((chat) => {
-      const author = chat.author === "user" ? "Me" : "You";
+      const author = chat.author === "user" ? names.user : names.partner;
       return `${author}: ${chat.text.split("\n").filter(Boolean).join("")}`;
     })
     .join("\n");
@@ -112,7 +118,31 @@ ${
   chats.length === 0
     ? "Please get the conversation started by sending the first message."
     : `Below are the most recent messages from our conversation. Please use these to continue the conversation:
-${chatHistory(chats)}
+${chatHistory({ chats })}
 Me: ${newUserMessage}`
+}`;
+}
+
+type ChatHintPromptArgs = {
+  partner: ChatPartnerTableRow;
+  chats: Array<ChatMessageTableRow>;
+};
+
+export function chatHintPrompt({ partner, chats }: ChatHintPromptArgs) {
+  return `以下は二人の間で交わされた最近のメッセージです：
+
+${chatHistory({ chats, names: { user: "A", partner: "B" } })}
+
+状況は：${partner.situation}
+
+次の項目を提供してください：
+
+Aが次に言うと良いことのヒント
+Aが送ると良いとされるメッセージ
+次の形式で提供してください。JSON解析可能である必要があります：
+
+{
+  "hint": "<hint>",
+  "suggestedMessage": "<suggested message>"
 }`;
 }

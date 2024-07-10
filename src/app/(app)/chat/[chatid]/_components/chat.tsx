@@ -1,25 +1,29 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { Input } from "~/components/_primitives/shadcn-raw/input";
-import { api } from "~/trpc/react";
+import { api, RouterOutputs } from "~/trpc/react";
 import { useTextSelectionPopup } from "~/components/feature/text-selection-popup/use-text-selection-popup";
 import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-popup/text-selection-popup-wrapper";
 import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
 import { CozyAlert } from "~/components/_primitives/ui/cozy-alert";
 import { ChatMessage } from "./chat-message";
-import { MicIcon, SendIcon } from "lucide-react";
+import { LightbulbIcon, Loader2Icon, MicIcon, SendIcon } from "lucide-react";
 import { z } from "zod";
 import { useZodForm } from "~/components/_primitives/form/use-zod-form";
 import { BasicForm } from "~/components/_primitives/form/basic-form";
 import { type SubmitHandler } from "react-hook-form";
 import { TextSelectionPopupContent } from "./text-selection-popup-content";
 import { useVoiceInput } from "./useVoiceInput";
-import { MaybeBasicTooltip } from "~/components/_primitives/ui/basic-tooltip";
+import {
+  BasicTooltip,
+  MaybeBasicTooltip,
+} from "~/components/_primitives/ui/basic-tooltip";
 import { cn } from "~/components/_utils/cn";
 import { Toaster } from "~/components/_primitives/shadcn-raw/toaster";
+import { BasicCollapsible } from "~/components/_primitives/ui/collapsible";
 
 type UserMessage = {
   author: "user";
@@ -209,6 +213,15 @@ export function Chat({ chatId, chat }: ChatProps) {
     scrollToBottomRef,
   } = useChat({ chatId, chat });
 
+  const lastMessageId = chat.messages[chat.messages.length - 1]?.id;
+
+  const hintQuery = api.chat.hint.useQuery(
+    { chatId: chatId, lastMessageId },
+    {
+      enabled: false,
+    },
+  );
+
   const {
     containerProps,
     wrapperProps,
@@ -236,10 +249,9 @@ export function Chat({ chatId, chat }: ChatProps) {
                     {message.feedback && (
                       <div className="flex w-full justify-center">
                         <div className="w-3/4">
-                          <CozyAlert
-                            title="フィードバック"
-                            message={message.feedback}
-                          />
+                          <CozyAlert title="フィードバック">
+                            {message.feedback}
+                          </CozyAlert>
                         </div>
                       </div>
                     )}
@@ -250,6 +262,10 @@ export function Chat({ chatId, chat }: ChatProps) {
                     />
                   </>
                 ))}
+                <HintMaybe
+                  hint={hintQuery.data}
+                  lastMessageId={lastMessageId}
+                />
               </>
             ))}
             {messagesMutation.isPending && (
@@ -303,6 +319,19 @@ export function Chat({ chatId, chat }: ChatProps) {
                 <MicIcon className="h-5 w-5" />
               </Button>
             )}
+            <BasicTooltip content="ヒントを表示する">
+              <Button
+                size="icon"
+                variant="secondary"
+                onClick={() => hintQuery.refetch()}
+              >
+                {hintQuery.isFetching ? (
+                  <Loader2Icon className="h-5 w-5" />
+                ) : (
+                  <LightbulbIcon className="h-5 w-5" />
+                )}
+              </Button>
+            </BasicTooltip>
             <MaybeBasicTooltip
               enabled={!form.formState.isValid}
               content="Please input before submitting"
@@ -331,6 +360,40 @@ export function Chat({ chatId, chat }: ChatProps) {
         <TextSelectionPopupContent selectedText={selectedText} />
       </TextSelectionPopupWrapper>
       <Toaster />
+    </div>
+  );
+}
+
+function HintMaybe({
+  hint,
+  lastMessageId,
+}: {
+  hint?: RouterOutputs["chat"]["hint"];
+  lastMessageId?: number;
+}) {
+  if (!hint) {
+    return null;
+  }
+
+  if (hint.lastMessageId !== lastMessageId) {
+    return null;
+  }
+
+  return (
+    <div className="flex w-full justify-center">
+      <div className="w-3/4">
+        <CozyAlert title="ヒント">
+          <React.Fragment>
+            <p>{hint.hint}</p>
+            <BasicCollapsible
+              trigger="推奨メッセージを表示"
+              defaultOpen={false}
+            >
+              {hint.suggestedMessage}
+            </BasicCollapsible>
+          </React.Fragment>
+        </CozyAlert>
+      </div>
     </div>
   );
 }
