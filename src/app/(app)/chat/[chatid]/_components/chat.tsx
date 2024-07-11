@@ -23,6 +23,7 @@ import {
 import { cn } from "~/components/_utils/cn";
 import { Toaster } from "~/components/_primitives/shadcn-raw/toaster";
 import { type ChatMessageTableRow } from "~/server/db/schema/chat-messages";
+import { ChatInfoTooltip } from "./chat-info-tooltip";
 
 const chatMessageSchema = z.object({
   message: z.string().min(1),
@@ -110,7 +111,7 @@ function useChat({ chatId }: { chatId: string }) {
       form.reset();
     },
     onSuccess: (res) => {
-      // reply, feedback, rewritten, timestamp
+      // reply, feedback, rewritten, ti`mestamp
       const newMessage: ChatMessageTableRow = {
         author: "ai",
         text: res.reply,
@@ -217,10 +218,10 @@ export function Chat({ chatId, chat }: ChatProps) {
   });
 
   return (
-    <div className="flex h-full min-w-full flex-1 flex-shrink flex-col items-center">
+    <div className="relative flex h-full min-w-full flex-1 flex-shrink flex-col items-center">
       {messagesQuery.data?.pages[0]?.length ?? 0 > 0 ? (
         <div
-          className="flex w-full flex-1 flex-col items-center overflow-auto px-2 pt-2"
+          className="relative flex w-full flex-1 flex-col items-center overflow-auto px-2 pt-2"
           {...containerProps}
         >
           <div className="flex w-full max-w-4xl flex-col gap-4 pb-2">
@@ -253,6 +254,10 @@ export function Chat({ chatId, chat }: ChatProps) {
           メッセージを送って会話を始めよう...
         </div>
       )}
+
+      <div className="absolute left-2 top-2">
+        <ChatInfoTooltip chat={chat} />
+      </div>
 
       <div className="flex w-full max-w-4xl justify-center px-2 pb-2">
         <div className="flex w-full max-w-4xl flex-row gap-2 rounded-full bg-card p-2">

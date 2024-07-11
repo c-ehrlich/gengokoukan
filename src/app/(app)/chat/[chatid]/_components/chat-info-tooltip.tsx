@@ -1,5 +1,9 @@
 import { InfoCircledIcon } from "@radix-ui/react-icons";
-import { BasicTooltip } from "~/components/_primitives/ui/basic-tooltip";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/_primitives/shadcn-raw/popover";
 import {
   formalityStringFromOption,
   genderStrings,
@@ -12,8 +16,13 @@ export function ChatInfoTooltip({
   chat: ChatWithPartnerAndMessages;
 }) {
   return (
-    <BasicTooltip
-      content={
+    <Popover>
+      <PopoverTrigger>
+        <div className="z-50 cursor-pointer rounded-full border border-accent bg-chatbubble p-0.5 shadow-md hover:bg-chat">
+          <InfoCircledIcon className="h-6 w-6" />
+        </div>
+      </PopoverTrigger>
+      <PopoverContent collisionPadding={8}>
         <div className="flex flex-col gap-2">
           <p>Chat with {chat.chatPartner.name}</p>
           <ChatInfoTooltipSection
@@ -51,10 +60,8 @@ export function ChatInfoTooltip({
             <h2></h2>
           </div>
         </div>
-      }
-    >
-      <InfoCircledIcon className="h-6 w-6" />
-    </BasicTooltip>
+      </PopoverContent>
+    </Popover>
   );
 }
 
