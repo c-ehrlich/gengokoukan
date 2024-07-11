@@ -181,9 +181,6 @@ devDependencies:
   browser-gimei:
     specifier: ^0.1.0
     version: 0.1.0
-  dotenv:
-    specifier: ^16.4.5
-    version: 16.4.5
   drizzle-kit:
     specifier: ^0.22.8
     version: 0.22.8
@@ -3967,11 +3964,6 @@ packages:
       domelementtype: 2.3.0
       domhandler: 5.0.3
     dev: false
-
-  /dotenv@16.4.5:
-    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
-    engines: {node: '>=12'}
-    dev: true
 
   /drizzle-kit@0.22.8:
     resolution: {integrity: sha512-VjI4wsJjk3hSqHSa3TwBf+uvH6M6pRHyxyoVbt935GUzP9tUR/BRZ+MhEJNgryqbzN2Za1KP0eJMTgKEPsalYQ==}
