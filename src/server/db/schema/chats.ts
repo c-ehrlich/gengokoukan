@@ -38,6 +38,6 @@ export const chatsRelations = relations(chatsTable, ({ one, many }) => ({
 export type ChatTableRow = InferSelectModel<typeof chatsTable>;
 
 export type ChatWithPartnerAndMessages = ChatTableRow & {
-  chat_partner: ChatPartnerTableRow;
+  chatPartner: ChatPartnerTableRow;
   messages: ChatMessageTableRow[];
 };

@@ -18,7 +18,8 @@ export const chatMessagesTable = createTable("chat_message", {
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 
-  author: text("author", { enum: ["user", "ai", "hint"] }),
+  author: text("author", { enum: ["user", "ai", "hint"] }).notNull(),
+
   isOpenAIError: integer("is_openai_error", { mode: "boolean" }),
 
   text: text("text", { length: 1023 }).notNull(),

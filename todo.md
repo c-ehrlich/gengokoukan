@@ -7,6 +7,7 @@
 - [ ] "give me a hint" - ask ai to give you advice on what a good conversation pattern is for this situation
   - [x] ui
   - [x] prompt
+  - [ ] persist type errors
   - [ ] persist to db, and include in chat permanently
 - [ ] make it figure out when to pass time and move to the next stage of situation (eg waiter is done taking order, comes back with food)
 - [ ] add markdown documents (for example restaurant menu)

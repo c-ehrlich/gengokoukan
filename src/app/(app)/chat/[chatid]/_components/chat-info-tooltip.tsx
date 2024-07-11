@@ -15,35 +15,35 @@ export function ChatInfoTooltip({
     <BasicTooltip
       content={
         <div className="flex flex-col gap-2">
-          <p>Chat with {chat.chat_partner.name}</p>
+          <p>Chat with {chat.chatPartner.name}</p>
           <ChatInfoTooltipSection
             header="年齢"
-            content={`${String(chat.chat_partner.age)}歳`}
+            content={`${String(chat.chatPartner.age)}歳`}
           />
           <ChatInfoTooltipSection
             header="性別"
-            content={genderStrings[chat.chat_partner.gender]}
+            content={genderStrings[chat.chatPartner.gender]}
           />
           <ChatInfoTooltipSection
             header="出身"
-            content={chat.chat_partner.origin}
+            content={chat.chatPartner.origin}
           />
           <ChatInfoTooltipSection
             header="人格"
-            content={chat.chat_partner.personality}
+            content={chat.chatPartner.personality}
           />
           <ChatInfoTooltipSection
             header="関係"
-            content={chat.chat_partner.relation}
+            content={chat.chatPartner.relation}
           />
           <ChatInfoTooltipSection
             header="状況"
-            content={chat.chat_partner.situation}
+            content={chat.chatPartner.situation}
           />
-          {chat.chat_partner.formality && (
+          {chat.chatPartner.formality && (
             <ChatInfoTooltipSection
               header="話し方"
-              content={formalityStringFromOption(chat.chat_partner.formality)}
+              content={formalityStringFromOption(chat.chatPartner.formality)}
             />
           )}
 

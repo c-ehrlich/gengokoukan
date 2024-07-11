@@ -21,7 +21,7 @@ export function LandingChatList({
             prefetch={false}
           >
             <h3 className="text-lg font-medium">
-              {chat.chat_partner.name || "（名前未設定）"}
+              {chat.chatPartner.name || "（名前未設定）"}
             </h3>
             <p className="line-clamp-2 text-muted-foreground dark:text-muted-foreground">
               {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}

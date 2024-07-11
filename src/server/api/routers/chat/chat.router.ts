@@ -16,12 +16,15 @@ import {
   sendMessageAiResponseSchema,
   sendMessageInputSchema,
 } from "./chat.schema";
-import { and, desc, eq, lt } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import {
   type ChatMessageTableRow,
   chatMessagesTable,
 } from "~/server/db/schema/chat-messages";
-import { getChatWithPartner, getPaginatedMessages } from "./chat.queries";
+import {
+  getChatWithPartnerAndMessages,
+  getPaginatedMessages,
+} from "./chat.queries";
 
 const CREATE_RESPONSE_MODEL = "gpt-4o-2024-05-13";
 
@@ -112,15 +115,8 @@ export const chatRouter = createTRPCRouter({
 
   hint: protectedProcedure
     .input(chatHintSchema)
-    .query(async ({ ctx, input }) => {
-      const messages = await getPaginatedMessages({
-        db: ctx.db,
-        chatId: input.chatId,
-        userId: ctx.session.user.id,
-        limit: 10,
-      });
-
-      const chat = await getChatWithPartner({
+    .mutation(async ({ ctx, input }) => {
+      const chat = await getChatWithPartnerAndMessages({
         db: ctx.db,
         chatId: input.chatId,
         userId: ctx.session.user.id,
@@ -134,7 +130,7 @@ export const chatRouter = createTRPCRouter({
             role: "user",
             content: chatHintPrompt({
               chats: chat.messages,
-              partner: chat.chat_partner,
+              partner: chat.chatPartner,
             }),
           },
         ],
@@ -213,7 +209,7 @@ export const chatRouter = createTRPCRouter({
           eq(chatsTable.userId, ctx.session.user.id),
         ),
         with: {
-          chat_partner: true,
+          chatPartner: true,
           messages: {
             limit: 100,
             orderBy: (message, { desc }) => [desc(message.createdAt)],
@@ -234,7 +230,7 @@ export const chatRouter = createTRPCRouter({
             role: "user",
             content: message({
               userMessage: input.text,
-              partner: chat?.chat_partner,
+              partner: chat.chatPartner,
               messages: chat.messages,
             }),
           },

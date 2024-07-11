@@ -1,30 +1,17 @@
-import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { ensureSignedIn } from "~/components/_utils/ensure-signed-in";
 import { db } from "~/server/db";
-import {
-  type ChatWithPartnerAndMessages,
-  chatsTable,
-} from "~/server/db/schema/chats";
+import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
 import { LandingChatList } from "./_components/landing-chat-list";
+import { getChatList } from "~/server/api/routers/chat/chat.queries";
 
 export default async function RootAppPage() {
   const session = await ensureSignedIn();
 
-  const chats = await db.query.chatsTable.findMany({
-    with: {
-      chat_partner: true,
-      messages: {
-        limit: 1,
-        orderBy: (message, { desc }) => desc(message.createdAt),
-      },
-    },
-    where: eq(chatsTable.userId, session.user.id),
-    // TODO: use updatedAt instead
-    orderBy: (chat, { desc }) => desc(chat.createdAt),
-    // TODO: infinite scroll
-    limit: 50,
+  const chats = await getChatList({
+    db: db,
+    userId: session.user.id,
   });
 
   const chatsByRecency = {
@@ -36,10 +23,6 @@ export default async function RootAppPage() {
   };
 
   for (const chat of chats) {
-    console.log("chat", {
-      partner: chat.chat_partner,
-      created: chat.createdAt,
-    });
     if (chat.createdAt > new Date(Date.now() - 24 * 60 * 60 * 1000)) {
       chatsByRecency.today.push(chat);
     } else if (

@@ -4,11 +4,10 @@ import { useParams } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { Input } from "~/components/_primitives/shadcn-raw/input";
-import { api, RouterOutputs } from "~/trpc/react";
+import { api } from "~/trpc/react";
 import { useTextSelectionPopup } from "~/components/feature/text-selection-popup/use-text-selection-popup";
 import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-popup/text-selection-popup-wrapper";
 import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
-import { CozyAlert } from "~/components/_primitives/ui/cozy-alert";
 import { ChatMessage } from "./chat-message";
 import { LightbulbIcon, Loader2Icon, MicIcon, SendIcon } from "lucide-react";
 import { z } from "zod";
@@ -23,33 +22,14 @@ import {
 } from "~/components/_primitives/ui/basic-tooltip";
 import { cn } from "~/components/_utils/cn";
 import { Toaster } from "~/components/_primitives/shadcn-raw/toaster";
-import { BasicCollapsible } from "~/components/_primitives/ui/collapsible";
-
-type UserMessage = {
-  author: "user";
-  text: string;
-  timestamp: number;
-};
-type AIMessage = {
-  author: "ai";
-  text: string;
-  timestamp: number;
-  feedback?: string;
-};
-type Message = UserMessage | AIMessage;
+import { type ChatMessageTableRow } from "~/server/db/schema/chat-messages";
 
 const chatMessageSchema = z.object({
   message: z.string().min(1),
 });
 type chatMessageSchema = z.infer<typeof chatMessageSchema>;
 
-function useChat({
-  chatId,
-  chat,
-}: {
-  chatId: string;
-  chat: ChatWithPartnerAndMessages;
-}) {
+function useChat({ chatId }: { chatId: string }) {
   const utils = api.useUtils();
 
   const scrollToBottomRef = useRef<HTMLDivElement>(null);
@@ -80,22 +60,23 @@ function useChat({
 
   const messagesMutation = api.chat.sendMessage.useMutation({
     onMutate: (data) => {
-      const newMessage = {
+      const newMessage: ChatMessageTableRow = {
         author: "user",
         text: data.text,
-        timestamp: Date.now(),
         chatId: chatId,
         id: 123,
         userId: "temp",
         createdAt: new Date(),
         // TODO: change schema to make this optional
-        is_openai_error: null,
+        isOpenAIError: null,
         feedback: null,
         corrected: null,
-        prompt_tokens: null,
-        completion_tokens: null,
+        promptTokens: null,
+        completionTokens: null,
         model: null,
-        prompt_version: null,
+        promptVersion: null,
+        hint: null,
+        suggestedMessage: null,
       } as const;
 
       utils.chat.messages.setInfiniteData(
@@ -130,22 +111,23 @@ function useChat({
     },
     onSuccess: (res) => {
       // reply, feedback, rewritten, timestamp
-      const newMessage = {
+      const newMessage: ChatMessageTableRow = {
         author: "ai",
         text: res.reply,
-        timestamp: res.timestamp,
         chatId: chatId,
         id: 123,
         userId: "temp",
         createdAt: new Date(),
         // TODO: change schema to make this optional
-        is_openai_error: null,
+        isOpenAIError: null,
         feedback: res.feedback,
         corrected: res.rewritten,
-        prompt_tokens: null,
-        completion_tokens: null,
+        promptTokens: null,
+        completionTokens: null,
         model: null,
-        prompt_version: null,
+        promptVersion: null,
+        hint: null,
+        suggestedMessage: null,
       } as const;
 
       utils.chat.messages.setInfiniteData(
@@ -207,20 +189,20 @@ export function Chat({ chatId, chat }: ChatProps) {
   const {
     form,
     onSubmit,
-    chatid,
+    // chatid,
     messagesQuery,
     messagesMutation,
     scrollToBottomRef,
-  } = useChat({ chatId, chat });
+  } = useChat({ chatId });
 
   const lastMessageId = chat.messages[chat.messages.length - 1]?.id;
 
-  const hintQuery = api.chat.hint.useQuery(
-    { chatId: chatId, lastMessageId },
-    {
-      enabled: false,
+  const utils = api.useUtils();
+  const hintMutation = api.chat.hint.useMutation({
+    onSuccess: async () => {
+      await utils.chat.messages.invalidate();
     },
-  );
+  });
 
   const {
     containerProps,
@@ -245,27 +227,11 @@ export function Chat({ chatId, chat }: ChatProps) {
             {[...(messagesQuery.data?.pages ?? [])].reverse().map((page) => (
               <>
                 {[...page].reverse().map((message) => (
-                  <>
-                    {message.feedback && (
-                      <div className="flex w-full justify-center">
-                        <div className="w-3/4">
-                          <CozyAlert title="フィードバック">
-                            {message.feedback}
-                          </CozyAlert>
-                        </div>
-                      </div>
-                    )}
-                    <ChatMessage
-                      key={message.id}
-                      author={message.author ?? "ai"}
-                      text={message.text}
-                    />
-                  </>
+                  <ChatMessage
+                    key={`message-${message.id}`}
+                    message={message}
+                  />
                 ))}
-                <HintMaybe
-                  hint={hintQuery.data}
-                  lastMessageId={lastMessageId}
-                />
               </>
             ))}
             {messagesMutation.isPending && (
@@ -273,7 +239,7 @@ export function Chat({ chatId, chat }: ChatProps) {
                 className="flex w-full justify-center"
                 key="partner-input-placeholder"
               >
-                {chat.chat_partner.name}が入力中…
+                {chat.chatPartner.name}が入力中…
               </p>
             )}
             <div
@@ -323,10 +289,15 @@ export function Chat({ chatId, chat }: ChatProps) {
               <Button
                 size="icon"
                 variant="secondary"
-                onClick={() => hintQuery.refetch()}
+                onClick={() =>
+                  hintMutation.mutate({
+                    chatId: chatId,
+                    lastMessageId,
+                  })
+                }
               >
-                {hintQuery.isFetching ? (
-                  <Loader2Icon className="h-5 w-5" />
+                {hintMutation.isPending ? (
+                  <Loader2Icon className="h-5 w-5 animate-spin" />
                 ) : (
                   <LightbulbIcon className="h-5 w-5" />
                 )}
@@ -360,40 +331,6 @@ export function Chat({ chatId, chat }: ChatProps) {
         <TextSelectionPopupContent selectedText={selectedText} />
       </TextSelectionPopupWrapper>
       <Toaster />
-    </div>
-  );
-}
-
-function HintMaybe({
-  hint,
-  lastMessageId,
-}: {
-  hint?: RouterOutputs["chat"]["hint"];
-  lastMessageId?: number;
-}) {
-  if (!hint) {
-    return null;
-  }
-
-  if (hint.lastMessageId !== lastMessageId) {
-    return null;
-  }
-
-  return (
-    <div className="flex w-full justify-center">
-      <div className="w-3/4">
-        <CozyAlert title="ヒント">
-          <React.Fragment>
-            <p>{hint.hint}</p>
-            <BasicCollapsible
-              trigger="推奨メッセージを表示"
-              defaultOpen={false}
-            >
-              {hint.suggestedMessage}
-            </BasicCollapsible>
-          </React.Fragment>
-        </CozyAlert>
-      </div>
     </div>
   );
 }

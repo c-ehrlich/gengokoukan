@@ -1,9 +1,8 @@
 import { ensureSignedIn } from "~/components/_utils/ensure-signed-in";
 import { Chat } from "./_components/chat";
 import { db } from "~/server/db";
-import { and, eq } from "drizzle-orm";
-import { chatsTable } from "~/server/db/schema/chats";
 import { redirect } from "next/navigation";
+import { getChatWithPartnerAndMessages } from "~/server/api/routers/chat/chat.queries";
 
 export default async function ChatPage({
   params,
@@ -14,18 +13,10 @@ export default async function ChatPage({
 
   const session = await ensureSignedIn();
 
-  const chat = await db.query.chatsTable.findFirst({
-    where: and(
-      eq(chatsTable.id, chatid),
-      eq(chatsTable.userId, session.user.id),
-    ),
-    with: {
-      chat_partner: true,
-      messages: {
-        limit: 100,
-        orderBy: (message, { desc }) => [desc(message.createdAt)],
-      },
-    },
+  const chat = await getChatWithPartnerAndMessages({
+    db: db,
+    chatId: chatid,
+    userId: session.user.id,
   });
 
   if (!chat) {
