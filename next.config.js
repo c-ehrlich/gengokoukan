@@ -1,4 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-var-requires */
+
 import iwebpack from "webpack";
 import path from "path";
 
@@ -19,7 +23,8 @@ const config = {
   experimental: {
     instrumentationHook: true,
   },
-  webpack: (config, options) => {
+  // TODO: is this still needed?
+  webpack: (config, _options) => {
     return {
       ...config,
       plugins: [
