@@ -176,6 +176,20 @@ export const chatRouter = createTRPCRouter({
       const hintResponse = contentParsed.data;
       // TODO: extract generic version of this (end)
 
+      await ctx.db.insert(chatMessagesTable).values([
+        {
+          chatId: input.chatId,
+          userId: ctx.session.user.id,
+          createdAt: new Date(),
+          author: "hint",
+
+          text: "", // TODO: not ideal
+
+          hint: hintResponse.hint,
+          suggestedMessage: hintResponse.suggestedMessage,
+        },
+      ]);
+
       const { hint, suggestedMessage } = hintResponse;
 
       return {
