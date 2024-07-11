@@ -223,7 +223,7 @@ export function Chat({ chatId, chat }: ChatProps) {
           className="flex w-full flex-1 flex-col items-center overflow-auto px-2 pt-2"
           {...containerProps}
         >
-          <div className="flex max-w-4xl flex-col gap-4 pb-2">
+          <div className="flex w-full max-w-4xl flex-col gap-4 pb-2">
             {[...(messagesQuery.data?.pages ?? [])].reverse().map((page) => (
               <>
                 {[...page].reverse().map((message) => (
