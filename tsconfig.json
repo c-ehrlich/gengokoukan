@@ -28,6 +28,9 @@
     "paths": {
       "~/*": ["./src/*"]
     },
+
+    /* CUSTOM */
+    "allowImportingTsExtensions": true,
   },
   "include": [
     ".eslintrc.cjs",

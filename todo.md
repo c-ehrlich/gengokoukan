@@ -4,11 +4,7 @@
 - [ ] make it consistently respect en/jp choice
 - [ ] make it use SRS words and increase their interval if used
     - (probably just switch the statements around)
-- [ ] "give me a hint" - ask ai to give you advice on what a good conversation pattern is for this situation
-  - [x] ui
-  - [x] prompt
-  - [ ] persist type errors
-  - [ ] persist to db, and include in chat permanently
+
 - [ ] make it figure out when to pass time and move to the next stage of situation (eg waiter is done taking order, comes back with food)
 - [ ] add markdown documents (for example restaurant menu)
 - [ ] write prompts for more situations
@@ -16,9 +12,11 @@
 - [ ] get summaries working (gpt3.5)
 - [ ] Read this - https://community.openai.com/t/how-can-i-maintain-conversation-continuity-with-chat-gpt-api/574819/3
 - [ ] Do some comparisons on https://chat.lmsys.org/
+- [ ] it shouldn't correct me if i literally copy paste the suggested message
 
 ## Infra
 - [ ] start tracking token usage (to axiom)
+- [ ] setup otel
 - [ ] translation https://locize.com/blog/next-app-dir-i18n/
 - [ ] google login
 - [ ] check if responses (corrections) are in the right language (>50% of characters A-Za-z?), translate with gpt-3.5 if wrong, log
@@ -49,3 +47,8 @@
     - [ ] https://discord.com/channels/901618801324478485/925314442131021824/1243197465562189994 / https://www.youtube.com/watch?v=UjX4Peh4xqM / https://www.linkedin.com/in/william-westerlund-aa2997b9/details/experience/
 
 ## **DONE**
+- [x] "give me a hint" - ask ai to give you advice on what a good conversation pattern is for this situation
+  - [x] ui
+  - [x] prompt
+  - [x] fix type errors
+  - [x] persist to db, and include in chat permanently
