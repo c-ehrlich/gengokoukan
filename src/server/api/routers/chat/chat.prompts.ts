@@ -129,16 +129,19 @@ type ChatHintPromptArgs = {
 };
 
 export function chatHintPrompt({ partner, chats }: ChatHintPromptArgs) {
+  const userName = "あなた";
+  const partnerName = "相手";
+
   return `以下は二人の間で交わされた最近のメッセージです：
 
-${chatHistory({ chats, names: { user: "A", partner: "B" } })}
+${chatHistory({ chats, names: { user: userName, partner: partnerName } })}
 
 状況は：${partner.situation}
 
 次の項目を提供してください：
 
-Aが次に言うと良いことのヒント
-Aが送ると良いとされるメッセージ
+${userName}が次に言うと良いことのヒント
+${userName}が送ると良いとされるメッセージ
 次の形式で提供してください。JSON解析可能である必要があります：
 
 {
