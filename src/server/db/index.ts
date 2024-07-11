@@ -1,5 +1,8 @@
 import { createClient, type Client } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
+import { type Logger } from "drizzle-orm/logger";
+import { type SpanAttributes } from "@opentelemetry/api";
+import packageJson from "../../../package.json";
 
 import { env } from "~/env";
 import { usersRelations, usersTable } from "./schema/users";
@@ -53,8 +56,21 @@ const globalForDb = globalThis as unknown as {
   client: Client | undefined;
 };
 
+export let dbQueryContext: SpanAttributes = {};
+
+class CustomLogger implements Logger {
+  logQuery(query: string, params: unknown[]) {
+    dbQueryContext = {
+      "db.statement": query,
+      "db.params": JSON.stringify(params),
+      "db.orm.system": "drizzle",
+      "db.orm.version": packageJson.dependencies["drizzle-orm"],
+    };
+  }
+}
+
 export const client =
   globalForDb.client ?? createClient({ url: env.DATABASE_URL });
 if (env.NODE_ENV !== "production") globalForDb.client = client;
 
-export const db = drizzle(client, { schema });
+export const db = drizzle(client, { schema, logger: new CustomLogger() });

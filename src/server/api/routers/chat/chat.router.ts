@@ -24,7 +24,9 @@ import {
 import {
   getChatWithPartnerAndMessages,
   getPaginatedMessages,
+  insertChatHint,
 } from "./chat.queries";
+import { openaiWithSpan } from "../../ai/openaiWithSpan";
 
 const CREATE_RESPONSE_MODEL = "gpt-4o-2024-05-13";
 
@@ -123,17 +125,20 @@ export const chatRouter = createTRPCRouter({
       });
 
       // TODO: extract generic version of this (start)
-      const chatCompletion = await OpenAI.chat.completions.create({
-        model: "gpt-4o-2024-05-13",
-        messages: [
-          {
-            role: "user",
-            content: chatHintPrompt({
-              chats: chat.messages,
-              partner: chat.chatPartner,
-            }),
-          },
-        ],
+      const chatCompletion = await openaiWithSpan({
+        body: {
+          model: "gpt-4o-2024-05-13",
+          messages: [
+            {
+              role: "user",
+              content: chatHintPrompt({
+                chats: chat.messages,
+                partner: chat.chatPartner,
+              }),
+            },
+          ],
+        },
+        name: "chatHint",
       });
 
       if (!chatCompletion.choices[0]) {
@@ -176,19 +181,13 @@ export const chatRouter = createTRPCRouter({
       const hintResponse = contentParsed.data;
       // TODO: extract generic version of this (end)
 
-      await ctx.db.insert(chatMessagesTable).values([
-        {
-          chatId: input.chatId,
-          userId: ctx.session.user.id,
-          createdAt: new Date(),
-          author: "hint",
-
-          text: "", // TODO: not ideal
-
-          hint: hintResponse.hint,
-          suggestedMessage: hintResponse.suggestedMessage,
-        },
-      ]);
+      await insertChatHint({
+        db: ctx.db,
+        chatId: input.chatId,
+        userId: ctx.session.user.id,
+        hint: hintResponse.hint,
+        suggestedMessage: hintResponse.suggestedMessage,
+      });
 
       const { hint, suggestedMessage } = hintResponse;
 

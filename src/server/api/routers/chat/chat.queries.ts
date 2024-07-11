@@ -2,6 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { and, desc, eq, lt } from "drizzle-orm";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { type DBSchema } from "~/server/db";
+import { dbCallWithSpan } from "~/server/db/dbCallWithSpan";
 import { chatMessagesTable } from "~/server/db/schema/chat-messages";
 import { chatsTable } from "~/server/db/schema/chats";
 
@@ -32,7 +33,7 @@ export async function getPaginatedMessages({
     .orderBy(desc(chatMessagesTable.createdAt));
 }
 
-export async function getChatWithPartnerAndMessages({
+async function _getChatWithPartnerAndMessages({
   db,
   chatId,
   userId,
@@ -59,8 +60,12 @@ export async function getChatWithPartnerAndMessages({
 
   return chat;
 }
+export const getChatWithPartnerAndMessages = dbCallWithSpan(
+  _getChatWithPartnerAndMessages,
+  "getChatWithPartnerAndMessages",
+);
 
-export async function getChatList({
+async function _getChatList({
   db,
   userId,
 }: {
@@ -83,3 +88,33 @@ export async function getChatList({
     limit: 50,
   });
 }
+export const getChatList = dbCallWithSpan(_getChatList, "getChatList");
+
+async function _insertChatHint({
+  db,
+  chatId,
+  userId,
+  hint,
+  suggestedMessage,
+}: {
+  db: LibSQLDatabase<DBSchema>;
+  chatId: string;
+  userId: string;
+  hint: string;
+  suggestedMessage: string;
+}) {
+  await db.insert(chatMessagesTable).values([
+    {
+      chatId: chatId,
+      userId: userId,
+      createdAt: new Date(),
+      author: "hint",
+
+      text: "", // TODO: not ideal
+
+      hint: hint,
+      suggestedMessage: suggestedMessage,
+    },
+  ]);
+}
+export const insertChatHint = dbCallWithSpan(_insertChatHint, "insertChatHint");

@@ -107,7 +107,7 @@ function SituationChatCard({
             personality: "kind and service oriented",
             relation: "you are my waitress in a 和食 restaurant",
             situation:
-              "i am a patron in a washoku restaurant. you just brought me the menu and will inform me about the dishes and today's specials. then you will take my order. take the conversation forward from there as it makes sense for this interaction.",
+              "私は和食レストランの客です。あなたはメニューを持ってきて、料理と今日のおすすめについて教えてくれます。そして、私の注文を取ります。このやりとりがスムーズに進むように会話を続けてください。",
           },
           {
             onSuccess: (data) => {
