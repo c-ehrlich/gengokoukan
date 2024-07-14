@@ -1,8 +1,11 @@
+import { TRPCError } from "@trpc/server";
+import { and, eq } from "drizzle-orm";
+import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { z } from "zod";
 import { protectedProcedure } from "~/server/api/trpc";
+import { type DBSchema } from "~/server/db";
+import { dbCallWithSpan } from "~/server/db/dbCallWithSpan";
 import { chatsTable } from "~/server/db/schema/chats";
-import { and, eq } from "drizzle-orm";
-import { TRPCError } from "@trpc/server";
 
 /**
  * SCHEMA
@@ -13,21 +16,39 @@ const deleteChatSchema = z.object({
 });
 
 /**
+ * DB
+ */
+
+export const deleteChatDb = dbCallWithSpan(
+  "deleteChat",
+  async ({
+    db,
+    chatId,
+    userId,
+  }: {
+    db: LibSQLDatabase<DBSchema>;
+    chatId: string;
+    userId: string;
+  }) => {
+    return db
+      .delete(chatsTable)
+      .where(and(eq(chatsTable.id, chatId), eq(chatsTable.userId, userId)))
+      .returning({ id: chatsTable.id });
+  },
+);
+
+/**
  * PROCEDURE
  */
 
 export const deleteChat = protectedProcedure
   .input(deleteChatSchema)
   .mutation(async ({ ctx, input }) => {
-    const [deletedChat] = await ctx.db
-      .delete(chatsTable)
-      .where(
-        and(
-          eq(chatsTable.id, input.chatId),
-          eq(chatsTable.userId, ctx.session.user.id),
-        ),
-      )
-      .returning({ id: chatsTable.id });
+    const [deletedChat] = await deleteChatDb({
+      db: ctx.db,
+      chatId: input.chatId,
+      userId: ctx.session.user.id,
+    });
 
     if (!deletedChat) {
       throw new TRPCError({

@@ -63,6 +63,48 @@ const getLast100Messages = dbCallWithSpan(
   },
 );
 
+const saveMessages = dbCallWithSpan(
+  "saveMessage",
+  async ({
+    db,
+    createdAt,
+    chatId,
+    userId,
+    userInput,
+    aiResponse,
+  }: {
+    db: LibSQLDatabase<DBSchema>;
+    createdAt: number;
+    chatId: string;
+    userId: string;
+    userInput: { text: string };
+    aiResponse: { reply: string; feedback?: string; rewritten?: string };
+  }) => {
+    return db
+      .insert(chatMessagesTable)
+      .values([
+        {
+          chatId: chatId,
+          userId: userId,
+          createdAt: new Date(createdAt),
+          author: "user",
+          text: userInput.text,
+        },
+        {
+          chatId: chatId,
+          userId: userId,
+          createdAt: new Date(),
+          author: "ai",
+          model: Models.Powerful,
+          text: aiResponse.reply,
+          feedback: aiResponse.feedback,
+          corrected: aiResponse.rewritten,
+        },
+      ])
+      .returning();
+  },
+);
+
 /**
  * AI
  */
@@ -266,28 +308,14 @@ export const sendMessage = protectedProcedure
     }
 
     // TODO: wrap in span
-    const res = await ctx.db
-      .insert(chatMessagesTable)
-      .values([
-        {
-          chatId: chat.id,
-          userId: ctx.session.user.id,
-          createdAt: new Date(userMessageTimetamp),
-          author: "user",
-          text: input.text,
-        },
-        {
-          chatId: chat.id,
-          userId: ctx.session.user.id,
-          createdAt: new Date(),
-          author: "ai",
-          model: Models.Powerful,
-          text: contentParsed.data.reply,
-          feedback: contentParsed.data.feedback,
-          corrected: contentParsed.data.rewritten,
-        },
-      ])
-      .returning();
+    const res = await saveMessages({
+      db: ctx.db,
+      createdAt: userMessageTimetamp,
+      chatId: input.chatId,
+      userId: ctx.session.user.id,
+      userInput: { text: input.text },
+      aiResponse: contentParsed.data,
+    });
 
     const aiResponse = res[1]!; // TODO: dont assert
 
