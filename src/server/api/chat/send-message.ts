@@ -3,7 +3,7 @@ import { and, eq } from "drizzle-orm";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { z } from "zod";
 import { Models } from "~/server/ai/models";
-import { openaiWithSpan } from "~/server/ai/openaiWithSpan";
+import { openAiPrompt } from "~/server/ai/openAiPrompt";
 import { chatHistory } from "~/server/api/chat/shared_ai/chat-history";
 import { protectedProcedure } from "~/server/api/trpc";
 import { type DBSchema } from "~/server/db";
@@ -254,75 +254,46 @@ export const sendMessage = protectedProcedure
       });
     }
 
-    const chatCompletion = await openaiWithSpan({
-      body: {
-        model: "gpt-4o-2024-05-13",
-        messages: [
-          {
-            role: "user",
-            content: message({
-              userMessage: input.text,
-              partner: chat.chatPartner,
-              messages: chat.messages,
-            }),
-          },
-        ],
+    const _aiResponse = await openAiPrompt({
+      prompt: {
+        name: "sendMessage",
+        body: {
+          model: "gpt-4o-2024-05-13",
+          messages: [
+            {
+              role: "user",
+              content: message({
+                userMessage: input.text,
+                partner: chat.chatPartner,
+                messages: chat.messages,
+              }),
+            },
+          ],
+        },
       },
+      schema: sendMessageAiResponseSchema,
     });
 
-    if (!chatCompletion.choices[0]) {
+    const [_persistedUserMessage, persistedAiResponse] = await saveMessages({
+      db: ctx.db,
+      createdAt: userMessageTimetamp,
+      chatId: input.chatId,
+      userId: ctx.session.user.id,
+      userInput: { text: input.text },
+      aiResponse: _aiResponse,
+    });
+
+    if (!persistedAiResponse) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "AI did not return a message",
       });
     }
 
-    const rawMessage = chatCompletion.choices[0].message.content;
-    const extractedJson = (rawMessage?.match(/\{[\s\S]*\}/) ?? [])[0];
-    console.log("ai response", {
-      raw: rawMessage,
-      jsonString: extractedJson,
-    });
-
-    let jsonParsed: unknown;
-    try {
-      jsonParsed = JSON.parse(extractedJson ?? "null");
-    } catch (e) {
-      console.error("error parsing model response:", e);
-
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "AI did not return a valid message",
-      });
-    }
-
-    const contentParsed = sendMessageAiResponseSchema.safeParse(jsonParsed);
-
-    if (!contentParsed.success) {
-      console.error("error parsing model response:", contentParsed.error);
-
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "AI did not return a valid message",
-      });
-    }
-
-    // TODO: wrap in span
-    const res = await saveMessages({
-      db: ctx.db,
-      createdAt: userMessageTimetamp,
-      chatId: input.chatId,
-      userId: ctx.session.user.id,
-      userInput: { text: input.text },
-      aiResponse: contentParsed.data,
-    });
-
-    const aiResponse = res[1]!; // TODO: dont assert
-
     return {
-      reply: aiResponse.text,
-      feedback: aiResponse.feedback,
-      rewritten: aiResponse.corrected,
-      timestamp: aiResponse.createdAt.getTime(),
+      reply: persistedAiResponse.text,
+      feedback: persistedAiResponse.feedback,
+      rewritten: persistedAiResponse.corrected,
+      timestamp: persistedAiResponse.createdAt.getTime(),
     };
   });

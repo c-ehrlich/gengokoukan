@@ -1,8 +1,7 @@
-import { TRPCError } from "@trpc/server";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { z } from "zod";
 import { Models } from "~/server/ai/models";
-import { openaiWithSpan } from "~/server/ai/openaiWithSpan";
+import { openAiPrompt } from "~/server/ai/openAiPrompt";
 import { chatHistory } from "~/server/api/chat/shared_ai/chat-history";
 import { getChatWithPartnerAndMessages } from "~/server/api/chat/shared_db/get-chat-with-partner-and-messages";
 import { protectedProcedure } from "~/server/api/trpc";
@@ -107,58 +106,24 @@ export const getHint = protectedProcedure
       userId: ctx.session.user.id,
     });
 
-    // TODO: extract generic version of this (start)
-    const chatCompletion = await openaiWithSpan({
-      body: {
-        model: Models.Powerful,
-        messages: [
-          {
-            role: "user",
-            content: chatHintPrompt({
-              chats: chat.messages,
-              partner: chat.chatPartner,
-            }),
-          },
-        ],
+    const hintResponse = await openAiPrompt({
+      prompt: {
+        name: "chatHint",
+        body: {
+          model: Models.Powerful,
+          messages: [
+            {
+              role: "user",
+              content: chatHintPrompt({
+                chats: chat.messages,
+                partner: chat.chatPartner,
+              }),
+            },
+          ],
+        },
       },
-      name: "chatHint",
+      schema: chatHintAiResponseSchema,
     });
-
-    if (!chatCompletion.choices[0]) {
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "AI did not return a message",
-      });
-    }
-
-    const rawMessage = chatCompletion.choices[0].message.content;
-    const extractedJson = (rawMessage?.match(/\{[\s\S]*\}/) ?? [])[0];
-
-    let jsonParsed: unknown;
-    try {
-      jsonParsed = JSON.parse(extractedJson ?? "null");
-    } catch (e) {
-      console.error("error parsing model response:", e);
-
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "AI did not return a valid message",
-      });
-    }
-
-    const contentParsed = chatHintAiResponseSchema.safeParse(jsonParsed);
-
-    if (!contentParsed.success) {
-      console.error("error parsing model response:", contentParsed.error);
-
-      throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "AI did not return a valid message",
-      });
-    }
-
-    const hintResponse = contentParsed.data;
-    // TODO: extract generic version of this (end)
 
     await insertChatHint({
       db: ctx.db,
@@ -168,11 +133,8 @@ export const getHint = protectedProcedure
       suggestedMessage: hintResponse.suggestedMessage,
     });
 
-    const { hint, suggestedMessage } = hintResponse;
-
     return {
-      hint: hint,
-      suggestedMessage: suggestedMessage,
+      ...hintResponse,
       lastMessageId: input.lastMessageId,
     };
   });
