@@ -1,5 +1,6 @@
 import { createChat } from "./chat/create-chat";
 import { deleteChat } from "./chat/delete-chat";
+import { getChat } from "./chat/get-chat";
 import { getChatList } from "./chat/get-chat-list";
 import { getHint } from "./chat/get-hint";
 import { getMessages } from "./chat/get-messages";
@@ -19,6 +20,7 @@ export const appRouter = createTRPCRouter({
     createChat: createChat,
     deleteChat: deleteChat,
     getChatList: getChatList,
+    getChat: getChat,
     getHint: getHint,
     getMessages: getMessages,
     sendMessage: sendMessage,

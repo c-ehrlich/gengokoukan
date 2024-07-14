@@ -1,9 +1,11 @@
+import { protectedProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
-
+import { z } from "zod";
 import { type DBSchema } from "~/server/db";
 import { dbCallWithSpan } from "~/server/db/dbCallWithSpan";
 
+// TODO: use a transaction to get chat/partner separately from messages, so we can paginate the messages
 export const getChatWithPartnerAndMessages = dbCallWithSpan(
   "getChatWithPartnerAndMessages",
   async ({
@@ -34,3 +36,15 @@ export const getChatWithPartnerAndMessages = dbCallWithSpan(
     return chat;
   },
 );
+
+export const getChat = protectedProcedure
+  .input(z.object({ chatId: z.string() }))
+  .query(async ({ ctx, input }) => {
+    const chat = await getChatWithPartnerAndMessages({
+      db: ctx.db,
+      chatId: input.chatId,
+      userId: ctx.session.user.id,
+    });
+
+    return chat;
+  });

@@ -205,7 +205,7 @@ ${
   chats.length === 0
     ? "Please get the conversation started by sending the first message."
     : `Below are the most recent messages from our conversation. Please use these to continue the conversation:
-${chatHistory({ chats })}
+${chatHistory({ messages: chats })}
 Me: ${newUserMessage}`
 }`;
 }

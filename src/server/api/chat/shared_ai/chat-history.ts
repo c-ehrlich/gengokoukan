@@ -1,13 +1,13 @@
 import { type ChatMessageTableRow } from "~/server/db/schema/chat-messages";
 
 export function chatHistory({
-  chats,
+  messages,
   names = { user: "Me", partner: "You" },
 }: {
-  chats: Array<ChatMessageTableRow>;
+  messages: Array<ChatMessageTableRow>;
   names?: { user: string; partner: string };
 }) {
-  return chats
+  return messages
     .slice(-10)
     .map((chat) => {
       const author = chat.author === "user" ? names.user : names.partner;

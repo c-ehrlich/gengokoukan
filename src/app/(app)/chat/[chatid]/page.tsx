@@ -1,22 +1,19 @@
-import { ensureSignedIn } from "~/components/_utils/ensure-signed-in";
 import { Chat } from "./_components/chat";
-import { db } from "~/server/db";
 import { redirect } from "next/navigation";
-import { getChatWithPartnerAndMessages } from "~/server/api/chat/shared_db/get-chat-with-partner-and-messages";
+import { ensureSignedIn } from "~/components/_utils/ensure-signed-in";
+import { api } from "~/trpc/server";
 
 export default async function ChatPage({
   params,
 }: {
   params: { chatid: string };
 }) {
+  await ensureSignedIn();
+
   const { chatid } = params;
 
-  const session = await ensureSignedIn();
-
-  const chat = await getChatWithPartnerAndMessages({
-    db: db,
+  const chat = await api.chat.getChat({
     chatId: chatid,
-    userId: session.user.id,
   });
 
   if (!chat) {
