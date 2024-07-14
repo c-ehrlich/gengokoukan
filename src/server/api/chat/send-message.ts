@@ -1,17 +1,19 @@
-import { z } from "zod";
-import { and, eq } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
-
+import { and, eq } from "drizzle-orm";
+import { type LibSQLDatabase } from "drizzle-orm/libsql";
+import { z } from "zod";
+import { Models } from "~/server/ai/models";
+import { openaiWithSpan } from "~/server/ai/openaiWithSpan";
+import { chatHistory } from "~/server/api/chat/shared_ai/chat-history";
+import { protectedProcedure } from "~/server/api/trpc";
+import { type DBSchema } from "~/server/db";
+import { dbCallWithSpan } from "~/server/db/dbCallWithSpan";
 import {
   chatMessagesTable,
   type ChatMessageTableRow,
 } from "~/server/db/schema/chat-messages";
 import { type ChatPartnerTableRow } from "~/server/db/schema/chat-partners";
-import { protectedProcedure } from "~/server/api/trpc";
 import { chatsTable } from "~/server/db/schema/chats";
-import { openaiWithSpan } from "~/server/ai/openaiWithSpan";
-import { chatHistory } from "~/server/api/chat/shared_ai/chat-history";
-import { Models } from "~/server/ai/models";
 
 /**
  * SCHEMA
@@ -36,6 +38,30 @@ const sendMessageAiResponseSchema = sendMessageOutputSchema.omit({
 /**
  * DB
  */
+
+const getLast100Messages = dbCallWithSpan(
+  "getLast100Messages",
+  async ({
+    db,
+    chatId,
+    userId,
+  }: {
+    db: LibSQLDatabase<DBSchema>;
+    chatId: string;
+    userId: string;
+  }) => {
+    return db.query.chatsTable.findFirst({
+      where: and(eq(chatsTable.id, chatId), eq(chatsTable.userId, userId)),
+      with: {
+        chatPartner: true,
+        messages: {
+          limit: 100,
+          orderBy: (message, { desc }) => [desc(message.createdAt)],
+        },
+      },
+    });
+  },
+);
 
 /**
  * AI
@@ -173,18 +199,10 @@ export const sendMessage = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const userMessageTimetamp = Date.now();
 
-    const chat = await ctx.db.query.chatsTable.findFirst({
-      where: and(
-        eq(chatsTable.id, input.chatId),
-        eq(chatsTable.userId, ctx.session.user.id),
-      ),
-      with: {
-        chatPartner: true,
-        messages: {
-          limit: 100,
-          orderBy: (message, { desc }) => [desc(message.createdAt)],
-        },
-      },
+    const chat = await getLast100Messages({
+      db: ctx.db,
+      userId: ctx.session.user.id,
+      chatId: input.chatId,
     });
 
     if (!chat) {

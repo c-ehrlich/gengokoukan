@@ -50,7 +50,7 @@
 - [x] Refactor backend file structure
 - [x] setup otel
     - [x] start tracking token usage (to axiom)
-    - [ ] finish instrumenting db and openai
+    - [x] finish instrumenting db and openai
     - [ ] wrap entire openai prompt + parsing etc, log failures
 - [x] "give me a hint" - ask ai to give you advice on what a good conversation pattern is for this situation
     - [x] ui
