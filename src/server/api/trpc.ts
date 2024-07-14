@@ -6,11 +6,11 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-
+import { getActiveTraceId } from "../otel/get-active-trace-id";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
-
+import { env } from "~/env";
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
 
@@ -79,13 +79,33 @@ export const createCallerFactory = t.createCallerFactory;
 export const createTRPCRouter = t.router;
 
 /**
+ * Base Procedure
+ * - OTel traceId middleware
+ */
+const traceIdMiddleware = t.middleware(({ ctx, next, path }) => {
+  const traceId = getActiveTraceId();
+
+  // TODO: unstable_httpBatchStreamLink can't set headers
+  // maybe switch to a different link to get them to the client?
+  if (env.NODE_ENV === "development") {
+    console.log(`>>> TRACEID FOR ${path}: ${traceId}`);
+  }
+
+  return next({
+    ctx: ctx,
+  });
+});
+
+const baseProcedure = t.procedure.use(traceIdMiddleware);
+
+/**
  * Public (unauthenticated) procedure
  *
  * This is the base piece you use to build new queries and mutations on your tRPC API. It does not
  * guarantee that a user querying is authorized, but you can still access user session data if they
  * are logged in.
  */
-export const publicProcedure = t.procedure;
+export const publicProcedure = baseProcedure;
 
 /**
  * Protected (authenticated) procedure
@@ -95,7 +115,7 @@ export const publicProcedure = t.procedure;
  *
  * @see https://trpc.io/docs/procedures
  */
-export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
+export const protectedProcedure = baseProcedure.use(({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
