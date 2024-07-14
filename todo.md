@@ -47,7 +47,7 @@
     - [ ] https://discord.com/channels/901618801324478485/925314442131021824/1243197465562189994 / https://www.youtube.com/watch?v=UjX4Peh4xqM / https://www.linkedin.com/in/william-westerlund-aa2997b9/details/experience/
 
 ## **DONE**
-- [ ] Refactor backend file structure
+- [x] Refactor backend file structure
 - [x] setup otel
     - [x] start tracking token usage (to axiom)
     - [ ] finish instrumenting db and openai

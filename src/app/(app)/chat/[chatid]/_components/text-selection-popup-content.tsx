@@ -1,14 +1,14 @@
 "use client";
 
-import { api } from "~/trpc/react";
 import { JishoDefinitions } from "./jisho-definition";
+import { api } from "~/trpc/react";
 
 export function TextSelectionPopupContent({
   selectedText,
 }: {
   selectedText?: string;
 }) {
-  const definition = api.jisho.definition.useQuery(
+  const definition = api.jisho.getDefinition.useQuery(
     {
       word: selectedText ?? "",
     },

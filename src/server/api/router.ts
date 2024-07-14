@@ -1,13 +1,13 @@
-import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
-import { jishoRouter } from "./routers/jisho";
-import { nameGeneratorRouter } from "./routers/name-generator/name-generator.router";
-import { vocabRouter } from "./routers/vocab/vocab.router";
 import { createChat } from "./chat/create-chat";
 import { deleteChat } from "./chat/delete-chat";
+import { getChatList } from "./chat/get-chat-list";
 import { getHint } from "./chat/get-hint";
 import { getMessages } from "./chat/get-messages";
 import { sendMessage } from "./chat/send-message";
-import { getChatList } from "./chat/get-chat-list";
+import { getDefinition } from "./jisho/get-definition";
+import { getName } from "./name-generator/get-name";
+import { bumpSRS } from "./vocab/bump-srs";
+import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
  * This is the primary router for your server.
@@ -18,15 +18,23 @@ export const appRouter = createTRPCRouter({
   chat: createTRPCRouter({
     createChat: createChat,
     deleteChat: deleteChat,
-    getChatList : getChatList,
+    getChatList: getChatList,
     getHint: getHint,
     getMessages: getMessages,
     sendMessage: sendMessage,
   }),
 
-  jisho: jishoRouter,
-  nameGenerator: nameGeneratorRouter,
-  vocab: vocabRouter,
+  jisho: createTRPCRouter({
+    getDefinition: getDefinition,
+  }),
+
+  nameGenerator: createTRPCRouter({
+    getName: getName,
+  }),
+
+  vocab: createTRPCRouter({
+    bumpSRS: bumpSRS,
+  }),
 });
 
 // export type definition of API
