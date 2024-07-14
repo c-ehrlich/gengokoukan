@@ -1,8 +1,7 @@
-import { type ChatCompletionCreateParamsNonStreaming } from "openai/resources/index.mjs";
-
+import { OpenAI } from "./openai";
 import { trace } from "@opentelemetry/api";
 import { type RequestOptions } from "openai/core.mjs";
-import { OpenAI } from "./openai";
+import { type ChatCompletionCreateParamsNonStreaming } from "openai/resources/index.mjs";
 
 const OPENAI_TRACER_NAME = "cje.kaiwaclub.openai";
 const OPENAI_SPAN_NAME = "openai.prompt";

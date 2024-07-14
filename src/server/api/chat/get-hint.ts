@@ -1,19 +1,18 @@
-import { z } from "zod";
-
-import { protectedProcedure } from "~/server/api/trpc";
-import { getChatWithPartnerAndMessages } from "~/server/api/chat/shared_db/get-chat-with-partner-and-messages";
 import { TRPCError } from "@trpc/server";
-import { openaiWithSpan } from "~/server/ai/openaiWithSpan";
-import { dbCallWithSpan } from "~/server/db/dbCallWithSpan";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
+import { z } from "zod";
+import { Models } from "~/server/ai/models";
+import { openaiWithSpan } from "~/server/ai/openaiWithSpan";
+import { chatHistory } from "~/server/api/chat/shared_ai/chat-history";
+import { getChatWithPartnerAndMessages } from "~/server/api/chat/shared_db/get-chat-with-partner-and-messages";
+import { protectedProcedure } from "~/server/api/trpc";
 import { type DBSchema } from "~/server/db";
+import { dbCallWithSpan } from "~/server/db/dbCallWithSpan";
 import {
   chatMessagesTable,
   type ChatMessageTableRow,
 } from "~/server/db/schema/chat-messages";
 import { type ChatPartnerTableRow } from "~/server/db/schema/chat-partners";
-import { chatHistory } from "~/server/api/chat/shared_ai/chat-history";
-import { Models } from "~/server/ai/models";
 
 /**
  * SCHEMA
@@ -134,10 +133,6 @@ export const getHint = protectedProcedure
 
     const rawMessage = chatCompletion.choices[0].message.content;
     const extractedJson = (rawMessage?.match(/\{[\s\S]*\}/) ?? [])[0];
-    console.log("ai response", {
-      raw: rawMessage,
-      jsonString: extractedJson,
-    });
 
     let jsonParsed: unknown;
     try {
