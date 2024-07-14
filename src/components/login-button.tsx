@@ -1,6 +1,6 @@
+import { cn } from "./_utils/cn";
 import Link from "next/link";
 import { getServerAuthSession } from "~/server/auth";
-import { cn } from "./_utils/cn";
 
 type LoginButtonProps = {
   className?: string;
@@ -18,9 +18,11 @@ export async function LoginButton({
 }: LoginButtonProps) {
   const session = await getServerAuthSession();
 
+  const logoutLink = onLandingPage ? "/" : "/api/auth/signout";
+
   return (
     <Link
-      href={session ? "/api/auth/signout" : "/api/auth/signin"}
+      href={session ? logoutLink : "/api/auth/signin"}
       className={cn(
         "rounded-full bg-green-500 px-10 py-3 text-center font-semibold no-underline transition hover:bg-green-700",
         { "px-10 py-3": size === "regular" },

@@ -1,16 +1,16 @@
-import { CircleCheckIcon } from "lucide-react";
+import bgTest from "../resources/bg-test-1.png";
 import pricingLeft from "../resources/pricing-left.png";
 import pricingRight from "../resources/pricing-right.jpeg";
+import { CircleCheckIcon } from "lucide-react";
 import Image, { type StaticImageData } from "next/image";
 import { cn } from "~/components/_utils/cn";
 import { LoginButton } from "~/components/login-button";
-import bgTest from "../resources/bg-test-1.png";
 
 type PricingCardProps = {
   image: StaticImageData;
   title: string;
   catchphrase: string;
-  price: string;
+  price: React.ReactNode;
   features: Array<string>;
   cta: string;
 };
@@ -51,6 +51,7 @@ function PricingCard({
         </div>
         <div className="h-4" />
         <LoginButton
+          onLandingPage
           size="small"
           className="shadow-xl"
           loginText={cta}
@@ -79,7 +80,12 @@ const pricingCards: Array<PricingCardProps> = [
     image: pricingRight,
     title: "Premium",
     catchphrase: "Accelerate your learning",
-    price: "$10/month",
+    price: (
+      <div className="flex flex-col items-end">
+        <s>$10 / month</s>
+        <p>Free during Beta</p>
+      </div>
+    ),
     features: [
       "Unlimited messages",
       "Unlimited conversations",

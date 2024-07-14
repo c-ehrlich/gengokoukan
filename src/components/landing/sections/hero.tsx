@@ -1,6 +1,6 @@
-import Image from "next/image";
-import landingImg from "../resources/landing_v2_1.jpg";
 import { LoginButton } from "../../login-button";
+import landingImg from "../resources/landing_v2_1.jpg";
+import Image from "next/image";
 
 export function Hero() {
   return (
@@ -12,7 +12,11 @@ export function Hero() {
               Converse your way to fluency
             </h2>
             <div>
-              <LoginButton size="fuckin-huge" loginText="Get started" />
+              <LoginButton
+                onLandingPage
+                size="fuckin-huge"
+                loginText="Get started"
+              />
             </div>
           </div>
           <div className="overflow-hidden rounded-2xl shadow-xl">

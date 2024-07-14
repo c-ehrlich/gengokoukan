@@ -22,16 +22,15 @@
 - [ ] check if responses (corrections) are in the right language (>50% of characters A-Za-z?), translate with gpt-3.5 if wrong, log
 
 ## Frontend
-- [ ] i18n / language toggle
 - [ ] Profile page (and give it to the LLM)
 - [ ] Preferences page
     - [ ] UI language
     - [ ] Tutor language
 - [ ] make us and japan flag icons in app theme
-- [ ] make landing page good enough
 - [ ] Fix hydration errors
 
 ## Distant future
+- [ ] i18n / UI language toggle
 - [ ] not just conversations, but also stories
     - get last 100 things that happened
     - gpt-3.5 summarizes 11-100 into 1-2 paragraphs, and 1-10 into 1-2 paragraphs
@@ -47,11 +46,12 @@
     - [ ] https://discord.com/channels/901618801324478485/925314442131021824/1243197465562189994 / https://www.youtube.com/watch?v=UjX4Peh4xqM / https://www.linkedin.com/in/william-westerlund-aa2997b9/details/experience/
 
 ## **DONE**
+- [x] make landing page good enough
 - [x] Refactor backend file structure
 - [x] setup otel
     - [x] start tracking token usage (to axiom)
     - [x] finish instrumenting db and openai
-    - [ ] wrap entire openai prompt + parsing etc, log failures
+    - [x] wrap entire openai prompt + parsing etc, log failures
 - [x] "give me a hint" - ask ai to give you advice on what a good conversation pattern is for this situation
     - [x] ui
     - [x] prompt
