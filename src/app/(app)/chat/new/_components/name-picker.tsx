@@ -1,8 +1,8 @@
+import { type Form } from "./custom-chat-form";
 import { FormInput } from "~/components/_primitives/form/form-input";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
-import { api } from "~/trpc/react";
-import { type Form } from "./custom-chat-form";
 import { MaybeBasicTooltip } from "~/components/_primitives/ui/basic-tooltip";
+import { api } from "~/trpc/react";
 
 type NamePickerProps = {
   form: Form;

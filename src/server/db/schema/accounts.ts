@@ -1,8 +1,8 @@
+import { createTable } from "../create-table";
+import { usersTable } from "./users";
+import { relations } from "drizzle-orm";
 import { index, integer, primaryKey, text } from "drizzle-orm/sqlite-core";
 import { type AdapterAccount } from "next-auth/adapters";
-import { relations } from "drizzle-orm";
-import { usersTable } from "./users";
-import { createTable } from "../create-table";
 
 export const accountsTable = createTable(
   "account",

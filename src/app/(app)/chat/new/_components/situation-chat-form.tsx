@@ -1,6 +1,3 @@
-import Image, { type StaticImageData } from "next/image";
-import { useRouter } from "next/navigation";
-
 import cafe from "../_assets/cafe.jpg";
 import directions from "../_assets/directions.jpg";
 import guitar from "../_assets/guitar.jpg";
@@ -9,6 +6,8 @@ import party from "../_assets/party.jpg";
 import planningTrip from "../_assets/planning-trip.jpg";
 import restaurant from "../_assets/restaurant.jpg";
 import shopping from "../_assets/shopping.jpg";
+import Image, { type StaticImageData } from "next/image";
+import { useRouter } from "next/navigation";
 import { api } from "~/trpc/react";
 
 type SituationChat = {

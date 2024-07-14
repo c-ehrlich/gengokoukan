@@ -1,14 +1,14 @@
+import { LandingChatList } from "./_components/landing-chat-list";
 import Link from "next/link";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { ensureSignedIn } from "~/components/_utils/ensure-signed-in";
 import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
-import { LandingChatList } from "./_components/landing-chat-list";
 import { api } from "~/trpc/server";
 
 export default async function RootAppPage() {
   await ensureSignedIn();
 
-  const chats = await api.chat.getChatList()
+  const chats = await api.chat.getChatList();
 
   const chatsByRecency = {
     today: [] as ChatWithPartnerAndMessages[],

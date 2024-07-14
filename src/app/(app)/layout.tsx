@@ -1,8 +1,7 @@
-import "~/styles/globals.css";
-
 import { NavBar } from "../../components/navbar";
-import { getServerAuthSession } from "~/server/auth";
 import LandingPage from "~/components/landing/landing-page";
+import { getServerAuthSession } from "~/server/auth";
+import "~/styles/globals.css";
 
 export default async function RootAppLayout({
   children,

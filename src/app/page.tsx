@@ -1,8 +1,8 @@
-import LandingPage from "~/components/landing/landing-page";
-import { getServerAuthSession } from "~/server/auth";
-import LandingLayout from "./landing/layout";
 import RootAppLayout from "./(app)/layout";
 import RootAppPage from "./(app)/page";
+import LandingLayout from "./landing/layout";
+import LandingPage from "~/components/landing/landing-page";
+import { getServerAuthSession } from "~/server/auth";
 
 export default async function RootPage() {
   const session = await getServerAuthSession();

@@ -1,15 +1,14 @@
 // 🐉🐉🐉 required to not make react-speech-recognition crash the app
-import "regenerator-runtime/runtime";
-
-import SpeechRecognition, {
-  useSpeechRecognition,
-} from "react-speech-recognition";
+import { useCallback, useEffect } from "react";
 import {
   type FieldPath,
   type FieldValues,
   type UseFormReturn,
 } from "react-hook-form";
-import { useCallback, useEffect } from "react";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+import "regenerator-runtime/runtime";
 
 export function useVoiceInput<
   TFieldValues extends FieldValues = FieldValues,

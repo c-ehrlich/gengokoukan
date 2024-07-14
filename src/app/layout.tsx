@@ -1,9 +1,7 @@
-import "~/styles/globals.css";
-
 import { GeistSans } from "geist/font/sans";
-import { TRPCReactProvider } from "~/trpc/react";
-
 import { cn } from "~/components/_utils/cn";
+import "~/styles/globals.css";
+import { TRPCReactProvider } from "~/trpc/react";
 
 export const metadata = {
   title: "会話クラブ - kaiwa.club",

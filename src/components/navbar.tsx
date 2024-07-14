@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { getServerAuthSession } from "~/server/auth";
 import {
   Avatar,
   AvatarFallback,
@@ -13,6 +11,8 @@ import {
 } from "./_primitives/ui/basic-popover";
 import { ExitIcon, GearIcon, PersonIcon } from "@radix-ui/react-icons";
 import { MessagesSquareIcon } from "lucide-react";
+import Link from "next/link";
+import { getServerAuthSession } from "~/server/auth";
 
 export async function NavBar() {
   const session = await getServerAuthSession();

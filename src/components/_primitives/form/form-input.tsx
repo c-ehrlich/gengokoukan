@@ -4,14 +4,12 @@ import {
   type FieldPath,
   type ControllerProps,
 } from "react-hook-form";
-
-import { Input as BaseInput } from "~/components/_primitives/shadcn-raw/input";
+import { FormItem } from "~/components/_primitives/form/form-item";
 import {
   FormField,
   FormControl,
 } from "~/components/_primitives/shadcn-raw/form";
-
-import { FormItem } from "~/components/_primitives/form/form-item";
+import { Input as BaseInput } from "~/components/_primitives/shadcn-raw/input";
 
 export interface FormInputProps<
   TFieldValues extends FieldValues = FieldValues,

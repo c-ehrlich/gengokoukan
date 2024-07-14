@@ -1,29 +1,29 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Button } from "~/components/_primitives/shadcn-raw/button";
-import { Input } from "~/components/_primitives/shadcn-raw/input";
-import { api } from "~/trpc/react";
-import { useTextSelectionPopup } from "~/components/feature/text-selection-popup/use-text-selection-popup";
-import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-popup/text-selection-popup-wrapper";
-import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
+import { ChatInfoTooltip } from "./chat-info-tooltip";
 import { ChatMessage } from "./chat-message";
-import { LightbulbIcon, Loader2Icon, MicIcon, SendIcon } from "lucide-react";
-import { z } from "zod";
-import { useZodForm } from "~/components/_primitives/form/use-zod-form";
-import { BasicForm } from "~/components/_primitives/form/basic-form";
-import { type SubmitHandler } from "react-hook-form";
 import { TextSelectionPopupContent } from "./text-selection-popup-content";
 import { useVoiceInput } from "./useVoiceInput";
+import { LightbulbIcon, Loader2Icon, MicIcon, SendIcon } from "lucide-react";
+import { useParams } from "next/navigation";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { type SubmitHandler } from "react-hook-form";
+import { z } from "zod";
+import { BasicForm } from "~/components/_primitives/form/basic-form";
+import { useZodForm } from "~/components/_primitives/form/use-zod-form";
+import { Button } from "~/components/_primitives/shadcn-raw/button";
+import { Input } from "~/components/_primitives/shadcn-raw/input";
+import { Toaster } from "~/components/_primitives/shadcn-raw/toaster";
 import {
   BasicTooltip,
   MaybeBasicTooltip,
 } from "~/components/_primitives/ui/basic-tooltip";
 import { cn } from "~/components/_utils/cn";
-import { Toaster } from "~/components/_primitives/shadcn-raw/toaster";
+import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-popup/text-selection-popup-wrapper";
+import { useTextSelectionPopup } from "~/components/feature/text-selection-popup/use-text-selection-popup";
 import { type ChatMessageTableRow } from "~/server/db/schema/chat-messages";
-import { ChatInfoTooltip } from "./chat-info-tooltip";
+import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
+import { api } from "~/trpc/react";
 
 const chatMessageSchema = z.object({
   message: z.string().min(1),

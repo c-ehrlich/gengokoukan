@@ -1,9 +1,9 @@
-import { integer, text } from "drizzle-orm/sqlite-core";
-import { type InferSelectModel, relations, sql } from "drizzle-orm";
-import { usersTable } from "./users";
-import { type ChatPartnerTableRow, chatPartnersTable } from "./chat-partners";
-import { type ChatMessageTableRow, chatMessagesTable } from "./chat-messages";
 import { createTable } from "../create-table";
+import { type ChatMessageTableRow, chatMessagesTable } from "./chat-messages";
+import { type ChatPartnerTableRow, chatPartnersTable } from "./chat-partners";
+import { usersTable } from "./users";
+import { type InferSelectModel, relations, sql } from "drizzle-orm";
+import { integer, text } from "drizzle-orm/sqlite-core";
 
 export const chatsTable = createTable("chat", {
   // RELATIONS

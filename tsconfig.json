@@ -30,7 +30,7 @@
     },
 
     /* CUSTOM */
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": true
   },
   "include": [
     ".eslintrc.cjs",

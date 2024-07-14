@@ -1,7 +1,7 @@
-import { integer, primaryKey, text } from "drizzle-orm/sqlite-core";
 import { createTable } from "../create-table";
-import { relations, sql } from "drizzle-orm";
 import { usersTable } from "./users";
+import { relations, sql } from "drizzle-orm";
+import { integer, primaryKey, text } from "drizzle-orm/sqlite-core";
 
 export const vocabWordsTable = createTable(
   "vocab_word",

@@ -1,5 +1,5 @@
-import Image from "next/image";
 import buildingRobotImg from "../resources/landing_v2_4.jpeg";
+import Image from "next/image";
 
 export function TeamBeliefs() {
   return (

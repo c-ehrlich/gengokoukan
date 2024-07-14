@@ -1,6 +1,6 @@
-import Image from "next/image";
-import landingImage2 from "../resources/landing_v2_2.jpeg";
 import { LoginButton } from "../../login-button";
+import landingImage2 from "../resources/landing_v2_2.jpeg";
+import Image from "next/image";
 import { LandingAccordion } from "~/components/_primitives/ui/landing-accordion";
 
 type FeatureItem = {

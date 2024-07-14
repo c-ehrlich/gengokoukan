@@ -1,7 +1,7 @@
-import { protectedProcedure } from "~/server/api/trpc";
-import gimei from "browser-gimei";
 import { TRPCError } from "@trpc/server";
+import gimei from "browser-gimei";
 import { z } from "zod";
+import { protectedProcedure } from "~/server/api/trpc";
 
 export const getName = protectedProcedure
   .input(z.object({ gender: z.string() }))
@@ -37,4 +37,4 @@ export const getName = protectedProcedure
     return {
       name,
     };
-  })
+  });

@@ -1,9 +1,3 @@
-import {
-  type ControllerProps,
-  type FieldPath,
-  type FieldValues,
-} from "react-hook-form";
-
 import { FormControl, FormField } from "../shadcn-raw/form";
 import {
   Select,
@@ -11,10 +5,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../shadcn-raw/select";
-
-import { FormItem } from "./form-item";
-
 import { SelectItem } from "../shadcn-raw/select";
+import { FormItem } from "./form-item";
+import {
+  type ControllerProps,
+  type FieldPath,
+  type FieldValues,
+} from "react-hook-form";
 
 export const FormSelectOption = SelectItem;
 

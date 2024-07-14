@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 /* eslint-disable @typescript-eslint/no-unsafe-return */
+
 /* eslint-disable @typescript-eslint/no-var-requires */
-
-import iwebpack from "webpack";
 import path from "path";
-
-import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { fileURLToPath } from "url";
+import iwebpack from "webpack";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

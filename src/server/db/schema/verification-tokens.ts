@@ -1,5 +1,5 @@
-import { integer, primaryKey, text } from "drizzle-orm/sqlite-core";
 import { createTable } from "../create-table";
+import { integer, primaryKey, text } from "drizzle-orm/sqlite-core";
 
 export const verificationTokensTable = createTable(
   "verificationToken",

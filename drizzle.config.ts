@@ -1,7 +1,6 @@
 import { type Config } from "drizzle-kit";
-import { sqlTablePrefix } from "~/server/db/create-table";
-
 import { env } from "~/env";
+import { sqlTablePrefix } from "~/server/db/create-table";
 
 export default {
   schema: "./src/server/db/schema/_root.ts",

@@ -1,8 +1,8 @@
-import { integer, text } from "drizzle-orm/sqlite-core";
-import { type InferSelectModel, relations, sql } from "drizzle-orm";
-import { usersTable } from "./users";
-import { chatsTable } from "./chats";
 import { createTable } from "../create-table";
+import { chatsTable } from "./chats";
+import { usersTable } from "./users";
+import { type InferSelectModel, relations, sql } from "drizzle-orm";
+import { integer, text } from "drizzle-orm/sqlite-core";
 
 export const chatMessagesTable = createTable("chat_message", {
   // RELATIONS

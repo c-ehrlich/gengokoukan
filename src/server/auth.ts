@@ -1,3 +1,7 @@
+import { accountsTable } from "./db/schema/accounts";
+import { sessionsTable } from "./db/schema/sessions";
+import { usersTable } from "./db/schema/users";
+import { verificationTokensTable } from "./db/schema/verification-tokens";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import {
   getServerSession,
@@ -6,13 +10,8 @@ import {
 } from "next-auth";
 import { type Adapter } from "next-auth/adapters";
 import DiscordProvider from "next-auth/providers/discord";
-
 import { env } from "~/env";
 import { db } from "~/server/db";
-import { usersTable } from "./db/schema/users";
-import { accountsTable } from "./db/schema/accounts";
-import { sessionsTable } from "./db/schema/sessions";
-import { verificationTokensTable } from "./db/schema/verification-tokens";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`

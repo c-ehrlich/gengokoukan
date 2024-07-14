@@ -1,7 +1,7 @@
-import { integer, text } from "drizzle-orm/sqlite-core";
-import { type InferSelectModel, relations, sql } from "drizzle-orm";
 import { createTable } from "../create-table";
 import { chatsTable } from "./chats";
+import { type InferSelectModel, relations, sql } from "drizzle-orm";
+import { integer, text } from "drizzle-orm/sqlite-core";
 
 export const formalities = [
   "jidou",

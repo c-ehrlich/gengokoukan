@@ -1,11 +1,4 @@
-import { createClient, type Client } from "@libsql/client";
-import { drizzle } from "drizzle-orm/libsql";
-import { type Logger } from "drizzle-orm/logger";
-import { type SpanAttributes } from "@opentelemetry/api";
 import packageJson from "../../../package.json";
-
-import { env } from "~/env";
-import { usersRelations, usersTable } from "./schema/users";
 import { accountsRelations, accountsTable } from "./schema/accounts";
 import {
   chatMessagesRelations,
@@ -17,8 +10,14 @@ import {
 } from "./schema/chat-partners";
 import { chatsRelations, chatsTable } from "./schema/chats";
 import { sessionsRelations, sessionsTable } from "./schema/sessions";
+import { usersRelations, usersTable } from "./schema/users";
 import { verificationTokensTable } from "./schema/verification-tokens";
 import { vocabWordsRelations, vocabWordsTable } from "./schema/vocab-words";
+import { createClient, type Client } from "@libsql/client";
+import { type SpanAttributes } from "@opentelemetry/api";
+import { drizzle } from "drizzle-orm/libsql";
+import { type Logger } from "drizzle-orm/logger";
+import { env } from "~/env";
 
 const schema = {
   // accounts

@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
-import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
-
+import { Button } from "./button";
 import {
   Command,
   CommandEmpty,
@@ -12,7 +10,8 @@ import {
   CommandList,
 } from "./command";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
-import { Button } from "./button";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import React, { useMemo } from "react";
 import { cn } from "~/components/_utils/cn";
 
 export type OptionWithoutHeading = { value: string; label: string };

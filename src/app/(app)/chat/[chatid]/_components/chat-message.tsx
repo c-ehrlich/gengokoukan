@@ -1,13 +1,13 @@
-import { cn } from "~/components/_utils/cn";
 import { CatIcon, UserIcon } from "lucide-react";
+import React from "react";
 import {
   Avatar,
   AvatarImage,
 } from "~/components/_primitives/shadcn-raw/avatar";
-import { type ChatMessageTableRow } from "~/server/db/schema/chat-messages";
-import { CozyAlert } from "~/components/_primitives/ui/cozy-alert";
-import React from "react";
 import { BasicCollapsible } from "~/components/_primitives/ui/collapsible";
+import { CozyAlert } from "~/components/_primitives/ui/cozy-alert";
+import { cn } from "~/components/_utils/cn";
+import { type ChatMessageTableRow } from "~/server/db/schema/chat-messages";
 
 type ChatMessageProps = {
   message: ChatMessageTableRow;

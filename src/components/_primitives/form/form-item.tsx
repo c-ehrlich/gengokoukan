@@ -1,12 +1,10 @@
 import React, { Fragment, useId } from "react";
 import { type FieldError } from "react-hook-form";
-
+import { FormLabel } from "~/components/_primitives/form/form-label";
 import {
   FormItemContext,
   useFormField,
 } from "~/components/_primitives/shadcn-raw/form";
-
-import { FormLabel } from "~/components/_primitives/form/form-label";
 import { getErrorString } from "~/components/_utils/error";
 
 export interface FormItemProps {

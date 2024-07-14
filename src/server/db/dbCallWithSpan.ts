@@ -1,5 +1,5 @@
-import { trace } from "@opentelemetry/api";
 import { dbQueryContext } from ".";
+import { trace } from "@opentelemetry/api";
 
 const DRIZZLE_TRACER_NAME = "cje.kaiwaclub.drizzlewrapper";
 const DRIZZLE_SPAN_NAME = "drizzle.query";

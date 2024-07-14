@@ -1,10 +1,10 @@
-import { integer, text } from "drizzle-orm/sqlite-core";
-import { relations, sql } from "drizzle-orm";
-import { accountsTable } from "./accounts";
-import { chatsTable } from "./chats";
-import { chatMessagesTable } from "./chat-messages";
 import { createTable } from "../create-table";
+import { accountsTable } from "./accounts";
+import { chatMessagesTable } from "./chat-messages";
+import { chatsTable } from "./chats";
 import { vocabWordsTable } from "./vocab-words";
+import { relations, sql } from "drizzle-orm";
+import { integer, text } from "drizzle-orm/sqlite-core";
 
 export const usersTable = createTable("user", {
   id: text("id", { length: 255 })

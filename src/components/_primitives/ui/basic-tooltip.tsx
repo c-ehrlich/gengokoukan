@@ -1,10 +1,10 @@
-import React from "react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "../shadcn-raw/tooltip";
+import React from "react";
 
 type BasicTooltipProps = {
   children: React.ReactNode;

@@ -1,27 +1,27 @@
 "use client";
 
+import { NamePicker } from "./name-picker";
+import { useRouter } from "next/navigation";
 import { type UseFormReturn, type SubmitHandler } from "react-hook-form";
 import { type z } from "zod";
 import { BasicForm } from "~/components/_primitives/form/basic-form";
 import { FormCombobox } from "~/components/_primitives/form/form-combobox";
-import { useZodForm } from "~/components/_primitives/form/use-zod-form";
-import { NamePicker } from "./name-picker";
 import { FormInput } from "~/components/_primitives/form/form-input";
-import { FormTextArea } from "~/components/_primitives/form/form-textarea";
 import {
   FormSelect,
   FormSelectOption,
 } from "~/components/_primitives/form/form-select";
-import { api } from "~/trpc/react";
+import { FormTextArea } from "~/components/_primitives/form/form-textarea";
+import { useZodForm } from "~/components/_primitives/form/use-zod-form";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
-import { useRouter } from "next/navigation";
 import { type OptionWithHeading } from "~/components/_primitives/shadcn-raw/combobox";
+import { createChatPartnerSchemaClient } from "~/server/api/chat/create-chat";
 import {
   formalities,
   formalityStringFromOption,
   type FormalityOption,
 } from "~/server/db/schema/chat-partners";
-import { createChatPartnerSchemaClient } from "~/server/api/chat/create-chat";
+import { api } from "~/trpc/react";
 
 const originOptions: Array<OptionWithHeading> = [
   { heading: "北海道 (Hokkaido)", value: "札幌", label: "札幌 (Sapporo)" },

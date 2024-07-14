@@ -1,11 +1,10 @@
-import { cn } from "~/components/_utils/cn";
 import {
   type SubmitHandler,
   type FieldValues,
   type UseFormReturn,
 } from "react-hook-form";
-
 import { Form } from "~/components/_primitives/shadcn-raw/form";
+import { cn } from "~/components/_utils/cn";
 
 export type BasicFormProps<FormType extends FieldValues = FieldValues> = Omit<
   React.FormHTMLAttributes<HTMLFormElement>,
