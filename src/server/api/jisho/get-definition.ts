@@ -7,7 +7,6 @@ export const getDefinition = protectedProcedure
   .query(async ({ input }) => {
     const jisho = new JishoAPI();
     const result = await jisho.searchForPhrase(input.word);
-    console.log(result);
     const withoutWeirdDefinitions = result.data.filter(
       (def) => !def.slug.match(/^\d/) && !def.slug.match(/\d$/),
     );

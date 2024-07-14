@@ -1,14 +1,13 @@
-import { type JishoJapaneseWord, type JishoResult } from "unofficial-jisho-api";
-import { BasicTooltip } from "~/components/_primitives/ui/basic-tooltip";
-import { useToast } from "~/components/_primitives/shadcn-raw/use-toast";
-import { api } from "~/trpc/react";
 import { formatDistance } from "date-fns";
-import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { LoaderCircleIcon } from "lucide-react";
+import { type JishoJapaneseWord, type JishoResult } from "unofficial-jisho-api";
+import { Button } from "~/components/_primitives/shadcn-raw/button";
+import { useToast } from "~/components/_primitives/shadcn-raw/use-toast";
+import { BasicTooltip } from "~/components/_primitives/ui/basic-tooltip";
 import { Header } from "~/components/_primitives/ui/header";
-import { Chip } from "~/components/_primitives/ui/chip";
 import { cn } from "~/components/_utils/cn";
 import { StopPropagation } from "~/components/_utils/stop-propagation";
+import { api } from "~/trpc/react";
 
 type JishoDefinitionsProps = {
   word: string;
@@ -59,8 +58,6 @@ function JishoDefinition({ jishoResult }: JishoDefinitionProps) {
     e.stopPropagation();
     await addToSrsMutation.mutateAsync({ word: jishoResult.slug });
   };
-
-  console.log("tktk jishoResult", jishoResult);
 
   return (
     <div className="flex flex-col gap-2">

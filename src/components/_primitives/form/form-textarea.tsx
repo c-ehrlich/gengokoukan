@@ -1,14 +1,12 @@
+import { FormControl, FormField } from "../shadcn-raw/form";
+import { TextArea, type TextAreaProps } from "../shadcn-raw/textarea";
+import { FormItem } from "./form-item";
 import React, { forwardRef } from "react";
 import {
   type ControllerProps,
   type FieldPath,
   type FieldValues,
 } from "react-hook-form";
-
-import { FormControl, FormField } from "../shadcn-raw/form";
-import { TextArea, type TextAreaProps } from "../shadcn-raw/textarea";
-
-import { FormItem } from "./form-item";
 
 interface FormTextAreaProps<
   TFieldValues extends FieldValues = FieldValues,
@@ -40,8 +38,6 @@ export const FormTextArea = forwardRef(
       rootClassName,
       ...passthrough
     } = props;
-
-    console.log("tktk FormTextArea passthrough", passthrough);
 
     return (
       <FormField

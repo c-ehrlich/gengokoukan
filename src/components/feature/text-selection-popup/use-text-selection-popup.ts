@@ -34,10 +34,6 @@ export function useTextSelectionPopup() {
           top: rect.bottom + window.scrollY,
           left: rect.left + window.scrollX - DUMB_HACK_POPUP_OFFSET,
         });
-        console.log({
-          _top: { rb: rect.bottom, wy: window.scrollY },
-          _left: { rl: rect.left, wx: window.scrollX - 120 },
-        });
         setIsVisible(true);
         setSelectedText(text);
       }

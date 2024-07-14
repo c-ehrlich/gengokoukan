@@ -55,8 +55,6 @@ const bumpSRSWordTransaction = dbCallWithSpan(
           Date.now() + ONE_DAY * SRS_MULTIPLIER ** newSrsLevel,
         );
 
-        console.log("updated", word, newSrsLevel, newNextDue);
-
         await tx
           .update(vocabWordsTable)
           .set({
