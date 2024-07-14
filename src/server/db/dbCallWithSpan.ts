@@ -1,12 +1,17 @@
 import { trace } from "@opentelemetry/api";
 import { dbQueryContext } from ".";
 
+const DRIZZLE_TRACER_NAME = "cje.kaiwaclub.drizzlewrapper";
+const DRIZZLE_SPAN_NAME = "drizzle.query";
+
 export function dbCallWithSpan<TArgs, TReturn>(
+  queryName: string,
   fn: (args: TArgs) => Promise<TReturn>,
-  queryName?: string,
 ) {
   return async (args: TArgs) => {
-    const span = trace.getTracer("kaiwa").startSpan("drizzle.query");
+    const span = trace
+      .getTracer(DRIZZLE_TRACER_NAME)
+      .startSpan(DRIZZLE_SPAN_NAME);
 
     Object.entries(dbQueryContext).forEach(([key, value]) => {
       if (value) {

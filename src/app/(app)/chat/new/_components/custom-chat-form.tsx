@@ -5,7 +5,6 @@ import { type z } from "zod";
 import { BasicForm } from "~/components/_primitives/form/basic-form";
 import { FormCombobox } from "~/components/_primitives/form/form-combobox";
 import { useZodForm } from "~/components/_primitives/form/use-zod-form";
-import { createChatPartnerSchemaClient } from "~/server/db/schema/chat-partners.zod";
 import { NamePicker } from "./name-picker";
 import { FormInput } from "~/components/_primitives/form/form-input";
 import { FormTextArea } from "~/components/_primitives/form/form-textarea";
@@ -22,6 +21,7 @@ import {
   formalityStringFromOption,
   type FormalityOption,
 } from "~/server/db/schema/chat-partners";
+import { createChatPartnerSchemaClient } from "~/server/api/chat/create-chat";
 
 const originOptions: Array<OptionWithHeading> = [
   { heading: "北海道 (Hokkaido)", value: "札幌", label: "札幌 (Sapporo)" },

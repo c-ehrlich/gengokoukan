@@ -4,6 +4,9 @@ import { trace } from "@opentelemetry/api";
 import { type RequestOptions } from "openai/core.mjs";
 import { OpenAI } from "./openai";
 
+const OPENAI_TRACER_NAME = "cje.kaiwaclub.openai";
+const OPENAI_SPAN_NAME = "openai.prompt";
+
 export const openaiWithSpan = async ({
   body,
   options,
@@ -13,7 +16,7 @@ export const openaiWithSpan = async ({
   options?: RequestOptions;
   name?: string;
 }) => {
-  const span = trace.getTracer("kaiwa").startSpan("openai.query");
+  const span = trace.getTracer(OPENAI_TRACER_NAME).startSpan(OPENAI_SPAN_NAME);
 
   const res = await OpenAI.chat.completions.create(body, options);
 

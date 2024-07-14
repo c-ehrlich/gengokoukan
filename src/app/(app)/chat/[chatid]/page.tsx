@@ -2,7 +2,7 @@ import { ensureSignedIn } from "~/components/_utils/ensure-signed-in";
 import { Chat } from "./_components/chat";
 import { db } from "~/server/db";
 import { redirect } from "next/navigation";
-import { getChatWithPartnerAndMessages } from "~/server/api/routers/chat/chat.queries";
+import { getChatWithPartnerAndMessages } from "~/server/api/chat/shared_db/get-chat-with-partner-and-messages";
 
 export default async function ChatPage({
   params,

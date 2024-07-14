@@ -45,7 +45,7 @@ function useChat({ chatId }: { chatId: string }) {
     scrollToBottom();
   });
 
-  const messagesQuery = api.chat.messages.useInfiniteQuery(
+  const messagesQuery = api.chat.getMessages.useInfiniteQuery(
     {
       chatId: chatId,
       limit: 10,
@@ -80,7 +80,7 @@ function useChat({ chatId }: { chatId: string }) {
         suggestedMessage: null,
       } as const;
 
-      utils.chat.messages.setInfiniteData(
+      utils.chat.getMessages.setInfiniteData(
         {
           chatId: chatId,
           limit: 10,
@@ -131,7 +131,7 @@ function useChat({ chatId }: { chatId: string }) {
         suggestedMessage: null,
       } as const;
 
-      utils.chat.messages.setInfiniteData(
+      utils.chat.getMessages.setInfiniteData(
         {
           chatId: chatId,
           limit: 10,
@@ -199,9 +199,9 @@ export function Chat({ chatId, chat }: ChatProps) {
   const lastMessageId = chat.messages[chat.messages.length - 1]?.id;
 
   const utils = api.useUtils();
-  const hintMutation = api.chat.hint.useMutation({
+  const hintMutation = api.chat.getHint.useMutation({
     onSuccess: async () => {
-      await utils.chat.messages.invalidate();
+      await utils.chat.getMessages.invalidate();
     },
   });
 

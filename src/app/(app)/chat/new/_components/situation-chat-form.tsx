@@ -1,4 +1,6 @@
 import Image, { type StaticImageData } from "next/image";
+import { useRouter } from "next/navigation";
+
 import cafe from "../_assets/cafe.jpg";
 import directions from "../_assets/directions.jpg";
 import guitar from "../_assets/guitar.jpg";
@@ -8,7 +10,6 @@ import planningTrip from "../_assets/planning-trip.jpg";
 import restaurant from "../_assets/restaurant.jpg";
 import shopping from "../_assets/shopping.jpg";
 import { api } from "~/trpc/react";
-import { useRouter } from "next/navigation";
 
 type SituationChat = {
   title: string;
@@ -16,10 +17,6 @@ type SituationChat = {
   image: StaticImageData;
   value: string;
 };
-
-function generateRestaurantChat() {
-  //
-}
 
 const SituationChats: SituationChat[] = [
   {
@@ -89,7 +86,7 @@ function SituationChatCard({
   title,
   description,
   image,
-  value,
+  // value, // TODO: necessary?
 }: SituationChat) {
   const router = useRouter();
   const createChatMutation = api.chat.createChat.useMutation();
@@ -97,6 +94,7 @@ function SituationChatCard({
   return (
     <div
       onClick={() =>
+        // TODO: CREATE INDIVIDUAL FUNCTIONS FOR THESE! AND MAYBE THE PARAMS LIVE IN THE BACKEND?
         createChatMutation.mutate(
           {
             name: "foo",
