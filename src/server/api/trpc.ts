@@ -7,6 +7,7 @@
  * need to use are documented accordingly near the end.
  */
 import { getActiveTraceId } from "../otel/get-active-trace-id";
+import { getTraceLink } from "../otel/get-trace-link";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
@@ -88,7 +89,7 @@ const traceIdMiddleware = t.middleware(({ ctx, next, path }) => {
   // TODO: unstable_httpBatchStreamLink can't set headers
   // maybe switch to a different link to get them to the client?
   if (env.NODE_ENV === "development") {
-    console.log(`>>> TRACEID FOR ${path}: ${traceId}`);
+    console.log(`>>> ${path} - ${getTraceLink(traceId ?? "TRACE_ID_MISSING")}`);
   }
 
   return next({
