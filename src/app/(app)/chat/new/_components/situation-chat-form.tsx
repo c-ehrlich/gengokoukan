@@ -1,3 +1,5 @@
+"use client";
+
 import cafe from "../_assets/cafe.jpg";
 import directions from "../_assets/directions.jpg";
 import guitar from "../_assets/guitar.jpg";

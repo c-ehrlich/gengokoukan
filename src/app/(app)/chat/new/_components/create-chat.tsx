@@ -1,5 +1,3 @@
-"use client";
-
 import { CreateChatForm } from "./custom-chat-form";
 import { SituationChatForm } from "./situation-chat-form";
 import { SmalltalkChatForm } from "./smalltalk-chat-form";
