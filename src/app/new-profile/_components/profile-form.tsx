@@ -12,8 +12,9 @@ export function ProfileForm({ profile }: { profile?: UserProfileTableRow }) {
 
   const isInitial = !profile;
 
+  // TODO: build this form
   const profileForm = useZodForm({
-    schema: 
+    schema: undefined,
   });
 
   return (

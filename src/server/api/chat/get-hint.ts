@@ -3,6 +3,7 @@ import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { z } from "zod";
 import { Models } from "~/server/ai/models";
 import { openAiPrompt } from "~/server/ai/openAiPrompt";
+import { PromptNames } from "~/server/ai/prompt-names";
 import { chatHistory } from "~/server/api/chat/shared_ai/chat-history";
 import { protectedProcedure } from "~/server/api/trpc";
 import { type DBSchema } from "~/server/db";
@@ -133,7 +134,7 @@ export const getHint = protectedProcedure
     // TODO: handle the case where no messages have been sent yet
     const hintResponse = await openAiPrompt({
       prompt: {
-        name: "chatHint",
+        name: PromptNames.Chat.Hint,
         body: {
           model: Models.Powerful,
           messages: [

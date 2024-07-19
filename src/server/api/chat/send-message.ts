@@ -4,6 +4,7 @@ import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { z } from "zod";
 import { Models } from "~/server/ai/models";
 import { openAiPrompt } from "~/server/ai/openAiPrompt";
+import { PromptNames } from "~/server/ai/prompt-names";
 import { chatHistory } from "~/server/api/chat/shared_ai/chat-history";
 import { protectedProcedure } from "~/server/api/trpc";
 import { type DBSchema } from "~/server/db";
@@ -254,9 +255,9 @@ export const sendMessage = protectedProcedure
       });
     }
 
-    const _aiResponse = await openAiPrompt({
+    const aiResponse = await openAiPrompt({
       prompt: {
-        name: "sendMessage",
+        name: PromptNames.Chat.Message,
         body: {
           model: "gpt-4o-2024-05-13",
           messages: [
@@ -280,7 +281,7 @@ export const sendMessage = protectedProcedure
       chatId: input.chatId,
       userId: ctx.session.user.id,
       userInput: { text: input.text },
-      aiResponse: _aiResponse,
+      aiResponse: aiResponse,
     });
 
     if (!persistedAiResponse) {
