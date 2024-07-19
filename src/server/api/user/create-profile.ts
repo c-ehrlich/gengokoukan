@@ -6,7 +6,7 @@ import {
 import { TRPCError } from "@trpc/server";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { type DBSchema } from "~/server/db";
-import { dbCallWithSpan } from "~/server/db/dbCallWithSpan";
+import { dbCallWithSpan } from "~/server/db/db-call-with-span";
 import { userProfilesTable } from "~/server/db/schema/user-profiles";
 
 /**

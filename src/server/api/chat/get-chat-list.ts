@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { protectedProcedure } from "~/server/api/trpc";
 import { type DBSchema } from "~/server/db";
-import { dbCallWithSpan } from "~/server/db/dbCallWithSpan";
+import { dbCallWithSpan } from "~/server/db/db-call-with-span";
 import { chatMessagesTable } from "~/server/db/schema/chat-messages";
 import { chatsTable } from "~/server/db/schema/chats";
 

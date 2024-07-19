@@ -4,7 +4,7 @@ import { createInsertSchema } from "drizzle-zod";
 import { type z } from "zod";
 import { protectedProcedure } from "~/server/api/trpc";
 import { type DBSchema } from "~/server/db";
-import { dbCallWithSpan } from "~/server/db/dbCallWithSpan";
+import { dbCallWithSpan } from "~/server/db/db-call-with-span";
 import { chatPartnersTable } from "~/server/db/schema/chat-partners";
 import { chatsTable } from "~/server/db/schema/chats";
 

@@ -1,7 +1,7 @@
 import { protectedProcedure } from "../trpc";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { type DBSchema } from "~/server/db";
-import { dbCallWithSpan } from "~/server/db/dbCallWithSpan";
+import { dbCallWithSpan } from "~/server/db/db-call-with-span";
 
 const getProfileQuery = dbCallWithSpan(
   "getUserProfile",

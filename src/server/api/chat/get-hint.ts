@@ -6,7 +6,7 @@ import { openAiPrompt } from "~/server/ai/openAiPrompt";
 import { chatHistory } from "~/server/api/chat/shared_ai/chat-history";
 import { protectedProcedure } from "~/server/api/trpc";
 import { type DBSchema } from "~/server/db";
-import { dbCallWithSpan } from "~/server/db/dbCallWithSpan";
+import { dbCallWithSpan } from "~/server/db/db-call-with-span";
 import {
   chatMessagesTable,
   type ChatMessageTableRow,

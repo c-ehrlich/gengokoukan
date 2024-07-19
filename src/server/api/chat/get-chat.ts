@@ -3,7 +3,7 @@ import { TRPCError } from "@trpc/server";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { z } from "zod";
 import { type DBSchema } from "~/server/db";
-import { dbCallWithSpan } from "~/server/db/dbCallWithSpan";
+import { dbCallWithSpan } from "~/server/db/db-call-with-span";
 
 // TODO: use a transaction to get chat/partner separately from messages, so we can paginate the messages
 export const getChatWithPartnerAndMessages = dbCallWithSpan(

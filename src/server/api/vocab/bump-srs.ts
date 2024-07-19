@@ -3,7 +3,7 @@ import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { z } from "zod";
 import { protectedProcedure } from "~/server/api/trpc";
 import { type DBSchema } from "~/server/db";
-import { dbCallWithSpan } from "~/server/db/dbCallWithSpan";
+import { dbCallWithSpan } from "~/server/db/db-call-with-span";
 import { vocabWordsTable } from "~/server/db/schema/vocab-words";
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
