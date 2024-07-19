@@ -10,6 +10,10 @@ import {
 } from "./schema/chat-partners";
 import { chatsRelations, chatsTable } from "./schema/chats";
 import { sessionsRelations, sessionsTable } from "./schema/sessions";
+import {
+  userProfilesRelations,
+  userProfilesTable,
+} from "./schema/user-profiles";
 import { usersRelations, usersTable } from "./schema/users";
 import { verificationTokensTable } from "./schema/verification-tokens";
 import { vocabWordsRelations, vocabWordsTable } from "./schema/vocab-words";
@@ -35,6 +39,9 @@ const schema = {
   // sessions
   sessionsTable,
   sessionsRelations,
+  // user_profiles
+  userProfilesTable,
+  userProfilesRelations,
   // users
   usersTable,
   usersRelations,

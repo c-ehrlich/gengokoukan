@@ -1,11 +1,13 @@
 # App
 
+## URGENT
+...nothing for now :)
+
 ## AI
 
 - [ ] make it consistently respect en/jp choice
 - [ ] make it use SRS words and increase their interval if used
   - (probably just switch the statements around)
-- [ ] the recommendation prompts seem broken (it plays the other role sometimes)
 - [ ] make it figure out when to pass time and move to the next stage of situation (eg waiter is done taking order, comes back with food)
 - [ ] add markdown documents (for example restaurant menu)
 - [ ] write prompts for more situations
@@ -40,6 +42,7 @@
   - gpt-3.5 summarizes 11-100 into 1-2 paragraphs, and 1-10 into 1-2 paragraphs
 - [ ] get daily feedback - one item to focus on
 - [ ] in addition to your level, say which grammar topics you want to see - te form, sareru/saseru/raresaseru, keigo, whatever
+- [ ] Grammar RAG
 - [ ] Refer to BunPro, HelloTalk, WaniKani
 
 ## Social
@@ -51,6 +54,9 @@
   - [ ] https://discord.com/channels/901618801324478485/925314442131021824/1243197465562189994 / https://www.youtube.com/watch?v=UjX4Peh4xqM / https://www.linkedin.com/in/william-westerlund-aa2997b9/details/experience/
 
 ## **DONE**
+- [x] fix voice input
+- [x] fix crash on chat creation
+- [x] the recommendation prompts seem broken (it plays the other role sometimes)
 - [x] repair hints
 - [x] make landing page good enough
 - [x] Refactor backend file structure

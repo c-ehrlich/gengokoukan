@@ -7,6 +7,7 @@ import { getMessages } from "./chat/get-messages";
 import { sendMessage } from "./chat/send-message";
 import { getDefinition } from "./jisho/get-definition";
 import { getName } from "./name-generator/get-name";
+import { getProfile } from "./user/get-profile";
 import { bumpSRS } from "./vocab/bump-srs";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
@@ -32,6 +33,10 @@ export const appRouter = createTRPCRouter({
 
   nameGenerator: createTRPCRouter({
     getName: getName,
+  }),
+
+  user: createTRPCRouter({
+    getProfile: getProfile,
   }),
 
   vocab: createTRPCRouter({

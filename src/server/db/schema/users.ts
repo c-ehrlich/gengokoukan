@@ -2,6 +2,7 @@ import { createTable } from "../create-table";
 import { accountsTable } from "./accounts";
 import { chatMessagesTable } from "./chat-messages";
 import { chatsTable } from "./chats";
+import { userProfilesTable } from "./user-profiles";
 import { vocabWordsTable } from "./vocab-words";
 import { relations, sql } from "drizzle-orm";
 import { integer, text } from "drizzle-orm/sqlite-core";
@@ -19,7 +20,8 @@ export const usersTable = createTable("user", {
   image: text("image", { length: 255 }),
 });
 
-export const usersRelations = relations(usersTable, ({ many }) => ({
+export const usersRelations = relations(usersTable, ({ one, many }) => ({
+  profile: one(userProfilesTable),
   accounts: many(accountsTable),
   chats: many(chatsTable),
   chatMesssages: many(chatMessagesTable),
