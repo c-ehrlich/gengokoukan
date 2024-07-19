@@ -3,7 +3,7 @@
 import { ChatInfoTooltip } from "./chat-info-tooltip";
 import { ChatMessage } from "./chat-message";
 import { TextSelectionPopupContent } from "./text-selection-popup-content";
-import { useVoiceInput } from "./useVoiceInput";
+import { useVoiceInput } from "./user-voice-input";
 import { LightbulbIcon, Loader2Icon, MicIcon, SendIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
