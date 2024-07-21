@@ -9,12 +9,12 @@ import { chatHistory } from "~/server/api/chat/shared_ai/chat-history";
 import { protectedProcedure } from "~/server/api/trpc";
 import { type DBSchema } from "~/server/db";
 import { dbCallWithSpan } from "~/server/db/db-call-with-span";
+import { chatMessagesTable } from "~/server/db/schema/chat-messages";
 import {
-  chatMessagesTable,
-  type ChatMessageTableRow,
-} from "~/server/db/schema/chat-messages";
-import { type ChatPartnerTableRow } from "~/server/db/schema/chat-partners";
-import { chatsTable } from "~/server/db/schema/chats";
+  chatsTable,
+  type ChatTableRow,
+  type ChatWithMessages,
+} from "~/server/db/schema/chats";
 
 /**
  * SCHEMA
@@ -54,7 +54,6 @@ const getLast100Messages = dbCallWithSpan(
     return db.query.chatsTable.findFirst({
       where: and(eq(chatsTable.id, chatId), eq(chatsTable.userId, userId)),
       with: {
-        chatPartner: true,
         messages: {
           limit: 100,
           orderBy: (message, { desc }) => [desc(message.createdAt)],
@@ -123,12 +122,11 @@ type ChatPromptArgs = {
     interests: string;
     goals: string;
   };
-  partner: ChatPartnerTableRow;
-  chats: Array<ChatMessageTableRow>;
+  chat: ChatWithMessages;
   newUserMessage: string;
 };
 
-function genderString(gender: ChatPartnerTableRow["gender"]) {
+function genderString(gender: ChatTableRow["partnerGender"]) {
   switch (gender) {
     case "male":
       return "man";
@@ -173,7 +171,7 @@ function feedbackLanguage(jlptLevel: JLPTLevel) {
   }
 }
 
-function chatPrompt({ user, partner, chats, newUserMessage }: ChatPromptArgs) {
+function chatPrompt({ user, chat, newUserMessage }: ChatPromptArgs) {
   return `You are my private Japanese tutor. I am not interested in test preparation etc, I only want to become more comfortable with speaking/writing. We will be practicing conversations. 
 
 Some information about me:
@@ -183,10 +181,10 @@ My current Japanese skill level is: ${jlptLevelString(user.jlptLevel)}. Please u
 My language learning goal is to ${user.goals}.
 
 Some information about you and the conversation we'll be having:
-Your name is ${partner.name}. You are a ${partner.age} year old ${genderString(partner.gender)} from ${partner.origin}. We are speaking in the dialect of your region.
-${partner.personality ? `Your personality is: ${partner.personality}` : ""}
-${partner.relation ? `Our relationship is: ${partner.relation}` : ""}
-${partner.situation ? `The situation we will be practicing is: ${partner.situation}` : ""}
+Your name is ${chat.partnerName}. You are a ${chat.partnerAge} year old ${genderString(chat.partnerGender)} from ${chat.partnerOrigin}. We are speaking in the dialect of your region.
+${chat.partnerPersonality ? `Your personality is: ${chat.partnerPersonality}` : ""}
+${chat.partnerRelation ? `Our relationship is: ${chat.partnerRelation}` : ""}
+${chat.partnerSituation ? `The situation we will be practicing is: ${chat.partnerSituation}` : ""}
 
 Feel free to make up your own personality beyond what I have given you. Make up whatever else is needed to answer my questions and keep the conversation going.
 
@@ -203,22 +201,20 @@ Please reply in the following format, which should be JSON compatible:
 }
 
 ${
-  chats.length === 0
+  chat.messages.length === 0
     ? "Please get the conversation started by sending the first message."
     : `Below are the most recent messages from our conversation. Please use these to continue the conversation:
-${chatHistory({ messages: chats })}
+${chatHistory({ messages: chat.messages })}
 Me: ${newUserMessage}`
 }`;
 }
 
 const message = ({
-  partner,
+  chat,
   userMessage,
-  messages,
 }: {
-  partner: ChatPartnerTableRow;
+  chat: ChatWithMessages;
   userMessage: string;
-  messages: ChatMessageTableRow[];
 }) =>
   chatPrompt({
     user: {
@@ -231,8 +227,7 @@ const message = ({
       interests: "I like to cook and play video games.",
       jlptLevel: "N1",
     },
-    partner: partner,
-    chats: messages.reverse(),
+    chat: chat,
     newUserMessage: userMessage,
   });
 
@@ -265,8 +260,7 @@ export const sendMessage = protectedProcedure
               role: "user",
               content: message({
                 userMessage: input.text,
-                partner: chat.chatPartner,
-                messages: chat.messages,
+                chat: chat,
               }),
             },
           ],

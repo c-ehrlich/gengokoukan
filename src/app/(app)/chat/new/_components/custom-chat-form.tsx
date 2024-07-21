@@ -15,12 +15,12 @@ import { FormTextArea } from "~/components/_primitives/form/form-textarea";
 import { useZodForm } from "~/components/_primitives/form/use-zod-form";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { type OptionWithHeading } from "~/components/_primitives/shadcn-raw/combobox";
-import { createChatPartnerSchemaClient } from "~/server/api/chat/create-chat-detailed.schema";
+import { createChatSchemaClient } from "~/server/api/chat/create-chat-detailed.schema";
 import {
   formalities,
-  formalityStringFromOption,
   type FormalityOption,
-} from "~/server/db/schema/chat-partners";
+  formalityStringFromOption,
+} from "~/server/db/schema/chats";
 import { api } from "~/trpc/react";
 
 const originOptions: Array<OptionWithHeading> = [
@@ -62,7 +62,7 @@ const formalityOptions: Array<{ value: FormalityOption; label: string }> =
     label: formalityStringFromOption(formality),
   }));
 
-type CreateChatFormSchema = z.infer<typeof createChatPartnerSchemaClient>;
+type CreateChatFormSchema = z.infer<typeof createChatSchemaClient>;
 
 export type Form = UseFormReturn<CreateChatFormSchema>;
 
@@ -70,16 +70,16 @@ export function CreateChatForm() {
   const router = useRouter();
 
   const form = useZodForm({
-    schema: createChatPartnerSchemaClient,
+    schema: createChatSchemaClient,
     defaultValues: {
-      name: "",
-      age: 25,
-      gender: "",
-      relation: "",
-      situation: "",
-      formality: "jidou",
-      origin: "",
-      personality: "",
+      partnerName: "",
+      partnerAge: 25,
+      partnerGender: "",
+      partnerRelation: "",
+      partnerSituation: "",
+      partnerFormality: "jidou",
+      partnerOrigin: "",
+      partnerPersonality: "",
     },
   });
 
@@ -104,11 +104,13 @@ export function CreateChatForm() {
         }
       >
         <>
+          <NamePicker form={form} />
+
           <FormSelect
             control={form.control}
             rootClassName="w-full"
             label="性別"
-            {...form.register("gender")}
+            {...form.register("partnerGender")}
             placeholder="性別を選択"
           >
             <FormSelectOption value="female">女性</FormSelectOption>
@@ -123,14 +125,12 @@ export function CreateChatForm() {
             rootClassName="w-full"
             label="年齢"
             type="number"
-            {...form.register("age", {
+            {...form.register("partnerAge", {
               valueAsNumber: true,
               min: 0,
               max: 150,
             })}
           />
-
-          <NamePicker form={form} />
 
           <FormCombobox
             label="出身"
@@ -139,7 +139,7 @@ export function CreateChatForm() {
             // rootClassName="w-full" // TODO: why does it not have this?
             placeholder="出身を選択"
             searchPlaceholder="出身を探す"
-            {...form.register("origin")}
+            {...form.register("partnerOrigin")}
           />
 
           <FormTextArea
@@ -147,7 +147,7 @@ export function CreateChatForm() {
             rootClassName="w-full"
             label="人格"
             placeholder="例: 楽観的でユーモアがある。相手の気持ちに寄り添い、リラックスした会話を提供する。"
-            {...form.register("personality")}
+            {...form.register("partnerPersonality")}
           />
 
           <FormTextArea
@@ -155,7 +155,7 @@ export function CreateChatForm() {
             rootClassName="w-full"
             label="関係"
             placeholder="例: 義理の父"
-            {...form.register("relation")}
+            {...form.register("partnerRelation")}
           />
 
           <FormTextArea
@@ -163,14 +163,14 @@ export function CreateChatForm() {
             rootClassName="w-full"
             label="状況"
             placeholder="例: 家族の集まりで、最近の仕事の進捗について報告し、アドバイスを求める。"
-            {...form.register("situation")}
+            {...form.register("partnerSituation")}
           />
 
           <FormSelect
             control={form.control}
             rootClassName="w-full"
             label="話し方"
-            {...form.register("formality")}
+            {...form.register("partnerFormality")}
           >
             {formalityOptions.map((option) => (
               <FormSelectOption key={option.value} value={option.value}>

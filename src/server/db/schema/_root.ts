@@ -1,6 +1,5 @@
 export * from "./accounts";
 export * from "./chat-messages";
-export * from "./chat-partners";
 export * from "./chats";
 export * from "./user-profiles";
 export * from "./sessions";

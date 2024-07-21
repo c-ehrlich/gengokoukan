@@ -11,7 +11,6 @@ const getChatListDB = dbCallWithSpan(
   async ({ db, userId }: { db: LibSQLDatabase<DBSchema>; userId: string }) => {
     return db.query.chatsTable.findMany({
       with: {
-        chatPartner: true,
         messages: {
           where: eq(chatMessagesTable.author, "ai"),
           limit: 1,

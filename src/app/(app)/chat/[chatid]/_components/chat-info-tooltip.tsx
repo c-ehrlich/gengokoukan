@@ -7,14 +7,10 @@ import {
 import {
   formalityStringFromOption,
   genderStrings,
-} from "~/server/db/schema/chat-partners";
-import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
+  type ChatWithMessages,
+} from "~/server/db/schema/chats";
 
-export function ChatInfoTooltip({
-  chat,
-}: {
-  chat: ChatWithPartnerAndMessages;
-}) {
+export function ChatInfoTooltip({ chat }: { chat: ChatWithMessages }) {
   return (
     <Popover>
       <PopoverTrigger>
@@ -24,35 +20,32 @@ export function ChatInfoTooltip({
       </PopoverTrigger>
       <PopoverContent collisionPadding={8}>
         <div className="flex flex-col gap-2">
-          <p>Chat with {chat.chatPartner.name}</p>
+          <p>Chat with {chat.partnerName}</p>
           <ChatInfoTooltipSection
             header="年齢"
-            content={`${String(chat.chatPartner.age)}歳`}
+            content={`${String(chat.partnerAge)}歳`}
           />
           <ChatInfoTooltipSection
             header="性別"
-            content={genderStrings[chat.chatPartner.gender]}
+            content={genderStrings[chat.partnerGender]}
           />
-          <ChatInfoTooltipSection
-            header="出身"
-            content={chat.chatPartner.origin}
-          />
+          <ChatInfoTooltipSection header="出身" content={chat.partnerOrigin} />
           <ChatInfoTooltipSection
             header="人格"
-            content={chat.chatPartner.personality}
+            content={chat.partnerPersonality}
           />
           <ChatInfoTooltipSection
             header="関係"
-            content={chat.chatPartner.relation}
+            content={chat.partnerRelation}
           />
           <ChatInfoTooltipSection
             header="状況"
-            content={chat.chatPartner.situation}
+            content={chat.partnerSituation}
           />
-          {chat.chatPartner.formality && (
+          {chat.partnerFormality && (
             <ChatInfoTooltipSection
               header="話し方"
-              content={formalityStringFromOption(chat.chatPartner.formality)}
+              content={formalityStringFromOption(chat.partnerFormality)}
             />
           )}
 

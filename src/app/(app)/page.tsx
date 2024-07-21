@@ -2,7 +2,7 @@ import { LandingChatList } from "./_components/landing-chat-list";
 import Link from "next/link";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { ensureSignedIn } from "~/components/_utils/ensure-signed-in";
-import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
+import { type ChatWithMessages } from "~/server/db/schema/chats";
 import { api } from "~/trpc/server";
 
 export default async function RootAppPage() {
@@ -11,11 +11,11 @@ export default async function RootAppPage() {
   const chats = await api.chat.getChatList();
 
   const chatsByRecency = {
-    today: [] as ChatWithPartnerAndMessages[],
-    yesterday: [] as ChatWithPartnerAndMessages[],
-    pastWeek: [] as ChatWithPartnerAndMessages[],
-    pastMonth: [] as ChatWithPartnerAndMessages[],
-    older: [] as ChatWithPartnerAndMessages[],
+    today: [] as ChatWithMessages[],
+    yesterday: [] as ChatWithMessages[],
+    pastWeek: [] as ChatWithMessages[],
+    pastMonth: [] as ChatWithMessages[],
+    older: [] as ChatWithMessages[],
   };
 
   for (const chat of chats) {

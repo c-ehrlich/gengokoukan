@@ -9,7 +9,7 @@ type NamePickerProps = {
 };
 
 export function NamePicker({ form }: NamePickerProps) {
-  const gender = form.watch("gender");
+  const gender = form.watch("partnerGender");
 
   const nameQuery = api.nameGenerator.getName.useQuery(
     { gender: gender },
@@ -22,7 +22,7 @@ export function NamePicker({ form }: NamePickerProps) {
     <div className="flex w-full flex-row items-end gap-2">
       <FormInput
         control={form.control}
-        name="name"
+        name="partnerName"
         label="名前"
         rootClassName="w-full"
       />
@@ -35,7 +35,7 @@ export function NamePicker({ form }: NamePickerProps) {
             e.preventDefault();
             e.stopPropagation();
             const name = await nameQuery.refetch();
-            name.data && form.setValue("name", name.data.name);
+            name.data && form.setValue("partnerName", name.data.name);
           }}
         >
           名前を生成する

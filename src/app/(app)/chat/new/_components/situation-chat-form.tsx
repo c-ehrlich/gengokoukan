@@ -98,14 +98,14 @@ function SituationChatCard({
         // TODO: CREATE INDIVIDUAL FUNCTIONS FOR THESE! AND MAYBE THE PARAMS LIVE IN THE BACKEND?
         createChatMutation.mutate(
           {
-            name: "foo",
-            age: 35,
-            gender: "female",
-            origin: "東京",
-            formality: "sonkeigo",
-            personality: "kind and service oriented",
-            relation: "you are my waitress in a 和食 restaurant",
-            situation:
+            partnerName: "foo",
+            partnerAge: 35,
+            partnerGender: "female",
+            partnerOrigin: "東京",
+            partnerFormality: "sonkeigo",
+            partnerPersonality: "kind and service oriented",
+            partnerRelation: "you are my waitress in a 和食 restaurant",
+            partnerSituation:
               "私は和食レストランの客です。あなたはメニューを持ってきて、料理と今日のおすすめについて教えてくれます。そして、私の注文を取ります。このやりとりがスムーズに進むように会話を続けてください。",
           },
           {

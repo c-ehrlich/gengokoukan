@@ -43,22 +43,21 @@ export function BasicForm<FormType extends FieldValues>(
   return (
     <Form {...form}>
       <form
-        className={cn(
-          // TODO: add styles
-          className,
-        )}
+        className={cn("flex flex-col items-center", className)}
         onSubmit={form.handleSubmit(onSubmit)}
         {...passthrough}
       >
         <div
           // TODO: add styles
           className={cn(
-            "flex w-full flex-col items-start gap-4",
+            "flex w-full max-w-4xl flex-col gap-4",
             contentClassName,
           )}
         >
           {title ? (
-            <h2 className={cn("text-2xl", titleClassName)}>{title}</h2>
+            <h2 className={cn("text-2xl font-semibold", titleClassName)}>
+              {title}
+            </h2>
           ) : null}
           {children}
           {buttons ? (

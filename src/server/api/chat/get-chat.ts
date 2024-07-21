@@ -5,9 +5,9 @@ import { z } from "zod";
 import { type DBSchema } from "~/server/db";
 import { dbCallWithSpan } from "~/server/db/db-call-with-span";
 
-// TODO: use a transaction to get chat/partner separately from messages, so we can paginate the messages
-export const getChatWithPartnerAndMessages = dbCallWithSpan(
-  "getChatWithPartnerAndMessages",
+// TODO: use a transaction to get chat separately from messages, so we can paginate the messages
+export const getChatWithMessages = dbCallWithSpan(
+  "getChatWithMessages",
   async ({
     db,
     chatId,
@@ -21,7 +21,6 @@ export const getChatWithPartnerAndMessages = dbCallWithSpan(
       where: (chats, { and, eq }) =>
         and(eq(chats.id, chatId), eq(chats.userId, userId)),
       with: {
-        chatPartner: true,
         messages: true,
       },
     });
@@ -40,7 +39,7 @@ export const getChatWithPartnerAndMessages = dbCallWithSpan(
 export const getChat = protectedProcedure
   .input(z.object({ chatId: z.string() }))
   .query(async ({ ctx, input }) => {
-    const chat = await getChatWithPartnerAndMessages({
+    const chat = await getChatWithMessages({
       db: ctx.db,
       chatId: input.chatId,
       userId: ctx.session.user.id,

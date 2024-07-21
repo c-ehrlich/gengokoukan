@@ -27,6 +27,7 @@
 
 ## Frontend
 
+- [ ] Move ChatPartner into Chat
 - [ ] Profile page
   - [x] Create profile
   - [x] Edit profile

@@ -4,10 +4,6 @@ import {
   chatMessagesRelations,
   chatMessagesTable,
 } from "./schema/chat-messages";
-import {
-  chatPartnersRelations,
-  chatPartnersTable,
-} from "./schema/chat-partners";
 import { chatsRelations, chatsTable } from "./schema/chats";
 import { sessionsRelations, sessionsTable } from "./schema/sessions";
 import {
@@ -30,9 +26,6 @@ const schema = {
   // chat_messages
   chatMessagesTable,
   chatMessagesRelations,
-  // chat_partners
-  chatPartnersTable,
-  chatPartnersRelations,
   // chats
   chatsTable,
   chatsRelations,

@@ -22,7 +22,7 @@ import { cn } from "~/components/_utils/cn";
 import { TextSelectionPopupWrapper } from "~/components/feature/text-selection-popup/text-selection-popup-wrapper";
 import { useTextSelectionPopup } from "~/components/feature/text-selection-popup/use-text-selection-popup";
 import { type ChatMessageTableRow } from "~/server/db/schema/chat-messages";
-import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
+import { type ChatWithMessages } from "~/server/db/schema/chats";
 import { api } from "~/trpc/react";
 
 const chatMessageSchema = z.object({
@@ -183,7 +183,7 @@ function useChat({ chatId }: { chatId: string }) {
 
 type ChatProps = {
   chatId: string;
-  chat: ChatWithPartnerAndMessages;
+  chat: ChatWithMessages;
 };
 
 export function Chat({ chatId, chat }: ChatProps) {
@@ -240,7 +240,7 @@ export function Chat({ chatId, chat }: ChatProps) {
                 className="flex w-full justify-center"
                 key="partner-input-placeholder"
               >
-                {chat.chatPartner.name}が入力中…
+                {chat.partnerName}が入力中…
               </p>
             )}
             <div

@@ -1,13 +1,13 @@
 import { DeleteChatButton } from "./delete-chat-button";
 import Link from "next/link";
-import { type ChatWithPartnerAndMessages } from "~/server/db/schema/chats";
+import { type ChatWithMessages } from "~/server/db/schema/chats";
 
 export function LandingChatList({
   header,
   chats,
 }: {
   header: string;
-  chats: ChatWithPartnerAndMessages[];
+  chats: ChatWithMessages[];
 }) {
   return (
     <>
@@ -21,7 +21,7 @@ export function LandingChatList({
             prefetch={false}
           >
             <h3 className="text-lg font-medium">
-              {chat.chatPartner.name || "（名前未設定）"}
+              {chat.partnerName || "（名前未設定）"}
             </h3>
             <p className="line-clamp-2 text-muted-foreground dark:text-muted-foreground">
               {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
