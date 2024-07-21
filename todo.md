@@ -1,11 +1,11 @@
 # App
 
 ## URGENT
-...nothing for now :)
+- [ ] fix hint firing on enter
+<!-- ...nothing for now :) -->
 
 ## Frontend
 
-- [ ] Fix tooltips
 - [ ] Fix voice input
 
 ## Backend
@@ -34,6 +34,14 @@
 
 - [ ] google login
 
+## Social
+
+- [ ] Get Hailey to test it
+- [ ] start a meme page of funny conversations
+- [ ] Write people who are working on similar ideas
+  - [ ] https://x.com/moinbukh/status/1729555655776759851 https://x.com/NayanKad/status/1805259624892768462
+  - [ ] https://discord.com/channels/901618801324478485/925314442131021824/1243197465562189994 / https://www.youtube.com/watch?v=UjX4Peh4xqM / https://www.linkedin.com/in/william-westerlund-aa2997b9/details/experience/
+
 ## Distant future
 
 - [ ] check if responses (corrections) are in the right language (>50% of characters A-Za-z?), translate with gpt-4o mini if wrong, log
@@ -51,15 +59,8 @@
 - [ ] Grammar RAG
 - [ ] Refer to BunPro, HelloTalk, WaniKani
 
-## Social
-
-- [ ] Get Hailey to test it
-- [ ] start a meme page of funny conversations
-- [ ] Write people who are working on similar ideas
-  - [ ] https://x.com/moinbukh/status/1729555655776759851 https://x.com/NayanKad/status/1805259624892768462
-  - [ ] https://discord.com/channels/901618801324478485/925314442131021824/1243197465562189994 / https://www.youtube.com/watch?v=UjX4Peh4xqM / https://www.linkedin.com/in/william-westerlund-aa2997b9/details/experience/
-
 ## **DONE**
+- [x] Fix tooltips
 - [x] Profile page
   - [x] Create profile
   - [x] Edit profile
