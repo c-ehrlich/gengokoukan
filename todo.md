@@ -3,6 +3,14 @@
 ## URGENT
 ...nothing for now :)
 
+## Frontend
+
+- [ ] Profile page
+  - [x] Create profile
+  - [x] Edit profile
+  - [ ] Give profile to LLM
+- [ ] Fix tooltips
+
 ## AI
 
 - [ ] I'm basically building character AI... research how they do things.
@@ -24,15 +32,6 @@
 ## Infra
 
 - [ ] google login
-
-## Frontend
-
-- [ ] Move ChatPartner into Chat
-- [ ] Profile page
-  - [x] Create profile
-  - [x] Edit profile
-  - [ ] Give profile to LLM
-- [ ] Fix hydration errors
 
 ## Distant future
 
@@ -60,6 +59,8 @@
   - [ ] https://discord.com/channels/901618801324478485/925314442131021824/1243197465562189994 / https://www.youtube.com/watch?v=UjX4Peh4xqM / https://www.linkedin.com/in/william-westerlund-aa2997b9/details/experience/
 
 ## **DONE**
+- [x] Fix hydration errors
+- [x] Move ChatPartner into Chat
 - [x] fix voice input
 - [x] fix crash on chat creation
 - [x] the recommendation prompts seem broken (it plays the other role sometimes)

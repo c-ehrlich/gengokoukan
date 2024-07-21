@@ -270,7 +270,7 @@ export function Chat({ chatId, chat }: ChatProps) {
             />
             {/* TODO: solve regenerator-runtime issue */}
             {/* <MicButton form={form} /> */}
-            <BasicTooltip asChild content="ヒントを表示する">
+            <BasicTooltip content="ヒントを表示する">
               <Button
                 size="icon"
                 variant="secondary"

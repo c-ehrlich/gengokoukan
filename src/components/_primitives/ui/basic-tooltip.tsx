@@ -14,8 +14,11 @@ export function BasicTooltip({ children, content }: BasicTooltipProps) {
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip>
-        <TooltipTrigger>{children}</TooltipTrigger>
-        <TooltipContent className="max-w-[max(400px, calc(100vw-64px))] w-auto shadow-xl">
+        <TooltipTrigger asChild>{children}</TooltipTrigger>
+        <TooltipContent
+          asChild
+          className="max-w-[max(400px, calc(100vw-64px))] w-auto shadow-xl"
+        >
           {content}
         </TooltipContent>
       </Tooltip>
