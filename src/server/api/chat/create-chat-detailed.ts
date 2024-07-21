@@ -1,7 +1,7 @@
 import {
   createChatPartnerSchemaClient,
   type CreateChatPartnerSchemaClient,
-} from "./create-chat.schema";
+} from "./create-chat-detailed.schema";
 import { TRPCError } from "@trpc/server";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { protectedProcedure } from "~/server/api/trpc";
@@ -59,7 +59,7 @@ export const createChatPartner = dbCallWithSpan(
  * PROCEDURE
  */
 
-export const createChat = protectedProcedure
+export const createChatDetailed = protectedProcedure
   .input(createChatPartnerSchemaClient)
   .mutation(async ({ input, ctx }) => {
     const userId = ctx.session.user.id;

@@ -15,7 +15,7 @@ import { FormTextArea } from "~/components/_primitives/form/form-textarea";
 import { useZodForm } from "~/components/_primitives/form/use-zod-form";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { type OptionWithHeading } from "~/components/_primitives/shadcn-raw/combobox";
-import { createChatPartnerSchemaClient } from "~/server/api/chat/create-chat.schema";
+import { createChatPartnerSchemaClient } from "~/server/api/chat/create-chat-detailed.schema";
 import {
   formalities,
   formalityStringFromOption,
@@ -83,7 +83,7 @@ export function CreateChatForm() {
     },
   });
 
-  const createChatPartnerMutation = api.chat.createChat.useMutation();
+  const createChatPartnerMutation = api.chat.createChatDetailed.useMutation();
 
   const onSubmit: SubmitHandler<CreateChatFormSchema> = async (values) => {
     const res = await createChatPartnerMutation.mutateAsync(values);

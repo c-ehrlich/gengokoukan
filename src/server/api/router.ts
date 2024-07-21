@@ -1,4 +1,4 @@
-import { createChat } from "./chat/create-chat";
+import { createChatDetailed } from "./chat/create-chat-detailed";
 import { deleteChat } from "./chat/delete-chat";
 import { getChat } from "./chat/get-chat";
 import { getChatList } from "./chat/get-chat-list";
@@ -20,7 +20,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   chat: createTRPCRouter({
-    createChat: createChat,
+    createChatDetailed: createChatDetailed,
     deleteChat: deleteChat,
     getChatList: getChatList,
     getChat: getChat,

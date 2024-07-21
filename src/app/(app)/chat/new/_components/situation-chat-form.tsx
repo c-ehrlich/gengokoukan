@@ -90,7 +90,7 @@ function SituationChatCard({
   // value, // TODO: necessary?
 }: SituationChat) {
   const router = useRouter();
-  const createChatMutation = api.chat.createChat.useMutation();
+  const createChatMutation = api.chat.createChatDetailed.useMutation();
 
   return (
     <div
