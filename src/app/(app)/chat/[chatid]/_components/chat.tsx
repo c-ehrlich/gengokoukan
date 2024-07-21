@@ -256,6 +256,24 @@ export function Chat({ chatId, chat }: ChatProps) {
 
       <div className="flex w-full max-w-4xl justify-center px-2 pb-2">
         <div className="flex w-full max-w-4xl flex-row gap-2 rounded-full bg-card p-2">
+          <BasicTooltip content="ヒントを表示する">
+            <Button
+              size="icon"
+              variant="secondary"
+              onClick={() =>
+                hintMutation.mutate({
+                  chatId: chatId,
+                  lastMessageId,
+                })
+              }
+            >
+              {hintMutation.isPending ? (
+                <Loader2Icon className="h-5 w-5 animate-spin" />
+              ) : (
+                <LightbulbIcon className="h-5 w-5" />
+              )}
+            </Button>
+          </BasicTooltip>
           <BasicForm
             form={form}
             onSubmit={onSubmit}
@@ -270,24 +288,7 @@ export function Chat({ chatId, chat }: ChatProps) {
             />
             {/* TODO: solve regenerator-runtime issue */}
             {/* <MicButton form={form} /> */}
-            <BasicTooltip content="ヒントを表示する">
-              <Button
-                size="icon"
-                variant="secondary"
-                onClick={() =>
-                  hintMutation.mutate({
-                    chatId: chatId,
-                    lastMessageId,
-                  })
-                }
-              >
-                {hintMutation.isPending ? (
-                  <Loader2Icon className="h-5 w-5 animate-spin" />
-                ) : (
-                  <LightbulbIcon className="h-5 w-5" />
-                )}
-              </Button>
-            </BasicTooltip>
+
             <MaybeBasicTooltip
               enabled={!form.formState.isValid}
               content="Please input before submitting"

@@ -1,8 +1,7 @@
 # App
 
 ## URGENT
-- [ ] fix hint firing on enter
-<!-- ...nothing for now :) -->
+...nothing for now :)
 
 ## Frontend
 
@@ -60,6 +59,8 @@
 - [ ] Refer to BunPro, HelloTalk, WaniKani
 
 ## **DONE**
+
+- [x] fix hint firing on enter
 - [x] Fix tooltips
 - [x] Profile page
   - [x] Create profile
