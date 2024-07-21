@@ -11,6 +11,10 @@
   - [ ] Give profile to LLM
 - [ ] Fix tooltips
 
+## Backend
+
+- [ ] Paginate chat messages
+
 ## AI
 
 - [ ] I'm basically building character AI... research how they do things.

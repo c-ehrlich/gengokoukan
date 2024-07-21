@@ -44,6 +44,7 @@ function useChat({ chatId }: { chatId: string }) {
     scrollToBottom();
   });
 
+  // TODO: paginate
   const messagesQuery = api.chat.getMessages.useInfiniteQuery(
     {
       chatId: chatId,
