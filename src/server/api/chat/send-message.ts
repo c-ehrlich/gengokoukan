@@ -1,7 +1,7 @@
 import { getProfileQuery } from "../user/get-profile";
 import { TRPCError } from "@trpc/server";
 import { differenceInYears } from "date-fns";
-import { and, eq } from "drizzle-orm";
+import { and, eq, or } from "drizzle-orm";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { z } from "zod";
 import { Models } from "~/server/ai/models";
@@ -54,15 +54,24 @@ const getLast100Messages = dbCallWithSpan(
     chatId: string;
     userId: string;
   }) => {
-    return db.query.chatsTable.findFirst({
+    const chat = await db.query.chatsTable.findFirst({
       where: and(eq(chatsTable.id, chatId), eq(chatsTable.userId, userId)),
       with: {
         messages: {
+          where: or(
+            eq(chatMessagesTable.author, "user"),
+            eq(chatMessagesTable.author, "ai"),
+          ),
           limit: 100,
           orderBy: (message, { desc }) => [desc(message.createdAt)],
         },
       },
     });
+
+    return {
+      ...chat,
+      messages: chat?.messages.reverse(),
+    };
   },
 );
 
@@ -192,15 +201,15 @@ ${chat.partnerSituation ? `The situation we will be practicing is: ${chat.partne
 
 Feel free to make up your own personality beyond what I have given you. Make up whatever else is needed to answer my questions and keep the conversation going.
 
-For each message I send:
-1. Correct the worst mistake or thing that sounds unnatural, and explain why.
-2. If you have feedback, please also rewrite the message in a more natural way.
+For my most recent message:
+1. If there is something that is not grammatically correct or sounds unnatural, correct it and explain why.
+2. If you gave feedback in the previous step, please also rewrite the message in a more natural way.
 3. Reply to my message. Do your best to keep the conversation going.
 
 Please reply in the following format, which should be JSON compatible:
 {
-  "feedback": "<your feedback about the grammar / style / situational appropriateness of my message, written as my tutor, in ${feedbackLanguage(profile.jlptLevel)}>",
-  "rewritten": "<your rewritten version of my message, written as my tutor, in Japanese>",
+  "feedback": "<(if necessary) your feedback about the grammar / style / situational appropriateness of my message, written as my tutor, in ${feedbackLanguage(profile.jlptLevel)}>",
+  "rewritten": "<(if necessary) your rewritten version of my message, written as my tutor, in Japanese>",
   "reply": "<your reply to my message, written as my tutor, in Japanese>"
 }
 
