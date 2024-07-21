@@ -3,7 +3,7 @@ import { and, eq } from "drizzle-orm";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { z } from "zod";
 import { Models } from "~/server/ai/models";
-import { openAiPrompt } from "~/server/ai/openAiPrompt";
+import { openAiPrompt } from "~/server/ai/open-ai-prompt";
 import { PromptNames } from "~/server/ai/prompt-names";
 import { chatHistory } from "~/server/api/chat/shared_ai/chat-history";
 import { protectedProcedure } from "~/server/api/trpc";
