@@ -6,6 +6,12 @@ import { Pricing } from "./sections/pricing";
 import { TeamBeliefs } from "./sections/team-beliefs";
 import { Testimonials } from "./sections/testimonials";
 
+export const metadata = {
+  title: "会話クラブ - kaiwa.club",
+  description: "気軽に会話を楽しもう！",
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
+};
+
 export default async function LandingPage() {
   return (
     <div className="flex min-h-screen w-screen flex-col items-center">

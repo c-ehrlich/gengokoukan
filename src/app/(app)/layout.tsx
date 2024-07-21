@@ -5,6 +5,12 @@ import { getServerAuthSession } from "~/server/auth";
 import "~/styles/globals.css";
 import { api } from "~/trpc/server";
 
+export const metadata = {
+  title: "会話クラブ - kaiwa.club",
+  description: "気軽に会話を楽しもう！",
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
+};
+
 export default async function RootAppLayout({
   children,
 }: {

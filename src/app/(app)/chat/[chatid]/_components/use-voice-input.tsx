@@ -1,6 +1,5 @@
 "use client";
 
-// 🐉🐉🐉 required to not make react-speech-recognition crash the app
 import { useCallback, useEffect } from "react";
 import {
   type FieldPath,
