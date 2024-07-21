@@ -5,6 +5,7 @@
 
 ## AI
 
+- [ ] I'm basically building character AI... research how they do things.
 - [ ] make it consistently respect en/jp choice
 - [ ] make it use SRS words and increase their interval if used
   - (probably just switch the statements around)
@@ -12,34 +13,38 @@
 - [ ] add markdown documents (for example restaurant menu)
 - [ ] write prompts for more situations
 - [ ] write prompts in all japanese
-- [ ] get summaries working (gpt3.5)
+- [ ] get summaries working (gpt4o mini)
 - [ ] Read this - https://community.openai.com/t/how-can-i-maintain-conversation-continuity-with-chat-gpt-api/574819/3
 - [ ] Do some comparisons on https://chat.lmsys.org/
 - [ ] it shouldn't correct me if i literally copy paste the suggested message
 - [ ] better situation creation: "i would like to xyz", it creates a refined prompt from that
 - [ ] get it to insert the italki referral link occasionally? https://www.italki.com/de/i/ref/A6aaADc?hl=de&utm_medium=user_referral&utm_source=copylink_share
+- [ ] TTS with TacoTron 2 or similar? https://medium.com/axinc-ai/tacotron-2-a-high-quality-speech-synthesis-model-using-ai-for-waveform-conversion-05d39aba88dc
 
 ## Infra
 
-- [ ] translation https://locize.com/blog/next-app-dir-i18n/
 - [ ] google login
-- [ ] check if responses (corrections) are in the right language (>50% of characters A-Za-z?), translate with gpt-3.5 if wrong, log
 
 ## Frontend
 
-- [ ] Profile page (and give it to the LLM)
-- [ ] Preferences page
-  - [ ] UI language
-  - [ ] Tutor language
-- [ ] make us and japan flag icons in app theme
+- [ ] Profile page
+  - [x] Create profile
+  - [ ] Edit profile
+  - [ ] Give profile to LLM
 - [ ] Fix hydration errors
 
 ## Distant future
 
+- [ ] check if responses (corrections) are in the right language (>50% of characters A-Za-z?), translate with gpt-4o mini if wrong, log
+- [ ] translation https://locize.com/blog/next-app-dir-i18n/
+- [ ] Preferences page
+  - [ ] UI language
+  - [ ] Tutor language
+- [ ] make US and Japan flag icons in app theme
 - [ ] i18n / UI language toggle
 - [ ] not just conversations, but also stories
   - get last 100 things that happened
-  - gpt-3.5 summarizes 11-100 into 1-2 paragraphs, and 1-10 into 1-2 paragraphs
+  - gpt-4o-mini summarizes 11-100 into 1-2 paragraphs, and 1-10 into 1-2 paragraphs
 - [ ] get daily feedback - one item to focus on
 - [ ] in addition to your level, say which grammar topics you want to see - te form, sareru/saseru/raresaseru, keigo, whatever
 - [ ] Grammar RAG

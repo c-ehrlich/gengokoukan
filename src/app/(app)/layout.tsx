@@ -19,7 +19,7 @@ export default async function RootAppLayout({
   const profile = await api.user.getProfile();
 
   if (!profile) {
-    return redirect("/new-profile");
+    return redirect("/profile");
   }
 
   return (
