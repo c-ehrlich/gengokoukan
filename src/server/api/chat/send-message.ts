@@ -1,4 +1,6 @@
+import { getProfileQuery } from "../user/get-profile";
 import { TRPCError } from "@trpc/server";
+import { differenceInYears } from "date-fns";
 import { and, eq } from "drizzle-orm";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { z } from "zod";
@@ -15,6 +17,7 @@ import {
   type ChatTableRow,
   type ChatWithMessages,
 } from "~/server/db/schema/chats";
+import { type UserProfileTableRow } from "~/server/db/schema/user-profiles";
 
 /**
  * SCHEMA
@@ -113,10 +116,10 @@ type JLPTLevel = "N1+" | "N1" | "N2" | "N3" | "N4" | "N5";
 type Gender = "male" | "female" | "nonbinary";
 
 type ChatPromptArgs = {
-  user: {
+  profile: {
     name: string;
     gender: Gender;
-    age: number;
+    dob: Date;
     location: string;
     jlptLevel: JLPTLevel;
     interests: string;
@@ -171,14 +174,15 @@ function feedbackLanguage(jlptLevel: JLPTLevel) {
   }
 }
 
-function chatPrompt({ user, chat, newUserMessage }: ChatPromptArgs) {
+function chatPrompt({ profile, chat, newUserMessage }: ChatPromptArgs) {
+  const age = differenceInYears(new Date(), profile.dob);
   return `You are my private Japanese tutor. I am not interested in test preparation etc, I only want to become more comfortable with speaking/writing. We will be practicing conversations. 
 
 Some information about me:
-My name is ${user.name}. I am a ${user.age} year old ${genderString(user.gender)} from ${user.location}.
-My interests are: ${user.interests}.
-My current Japanese skill level is: ${jlptLevelString(user.jlptLevel)}. Please use language that is appropriate for my level.
-My language learning goal is to ${user.goals}.
+My name is ${profile.name}. I am a ${age} year old ${genderString(profile.gender)} from ${profile.location}.
+My interests are: ${profile.interests}.
+My current Japanese skill level is: ${jlptLevelString(profile.jlptLevel)}. Please use language that is appropriate for my level.
+My language learning goal is to ${profile.goals}.
 
 Some information about you and the conversation we'll be having:
 Your name is ${chat.partnerName}. You are a ${chat.partnerAge} year old ${genderString(chat.partnerGender)} from ${chat.partnerOrigin}. We are speaking in the dialect of your region.
@@ -195,7 +199,7 @@ For each message I send:
 
 Please reply in the following format, which should be JSON compatible:
 {
-  "feedback": "<your feedback about the grammar / style / situational appropriateness of my message, written as my tutor, in ${feedbackLanguage(user.jlptLevel)}>",
+  "feedback": "<your feedback about the grammar / style / situational appropriateness of my message, written as my tutor, in ${feedbackLanguage(profile.jlptLevel)}>",
   "rewritten": "<your rewritten version of my message, written as my tutor, in Japanese>",
   "reply": "<your reply to my message, written as my tutor, in Japanese>"
 }
@@ -212,21 +216,14 @@ Me: ${newUserMessage}`
 const message = ({
   chat,
   userMessage,
+  profile,
 }: {
   chat: ChatWithMessages;
   userMessage: string;
+  profile: UserProfileTableRow;
 }) =>
   chatPrompt({
-    user: {
-      name: "クリス",
-      age: 34,
-      gender: "male",
-      location: "Vienna, Austria",
-      goals:
-        "Improve my Japanese speaking skills, in particular to talk to my in-laws.",
-      interests: "I like to cook and play video games.",
-      jlptLevel: "N1",
-    },
+    profile: profile,
     chat: chat,
     newUserMessage: userMessage,
   });
@@ -237,6 +234,7 @@ export const sendMessage = protectedProcedure
   .mutation(async ({ ctx, input }) => {
     const userMessageTimetamp = Date.now();
 
+    // TODO: stick these in a transaction
     const chat = await getLast100Messages({
       db: ctx.db,
       userId: ctx.session.user.id,
@@ -247,6 +245,18 @@ export const sendMessage = protectedProcedure
       throw new TRPCError({
         code: "NOT_FOUND",
         message: "Chat not found",
+      });
+    }
+
+    const profile = await getProfileQuery({
+      db: ctx.db,
+      userId: ctx.session.user.id,
+    });
+
+    if (!profile) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Profile not found",
       });
     }
 
@@ -261,6 +271,7 @@ export const sendMessage = protectedProcedure
               content: message({
                 userMessage: input.text,
                 chat: chat,
+                profile: profile,
               }),
             },
           ],

@@ -12,13 +12,15 @@ export const userProfilesTable = createTable("user_profile", {
 
   name: text("name", { length: 1023 }).notNull(),
 
-  gender: text("gender", { enum: ["male", "female", "nonbinary"] }),
-  dob: integer("dob", { mode: "timestamp" }),
+  gender: text("gender", { enum: ["male", "female", "nonbinary"] }).notNull(),
+  dob: integer("dob", { mode: "timestamp" }).notNull(),
   // TODO: share across the app
-  jlptLevel: text("jlptLevel", { enum: ["N1+", "N1", "N2", "N3", "N4", "N5"] }),
-  location: text("location", { length: 1023 }),
-  interests: text("interests", { length: 1023 }),
-  goals: text("goals", { length: 1023 }),
+  jlptLevel: text("jlptLevel", {
+    enum: ["N1+", "N1", "N2", "N3", "N4", "N5"],
+  }).notNull(),
+  location: text("location", { length: 1023 }).notNull(),
+  interests: text("interests", { length: 1023 }).notNull(),
+  goals: text("goals", { length: 1023 }).notNull(),
 });
 
 export const userProfilesRelations = relations(

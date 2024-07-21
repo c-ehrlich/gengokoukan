@@ -3,7 +3,7 @@ import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { type DBSchema } from "~/server/db";
 import { dbCallWithSpan } from "~/server/db/db-call-with-span";
 
-const getProfileQuery = dbCallWithSpan(
+export const getProfileQuery = dbCallWithSpan(
   "getUserProfile",
   async ({ db, userId }: { db: LibSQLDatabase<DBSchema>; userId: string }) => {
     return db.query.userProfilesTable.findFirst({

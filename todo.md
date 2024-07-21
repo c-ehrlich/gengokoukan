@@ -5,11 +5,8 @@
 
 ## Frontend
 
-- [ ] Profile page
-  - [x] Create profile
-  - [x] Edit profile
-  - [ ] Give profile to LLM
 - [ ] Fix tooltips
+- [ ] Fix voice input
 
 ## Backend
 
@@ -63,6 +60,10 @@
   - [ ] https://discord.com/channels/901618801324478485/925314442131021824/1243197465562189994 / https://www.youtube.com/watch?v=UjX4Peh4xqM / https://www.linkedin.com/in/william-westerlund-aa2997b9/details/experience/
 
 ## **DONE**
+- [x] Profile page
+  - [x] Create profile
+  - [x] Edit profile
+  - [x] Give profile to LLM
 - [x] Fix hydration errors
 - [x] Move ChatPartner into Chat
 - [x] fix voice input
