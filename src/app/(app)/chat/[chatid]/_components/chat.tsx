@@ -2,7 +2,6 @@
 
 import { ChatInfoTooltip } from "./chat-info-tooltip";
 import { ChatMessage } from "./chat-message";
-import { MicButton } from "./mic-button";
 import { TextSelectionPopupContent } from "./text-selection-popup-content";
 import { LightbulbIcon, Loader2Icon, SendIcon } from "lucide-react";
 import { useParams } from "next/navigation";
