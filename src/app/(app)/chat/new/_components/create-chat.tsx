@@ -61,7 +61,7 @@ export function CreateChat() {
         {tabs.map((tab) => (
           <TabsContent
             key={`tab-content-${tab.value}`}
-            className="w-full"
+            className="flex w-full flex-col items-center"
             value={tab.value}
           >
             {tab.content}

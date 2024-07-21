@@ -75,7 +75,7 @@ const SituationChats: SituationChat[] = [
 ];
 export function SituationChatForm() {
   return (
-    <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
       {SituationChats.map((situationChat) => (
         <SituationChatCard key={situationChat.value} {...situationChat} />
       ))}
