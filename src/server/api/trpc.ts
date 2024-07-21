@@ -84,11 +84,9 @@ export const createTRPCRouter = t.router;
  * - OTel traceId middleware
  */
 const traceIdMiddleware = t.middleware(({ ctx, next, path }) => {
-  const traceId = getActiveTraceId();
-
-  // TODO: unstable_httpBatchStreamLink can't set headers
-  // maybe switch to a different link to get them to the client?
+  // TODO: unstable_httpBatchStreamLink can't set response headers - wrap handler instead?
   if (env.NODE_ENV === "development") {
+    const traceId = getActiveTraceId();
     console.log(`>>> ${path} - ${getTraceLink(traceId ?? "TRACE_ID_MISSING")}`);
   }
 
