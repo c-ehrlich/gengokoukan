@@ -26,11 +26,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/_primitives/shadcn-raw/popover";
+import { Toaster } from "~/components/_primitives/shadcn-raw/toaster";
 import { useToast } from "~/components/_primitives/shadcn-raw/use-toast";
 import { cn } from "~/components/_utils/cn";
 import {
-  createProfileSchema,
-  editProfileSchema,
+  type CreateEditProfileSchema,
+  createEditProfileSchema,
 } from "~/server/api/user/create-profile.schema";
 import { type UserProfileTableRow } from "~/server/db/schema/user-profiles";
 import { api } from "~/trpc/react";
@@ -38,16 +39,16 @@ import { api } from "~/trpc/react";
 export function ProfileForm({ profile }: { profile?: UserProfileTableRow }) {
   const router = useRouter();
   const { toast } = useToast();
+  const utils = api.useUtils();
 
   const profileQuery = api.user.getProfile.useQuery(undefined, {
-    staleTime: Infinity,
     initialData: profile,
   });
 
   const isInitial = !profile;
 
   const profileForm = useZodForm({
-    schema: isInitial ? createProfileSchema : editProfileSchema,
+    schema: createEditProfileSchema,
     // @ts-expect-error TODO: undefined/null
     defaultValues: isInitial ? {} : profileQuery.data,
   });
@@ -56,32 +57,53 @@ export function ProfileForm({ profile }: { profile?: UserProfileTableRow }) {
     onSuccess: async () => {
       toast({
         title: "プロフィールを作成しました",
-        // description: "foo",
       });
     },
   });
 
-  const onSubmit: SubmitHandler<typeof editProfileSchema> = async (data) => {
-    // TODO: fix type
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    await createProfileMutation.mutateAsync(data as any);
+  const handleCreate: SubmitHandler<CreateEditProfileSchema> = async (data) => {
+    await createProfileMutation.mutateAsync(data);
 
     router.push("/");
   };
 
+  const editProfileMutation = api.user.editProfile.useMutation({
+    onSuccess: async () => {
+      await utils.user.invalidate();
+
+      toast({
+        title: "プロフィールを編集しました",
+      });
+    },
+  });
+
+  const handleEdit: SubmitHandler<CreateEditProfileSchema> = async (data) => {
+    await editProfileMutation.mutateAsync(data);
+  };
+
   return (
-    <div>
+    <div className="flex flex-col gap-2 p-4">
+      {isInitial ? (
+        <div className="flex flex-col gap-2">
+          <h1 className="text-2xl font-semibold">会話クラブへようこそ</h1>
+          <p>プロフィールを作成しよう</p>
+        </div>
+      ) : (
+        <h1 className="text-2xl font-semibold">プロフィールを編集する</h1>
+      )}
+      {/* TODO: put the toaster further up */}
+      <Toaster />
       <BasicForm
-        // @ts-expect-error TODO: fix type
         form={profileForm}
-        onSubmit={onSubmit}
+        onSubmit={isInitial ? handleCreate : handleEdit}
         buttons={
           <div className="flex items-center">
             <Button type="submit">送信</Button>
           </div>
         }
       >
-        <div className="flex w-full flex-col gap-2">
+        <div className="flex w-full flex-col gap-4">
+          <FormInput control={profileForm.control} name="name" label="名前" />
           <FormSelect
             control={profileForm.control}
             label="性別"

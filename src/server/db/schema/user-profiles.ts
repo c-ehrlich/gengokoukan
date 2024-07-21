@@ -10,6 +10,8 @@ export const userProfilesTable = createTable("user_profile", {
 
   userId: text("userId", { length: 255 }).notNull(),
 
+  name: text("name", { length: 1023 }).notNull(),
+
   gender: text("gender", { enum: ["male", "female", "nonbinary"] }),
   dob: integer("dob", { mode: "timestamp" }),
   // TODO: share across the app

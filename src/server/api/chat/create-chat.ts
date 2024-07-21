@@ -1,34 +1,14 @@
+import {
+  createChatPartnerSchemaClient,
+  type CreateChatPartnerSchemaClient,
+} from "./create-chat.schema";
 import { TRPCError } from "@trpc/server";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
-import { createInsertSchema } from "drizzle-zod";
-import { type z } from "zod";
 import { protectedProcedure } from "~/server/api/trpc";
 import { type DBSchema } from "~/server/db";
 import { dbCallWithSpan } from "~/server/db/db-call-with-span";
 import { chatPartnersTable } from "~/server/db/schema/chat-partners";
 import { chatsTable } from "~/server/db/schema/chats";
-
-/**
- * SCHEMA
- */
-
-export const createChatPartnerSchemaServer = createInsertSchema(
-  chatPartnersTable,
-  {
-    name: (schema) => schema.name.min(1, "名前は1文字以上である必要がある"),
-  },
-);
-
-export const createChatPartnerSchemaClient = createChatPartnerSchemaServer.omit(
-  {
-    id: true,
-    createdAt: true,
-  },
-);
-
-export type CreateChatPartnerSchemaClient = z.infer<
-  typeof createChatPartnerSchemaClient
->;
 
 /**
  * DB

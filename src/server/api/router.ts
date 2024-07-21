@@ -8,6 +8,7 @@ import { sendMessage } from "./chat/send-message";
 import { getDefinition } from "./jisho/get-definition";
 import { getName } from "./name-generator/get-name";
 import { createProfile } from "./user/create-profile";
+import { editProfile } from "./user/edit-profile";
 import { getProfile } from "./user/get-profile";
 import { bumpSRS } from "./vocab/bump-srs";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
@@ -38,6 +39,7 @@ export const appRouter = createTRPCRouter({
 
   user: createTRPCRouter({
     createProfile: createProfile,
+    editProfile: editProfile,
     getProfile: getProfile,
   }),
 

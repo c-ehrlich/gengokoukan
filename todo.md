@@ -29,7 +29,7 @@
 
 - [ ] Profile page
   - [x] Create profile
-  - [ ] Edit profile
+  - [x] Edit profile
   - [ ] Give profile to LLM
 - [ ] Fix hydration errors
 

@@ -15,7 +15,7 @@ import { FormTextArea } from "~/components/_primitives/form/form-textarea";
 import { useZodForm } from "~/components/_primitives/form/use-zod-form";
 import { Button } from "~/components/_primitives/shadcn-raw/button";
 import { type OptionWithHeading } from "~/components/_primitives/shadcn-raw/combobox";
-import { createChatPartnerSchemaClient } from "~/server/api/chat/create-chat";
+import { createChatPartnerSchemaClient } from "~/server/api/chat/create-chat.schema";
 import {
   formalities,
   formalityStringFromOption,

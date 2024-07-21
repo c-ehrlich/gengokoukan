@@ -4,6 +4,7 @@ import {
   type CreateEditProfileSchema,
 } from "./create-profile.schema";
 import { TRPCError } from "@trpc/server";
+import { eq } from "drizzle-orm";
 import { type LibSQLDatabase } from "drizzle-orm/libsql";
 import { type DBSchema } from "~/server/db";
 import { dbCallWithSpan } from "~/server/db/db-call-with-span";
@@ -12,9 +13,8 @@ import { userProfilesTable } from "~/server/db/schema/user-profiles";
 /**
  * DB
  */
-
-const createProfileDb = dbCallWithSpan(
-  "createProfile",
+const editProfileDb = dbCallWithSpan(
+  "editProfile",
   async ({
     db,
     userId,
@@ -25,22 +25,22 @@ const createProfileDb = dbCallWithSpan(
     profile: CreateEditProfileSchema;
   }) => {
     const { dob, ...rest } = profile;
-    const _date = new Date(dob);
+    const _date = dob ? new Date(dob) : null;
     return db
-      .insert(userProfilesTable)
-      .values({
-        userId: userId,
+      .update(userProfilesTable)
+      .set({
         dob: _date,
         ...rest,
       })
+      .where(eq(userProfilesTable.userId, userId))
       .returning();
   },
 );
 
-export const createProfile = protectedProcedure
+export const editProfile = protectedProcedure
   .input(createEditProfileSchema)
   .mutation(async ({ ctx, input }) => {
-    const [profile] = await createProfileDb({
+    const [profile] = await editProfileDb({
       db: ctx.db,
       userId: ctx.session.user.id,
       profile: input,
