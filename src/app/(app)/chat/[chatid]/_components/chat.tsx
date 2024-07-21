@@ -256,7 +256,7 @@ export function Chat({ chatId, chat }: ChatProps) {
       </div>
 
       <div className="flex w-full max-w-4xl justify-center px-2 pb-2">
-        <div className="flex w-full max-w-4xl flex-row gap-2 rounded-full bg-card p-2">
+        <div className="flex w-full max-w-4xl flex-row gap-3 rounded-full bg-card p-2">
           <BasicTooltip content="ヒントを表示する">
             <Button
               size="icon"
@@ -297,7 +297,7 @@ export function Chat({ chatId, chat }: ChatProps) {
               <Button
                 size="icon"
                 type="submit"
-                className={cn("rounded-full bg-accent shadow-md", {
+                className={cn("rounded-full shadow-md", {
                   "cursor-not-allowed": !form.formState.isValid,
                 })}
                 disabled={messagesMutation.isPending || !form.formState.isValid}

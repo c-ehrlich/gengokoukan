@@ -16,8 +16,8 @@ export function DeleteChatButton({ chatId }: { chatId: string }) {
 
   return (
     <Button
-      className="absolute right-2 top-2 hidden group-hover:block"
-      variant="destructive"
+      className="absolute right-2 top-2 hidden hover:bg-red-500 group-hover:block"
+      variant="ghost"
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();

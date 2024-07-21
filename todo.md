@@ -5,7 +5,7 @@
 
 ## Frontend
 
-- [ ] Fix voice input
+- [ ] fix chat height
 
 ## Backend
 
@@ -13,10 +13,10 @@
 
 ## AI
 
-- [ ] I'm basically building character AI... research how they do things.
-- [ ] make it consistently respect en/jp choice
 - [ ] make it use SRS words and increase their interval if used
   - (probably just switch the statements around)
+- [ ] I'm basically building character AI... research how they do things.
+- [ ] make it consistently respect en/jp choice
 - [ ] make it figure out when to pass time and move to the next stage of situation (eg waiter is done taking order, comes back with food)
 - [ ] add markdown documents (for example restaurant menu)
 - [ ] write prompts for more situations
@@ -60,6 +60,10 @@
 
 ## **DONE**
 
+- [x] fix the worst buttons
+  - [x] transparent-ish
+  - [x] pill
+- [x] Fix voice input
 - [x] last100messages seems to return messages in incorrect order + include hints etc
 - [x] fix hint firing on enter
 - [x] Fix tooltips
