@@ -1,10 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-
-/* eslint-disable @typescript-eslint/no-var-requires */
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
@@ -24,20 +17,26 @@ const config = {
   experimental: {
     instrumentationHook: true,
   },
-  // TODO: is this still needed?
+  // Fix for https://github.com/open-telemetry/opentelemetry-js/issues/4297
   webpack: (config, _options) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return {
       ...config,
       plugins: [
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         ...config.plugins,
         new iwebpack.NormalModuleReplacementPlugin(
           /@opentelemetry\/exporter-jaeger/,
           path.resolve(path.join(__dirname, "./polyfills.js")),
         ),
       ],
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       resolve: {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         ...config.resolve,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         fallback: {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           ...config.resolve.fallback,
           stream: false,
           zlib: false,
