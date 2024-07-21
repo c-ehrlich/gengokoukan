@@ -10,7 +10,6 @@ import {
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import "regenerator-runtime/runtime";
 
 export function useVoiceInput<
   TFieldValues extends FieldValues = FieldValues,

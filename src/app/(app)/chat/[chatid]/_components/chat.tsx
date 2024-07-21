@@ -2,9 +2,9 @@
 
 import { ChatInfoTooltip } from "./chat-info-tooltip";
 import { ChatMessage } from "./chat-message";
+import { MicButton } from "./mic-button";
 import { TextSelectionPopupContent } from "./text-selection-popup-content";
-import { useVoiceInput } from "./user-voice-input";
-import { LightbulbIcon, Loader2Icon, MicIcon, SendIcon } from "lucide-react";
+import { LightbulbIcon, Loader2Icon, SendIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { type SubmitHandler } from "react-hook-form";
@@ -212,11 +212,6 @@ export function Chat({ chatId, chat }: ChatProps) {
     selectedText,
   } = useTextSelectionPopup();
 
-  const { listening } = useVoiceInput({
-    form: form,
-    formField: "message",
-  });
-
   return (
     <div className="relative flex h-full min-w-full flex-1 flex-shrink flex-col items-center">
       {messagesQuery.data?.pages[0]?.length ?? 0 > 0 ? (
@@ -273,24 +268,9 @@ export function Chat({ chatId, chat }: ChatProps) {
               autoComplete="off"
               {...form.register("message")}
             />
-            {listening ? (
-              <Button
-                size="icon"
-                variant="secondary"
-                className="shadow-md, animate-pulse rounded-full bg-green-500"
-              >
-                <MicIcon className="h-5 w-5" />
-              </Button>
-            ) : (
-              <Button
-                size="icon"
-                variant="secondary"
-                className="rounded-full shadow-md"
-              >
-                <MicIcon className="h-5 w-5" />
-              </Button>
-            )}
-            <BasicTooltip content="ヒントを表示する">
+            {/* TODO: solve regenerator-runtime issue */}
+            {/* <MicButton form={form} /> */}
+            <BasicTooltip asChild content="ヒントを表示する">
               <Button
                 size="icon"
                 variant="secondary"
