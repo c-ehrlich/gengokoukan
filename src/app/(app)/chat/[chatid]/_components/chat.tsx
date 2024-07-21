@@ -65,7 +65,7 @@ function useChat({ chatId }: { chatId: string }) {
         author: "user",
         text: data.text,
         chatId: chatId,
-        id: 123,
+        id: 0,
         userId: "temp",
         createdAt: new Date(),
         // TODO: change schema to make this optional

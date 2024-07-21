@@ -60,6 +60,7 @@
 
 ## **DONE**
 
+- [x] last100messages seems to return messages in incorrect order + include hints etc
 - [x] fix hint firing on enter
 - [x] Fix tooltips
 - [x] Profile page
